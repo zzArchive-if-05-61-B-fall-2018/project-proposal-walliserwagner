@@ -66,17 +66,48 @@ October 19, 2018&C. Wagner/A. Walliser&First version \\ \hline
 \section{Introduction}
 
 \begin{textblock}
-The smart shopping list is an easy to use app which makes shopping and finding recipes to cook easier because you can merge all shopping lists and recipes of your household and have them always with you. In the app you can create and join groups, those groups have shared shopping lists and recipes. \\
-You can also find other peoples recipes or get inspired by them. When you select a recipe all needed ingredients will be automatically added to your shopping list unless you mark them as already present. 
+The smart shopping list is an easy to use app which makes shopping and finding recipes to cook easier because all hopping lists and recipes of a household. In the app the user can create and join groups, those groups have shared shopping lists and recipes. \\
+One can also find other people's recipes or get inspired by them. When a recipe is selected all needed ingredients will be automatically added to the shopping list unless they are marked as already present. 
 \end{textblock}
 \pagebreak
 
 \section{Initial Situation}
 
 \begin{textblock}
-A typical household must go shopping for groceries at least once a week. A lot of households use grocery list to organise that process. Problems that could occur are that the grocery list gets lost or if the list is in use nobody else can add shopping items to the list. It also could happen that multiple lists get written because of miscommunication between the members of a household. \\
-Another problem is if someone wants to cook a dish using a recipe because adding the items to the grocery list manually can be a chore.\\
-Those two processes could be simplified by using a grocery list app. Apps like this already exist but often they can only be used by one person at a time, have no or bad option for recipe management or they have a discursive user-interface.
+Members of a typical household must go shopping for groceries at least once a week. A lot of households use grocery list to organise that process. Problems that could occur are that the grocery list gets lost or if the list is in use nobody else can add shopping items to the list. It also could happen that multiple lists get written because of miscommunication between the members of a household. It also can be a chore to look for ingredients in the recipe book and add them to the shopping list. \\
+These processes could be simplified by using a grocery list app. Apps like this already exist but often they can only be used by one person at a time, have no or bad option for recipe management or they have a discursive user-interface.\\ \\
+Examples:\\
+Listonic:\\
+Pros:
+\begin{itemize}
+\item Well structured.
+\end{itemize}
+Cons:
+\begin{itemize}
+\item No option for recipe management.
+\item There is no shared shopping list.
+\end{itemize}
+Bring:\\
+Pros:
+\begin{itemize}
+\item Shopping items are categorised.
+\item There is a recipe option.\\
+\end{itemize}
+Cons:
+\begin{itemize}
+\item Categories can not be changed or extended.
+\item Ones recipe book and other peoples recipes are not separated.
+\item Recipes can not be shared in a group.
+\end{itemize}
+Die Einkaufsliste:\\
+Pros:
+\begin{itemize}
+\item Lists can be shared via link.
+\end{itemize}
+Cons:
+\begin{itemize}
+\item No option for recipe management.
+\end{itemize}
 \end{textblock}
 
 \pagebreak
@@ -84,37 +115,26 @@ Those two processes could be simplified by using a grocery list app. Apps like t
 \section{General Conditions and Constraints}
 
 \begin{textblock}
-The proposed system has to deal with the following constraints: \\\\
-Framework conditions:
+
+Conditions:
 \begin{itemize}
-\item needed know-how: Java, databases, mobile-development
-\item Project release: 13.6.2019
-\item Development environment: IntelliJ \\\\
+\item A shopping list should be usable by anyone therefore the GUI should also be understandable for non tech-savvy people.
+\item We need a database that is always reachable.
+\end{itemize}
+Constraints:
+\begin{itemize}
+\item The user needs a internet connection.
+\item The app will often be used while shopping where mobile data is used therefore the app should not use to much data volume. 
+\item The user needs an android device to use the app.
 \end{itemize}
 
-Technical conditions:
-\begin{itemize}
-\item The GUI must be intuitive
-\item An external database needs to be setup
-\item Possibly cross-platform development
-\item The database must always be avaiable
-\end{itemize}
 \end{textblock}
-
 \pagebreak
 
 \section{Project Objectives and System Concepts}
 
 \begin{textblock}
-The project objectives can be summarized as follows:
-\begin{itemize}
-\item Users can create/enter groups with shared grocery list.
-\item Every group member can add/remove items from the grocery list.
-\item A user can enter multiple groups.
-\item Recipes show the needed ingredients which are automatically added to the grocery list.
-\item Users can share recipes in their groups or with the world.
-\item The items in the grocery list are sorted by categories which can be altered by the user.
-\end{itemize}
+Users should be able to create and enter groups with shared grocery lists. In those groups members can add and remove items from the grocery list. The user should be able to enter multiple groups. The grocery list can be sorted by categories. Default categories will be provided those can be altered or extended by the user. The user can add items to categories so they can be found more easily later on. The app should also help with recipe management, recipes can be saved in the recipe book. The ingredients of the recipe will automatically be added to the grocery list when selected. Recipes can be shared in a group or can be posted for other users to find. 
 \end{textblock}
 
 \pagebreak
@@ -149,17 +169,16 @@ The following risk have to be taken into account.
 \begin{textblock}
 \begin{itemize}
 \item Project end: 13.6.2019
-\item Project start: 23.10.2018
-\item First prototype: 25. 2. 2019 \\\\
+\item Project start: 23.10.2018 \\\\
 \end{itemize}
 
 Milestones:
 \begin{itemize}
-\item Setup basic Database: 13.12.2018
-\item Login: 14.1.2019
-\item basic Graphical-User-Interface: 25. 2. 2019
-\item Implementation of a shopping list: 25. 2. 2019
-\item Implementation of the recipe book: 4.4.2019 \\\\
+\item Database : 13.12.2018
+\item Login finished: 14.1.2019
+\item basic Graphical-User-Interface finished: 25. 2. 2019
+\item shopping list finished: 25. 2. 2019
+\item recipe book finished: 4.4.2019 \\\\
 \end{itemize}
 
 
