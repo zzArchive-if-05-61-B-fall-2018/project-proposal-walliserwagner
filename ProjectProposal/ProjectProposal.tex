@@ -51,6 +51,7 @@ Version & \version \\ \hline
 \hline
 \cellcolor[gray]{0.5}\textcolor{white}{Date} & \cellcolor[gray]{0.5}\textcolor{white}{Author} & \cellcolor[gray]{0.5}\textcolor{white}{Change} \\ \hline
 October 19, 2018&C. Wagner/A. Walliser&First version \\ \hline
+November 18, 2018&C. Wagner/A. Walliser&Second version \\ \hline
 \end{tabular}
 \pagebreak
 
@@ -76,19 +77,9 @@ Furthermore things get more complex when the combination of recipe books and gro
 These processes could be simplified by using a grocery list app. Apps like this already exist. In the following the most popular apps in this area are listed and their pros and cons are evaluated.
 
 \subsection{Examples}
-\subsubsection{Listonic}
-What is the main focus of this app?
+\subsubsection{Shopping List}
+The app shopping list is very simple designed, so the user has only the ablility to create a shopping list where they can add and remove items. There are no features like shared lists or recipe books. The items on the list can not be categorized, and when adding an item, there is no quick select feature so the user allways has to write the whole item name. When clicking on an item on the list it can be marked as bought, edited or deleted, but there is no feature to delete all items that are marked as bought. So after marking all items as bought, every single item has to be manually deleted. 
 
-Pros:
-
-\begin{itemize}
-\item Well structured.
-\end{itemize}
-Cons:
-\begin{itemize}
-\item No option for recipe management.
-\item There is no possibility to share shopping lists.
-\end{itemize}
 
 \subsubsection{Bring}
 Pros:
@@ -102,33 +93,21 @@ Cons:
 \item Own recipe book and other people's recipes are not separated.
 \item Recipes can not be shared in a group.
 \end{itemize}
-Die Einkaufsliste:\\
-Pros:
-\begin{itemize}
-\item Lists can be shared via link.
-\end{itemize}
-Cons:
-\begin{itemize}
-\item No option for recipe management.
-\end{itemize}
+\subsubsection{Die Einkaufliste}
+In the app Die Einkaufsliste the user has the ability to share shopping lists via a link that can be send by email. The items on the list are categorized, but the order of the categories can not be changed. There also is a quick selection feature when adding an item and to remove an item the user only has to tick it and click on a button to remove all ticked items. There  is no feature for creating groups or managing recepies.
 
 \pagebreak
 
 \section{General Conditions and Constraints}
 
 \subsection{Conditions}
-It is very essential for our app to have an user-interface that is easy to use because every person that goes shopping is a potential customer. Some of them are quickly overwhelmed when using apps therefore we want to design our app similar to youtubes UI.
-%Conditions:
-%\begin{itemize}
-%\item A shopping list should be usable by anyone therefore the GUI should also be understandable for non tech-savvy people.
-%\item We need a database that is always reachable.
-%\end{itemize}
-%Constraints:
-%\begin{itemize}
-%\item The user needs a internet connection.
-%\item The app will often be used while shopping where mobile data is used therefore the app should not use to much data volume. 
-%\item The user needs an android device to use the app.
-%\end{itemize}
+It is very essential for our app to have an user-interface that is easy to use because every person that goes shopping is a potential customer. Some of them are quickly overwhelmed when using apps therefore we want to design our app similar to the UI goolgle uses, that for example  is used in  gmail, goolgle drive or google docs. We would benefit from using an UI that is designed like the UI google uses because most android users are familiar with it, so it is much easier for them to get used to our app.
+
+In order to allow the user to share their lists and recipes, we have to setup a database that is always reachable, so we can guarantee that the user can update the shared lists and recipes at any time.
+
+\subsection{Constraints}
+Users can only update the shared lists and recipes if they have an internet connection. Since the app is mostly used while shopping where mobile data is used, the app should use as little data volume as possible. Because some userse do not have mobile data or already consumed it, we have to provide a offline feature where the user can access the lists. We want to achieve this by saving the lists local and syncronise the lists when an internet connection is available.
+Due to limited time we are not going to provide cross-platform,so the user needs an android device to use our app.
 
 \pagebreak
 
@@ -139,25 +118,15 @@ Users should be able to create and enter groups with shared grocery lists. In th
 \pagebreak
 
 \section{Opportunities and Risks}
+\subsection{Potential customers}
+Every person that needs to go shopping for groceries is a potential costumer.
+Especially households with more than one member.
 
-Potential customers:
-\begin{itemize}
-\item Every person that needs to go shopping for groceries is a potential costumer.\\
-Especially households with more than one member.\\\\
-\end{itemize}
+\subsection{Opportunities}
+One of the biggest opportunities is that the process of shopping gets simplified, because the members of a houshold do not have to merge theire lists any more and when using the app it is less likely to forget some items. An other advantage would be that the time for finding new or even the own recipes is drastically decreased.
 
-The project has the following opportunities:
-\begin{itemize}
-\item The processes of shopping gets simplified.
-\item Decreases the time of finding recipes.
-\item The time needed for shopping will drastically decrease.\\\\
-\end{itemize}
-
-The following risk have to be taken into account.
-\begin{itemize}
-\item People don not use the app because they don not want to readjust.
-\item People use the app of competitors rather than ours.
-\end{itemize}
+\subsection{Risks}
+One of the risks we have to take into account is than people use the app of competitors rather than ours because they are well-known or the user prefers them. An other risk could be that do not want to use a shoppinglist app because they do not want to readjust.
 
 \pagebreak
 
@@ -168,17 +137,20 @@ The following risk have to be taken into account.
 \item Project start: 23.10.2018 \\\\
 \end{itemize}
 
-Milestones:
-\begin{itemize}
-\item Database : 13.12.2018
-\item Login finished: 14.1.2019
-\item basic Graphical-User-Interface finished: 25. 2. 2019
-\item shopping list finished: 25. 2. 2019
-\item recipe book finished: 4.4.2019 \\\\
-\end{itemize}
+\subsection{Milestones}
+\begin{tabular}{|l|l|}
+\hline
+\cellcolor[gray]{0.5}\textcolor{white}{Date} &
+\cellcolor[gray]{0.5}\textcolor{white}{Milestone} \\ \hline
+December 13, 2018 & Database setup \\ \hline
+January 14, 2019 & Login finished \\ \hline
+February 25, 2019 & Graphical-User-Interface finished \\ \hline
+February 25, 2018 & shopping list finished \\ \hline
+April 4, 2018 & recipe book finished \\ \hline
+\end{tabular}
 
-
+\subsection{Team}
 Project leader: Alexander Walliser \\
-Lead programmer: Clements Wagner
+Programmer: Clements Wagner
 
 \end{document}  
