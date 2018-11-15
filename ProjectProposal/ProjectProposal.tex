@@ -78,23 +78,24 @@ These processes could be simplified by using a grocery list app. Apps like this 
 
 \subsection{Examples}
 \subsubsection{Shopping List}
-The app shopping list is very simple designed, so the user has only the ablility to create a shopping list where they can add and remove items. There are no features like shared lists or recipe books. The items on the list can not be categorized, and when adding an item, there is no quick select feature so the user allways has to write the whole item name. When clicking on an item on the list it can be marked as bought, edited or deleted, but there is no feature to delete all items that are marked as bought. So after marking all items as bought, every single item has to be manually deleted. 
+The app shopping list is very simple designed, so the user has only the ability to create a shopping list where they can add and remove items. There are no features like shared lists or recipe books. The items on the list can not be categorized, and when adding an item, there is no quick select feature so the user always has to write the whole item name. When clicking on an item on the list it can be marked as bought, edited or deleted, but there is no feature to delete all items that are marked as bought. So after marking all items as bought, every single item has to be manually deleted. 
 
 
 \subsubsection{Bring}
-Pros:
-\begin{itemize}
-\item Shopping items are categorised.
-\item There is a recipe option.\\
-\end{itemize}
-Cons:
-\begin{itemize}
-\item Categories can not be changed or extended.
-\item Own recipe book and other people's recipes are not separated.
-\item Recipes can not be shared in a group.
-\end{itemize}
+Bring is a multi-user shopping list app where you can share shopping lists in a group. The app provides the user with default items those have icons matching the product. When an item is added to a shopping list the amount can be stated. The app provides a recipe book but the recipes added by the user are mixed with recipe suggestions which makes it harder to find recipes. New items can be added by the user. They can choose a name and one of the already existing icons for their item. Shopping items are categorized which make them easier to find but the categories can not be altered by the user in any way. That makes it hard to choose which category a new item should be in because the category where it actually belongs is not provided. Categories can also get redundant if the user is in no need for a certain type of item for example vegetarians do not need a "Meat and Fish" category. Bring has a web-interface   and is available for both android and IOS.  
+%Pros:
+%\begin{itemize}
+%\item Shopping items are categorised.
+%\item There is a recipe option.\\
+%\end{itemize}
+%Cons:
+%\begin{itemize}
+%\item Categories can not be changed or extended.
+%\item Own recipe book and other people's recipes are not separated.
+%\item Recipes can not be shared in a group.
+%\end{itemize}
 \subsubsection{Die Einkaufliste}
-In the app Die Einkaufsliste the user has the ability to share shopping lists via a link that can be send by email. The items on the list are categorized, but the order of the categories can not be changed. There also is a quick selection feature when adding an item and to remove an item the user only has to tick it and click on a button to remove all ticked items. There  is no feature for creating groups or managing recepies.
+In the app Die Einkaufsliste the user has the ability to share shopping lists via a link that can be send by email. The items on the list are categorized, but the order of the categories can not be changed. There also is a quick selection feature when adding an item and to remove an item the user only has to tick it and click on a button to remove all ticked items. There  is no feature for creating groups or managing recipes.
 
 \pagebreak
 
@@ -106,7 +107,7 @@ It is very essential for our app to have an user-interface that is easy to use b
 In order to allow the user to share their lists and recipes, we have to setup a database that is always reachable, so we can guarantee that the user can update the shared lists and recipes at any time.
 
 \subsection{Constraints}
-Users can only update the shared lists and recipes if they have an internet connection. Since the app is mostly used while shopping where mobile data is used, the app should use as little data volume as possible. Because some userse do not have mobile data or already consumed it, we have to provide a offline feature where the user can access the lists. We want to achieve this by saving the lists local and syncronise the lists when an internet connection is available.
+Users can only update the shared lists and recipes if they have an internet connection. Since the app is mostly used while shopping where mobile data is used, the app should use as little data volume as possible. Because some users do not have mobile data or already consumed it, we have to provide an off-line feature where the user can access the lists. We want to achieve this by saving the lists local and synchronise the lists when an internet connection is available.
 Due to limited time we are not going to provide cross-platform,so the user needs an android device to use our app.
 
 \pagebreak
@@ -123,10 +124,10 @@ Every person that needs to go shopping for groceries is a potential costumer.
 Especially households with more than one member.
 
 \subsection{Opportunities}
-One of the biggest opportunities is that the process of shopping gets simplified, because the members of a houshold do not have to merge theire lists any more and when using the app it is less likely to forget some items. An other advantage would be that the time for finding new or even the own recipes is drastically decreased.
+One of the biggest opportunities is that the process of shopping gets simplified, because the members of a household do not have to merge their lists any more and when using the app it is less likely to forget some items. An other advantage would be that the time for finding new or even the own recipes is drastically decreased.
 
 \subsection{Risks}
-One of the risks we have to take into account is than people use the app of competitors rather than ours because they are well-known or the user prefers them. An other risk could be that do not want to use a shoppinglist app because they do not want to readjust.
+One of the risks we have to take into account is than people use the app of competitors rather than ours because they are well-known or the user prefers them. An other risk could be that do not want to use a shopping list app because they do not want to readjust.
 
 \pagebreak
 
@@ -142,7 +143,7 @@ One of the risks we have to take into account is than people use the app of comp
 \hline
 \cellcolor[gray]{0.5}\textcolor{white}{Date} &
 \cellcolor[gray]{0.5}\textcolor{white}{Milestone} \\ \hline
-December 13, 2018 & Database setup \\ \hline
+December 13, 2018 & Database set-up \\ \hline
 January 14, 2019 & Login finished \\ \hline
 February 25, 2019 & Graphical-User-Interface finished \\ \hline
 February 25, 2018 & shopping list finished \\ \hline
