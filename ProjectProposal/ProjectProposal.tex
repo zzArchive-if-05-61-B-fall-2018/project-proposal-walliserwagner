@@ -109,7 +109,8 @@ In order to allow the user to share their lists and recipes, we have to setup a 
 \subsection{Constraints}
 Users can only update the shared lists and recipes if they have an internet connection. Since the app is mostly used while shopping where mobile data is used, the app should use as little data volume as possible. Because some users do not have mobile data or already consumed it, we have to provide an off-line feature where the user can access the lists. We want to achieve this by saving the lists local and synchronise the lists when an internet connection is available.
 Due to limited time we are not going to provide cross-platform,so the user needs an android device to use our app.
-
+\subsection{Technical Conditions}
+Since we want to create an android app and plan to use Android Studio, we have to get familiar with it. As programming language we want to use Java, because we already worked with it, but on the other hand we have no experience with android development, so we have to learn it from scratch and extend our current knowledge of Java.
 \pagebreak
 
 \section{Project Objectives and System Concepts}
@@ -132,10 +133,11 @@ One of the risks we have to take into account is than people use the app of comp
 \pagebreak
 
 \section{Planning}
-
+\subsection{Overview}
+At first we have to set-up a basic database where we can store user-information like e-mail, user-name, password for the login, the database will be extended later on. The next step is to implement a login. Next up we have to work on the graphical-user-interface until it got to a point where we can easily start to implement the shopping list. When the shopping list is finished we start implementing the recipe book. After completing each of these we test them thoroughly. After finishing these steps we want to concentrate on finding and fixing bugs. If there is time left we will add some more features.
 \begin{itemize}
+\item Project start: 23.10.2018
 \item Project end: 13.6.2019
-\item Project start: 23.10.2018 \\\\
 \end{itemize}
 
 \subsection{Milestones}
@@ -145,13 +147,18 @@ One of the risks we have to take into account is than people use the app of comp
 \cellcolor[gray]{0.5}\textcolor{white}{Milestone} \\ \hline
 December 13, 2018 & Database set-up \\ \hline
 January 14, 2019 & Login finished \\ \hline
-February 25, 2019 & Graphical-User-Interface finished \\ \hline
-February 25, 2018 & shopping list finished \\ \hline
-April 4, 2018 & recipe book finished \\ \hline
+February 25, 2019 & Prototype Graphical-User-Interface finished \\ \hline
+March 25, 2019 & shopping list finished \\ \hline
+April 4, 2019 & recipe book finished \\ \hline
 \end{tabular}
 
 \subsection{Team}
 Project leader: Alexander Walliser \\
 Programmer: Clements Wagner
-
+\subsection{Recources}
+\begin{itemize}
+\item Server
+\item IntelliJ licence
+\item Android devices for testing
+\end{itemize}
 \end{document}  
