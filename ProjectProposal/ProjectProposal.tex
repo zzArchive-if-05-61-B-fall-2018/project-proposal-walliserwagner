@@ -80,22 +80,11 @@ These processes could be simplified by using a grocery list app. Apps like this 
 \subsubsection{Shopping List}
 The app shopping list is very simple designed, so the user has only the ability to create a shopping list where they can add and remove items. There are no features like shared lists or recipe books. The items on the list can not be categorized, and when adding an item, there is no quick select feature so the user always has to write the whole item name. When clicking on an item on the list it can be marked as bought, edited or deleted, but there is no feature to delete all items that are marked as bought. So after marking all items as bought, every single item has to be manually deleted. 
 
-
 \subsubsection{Bring}
-Bring is a multi-user shopping list app where you can share shopping lists in a group. The app provides the user with default items those have icons matching the product. When an item is added to a shopping list the amount can be stated. The app provides a recipe book but the recipes added by the user are mixed with recipe suggestions which makes it harder to find recipes. New items can be added by the user. They can choose a name and one of the already existing icons for their item. Shopping items are categorized which make them easier to find but the categories can not be altered by the user in any way. That makes it hard to choose which category a new item should be in because the category where it actually belongs is not provided. Categories can also get redundant if the user is in no need for a certain type of item for example vegetarians do not need a "Meat and Fish" category. Bring has a web-interface   and is available for both android and IOS.  
-%Pros:
-%\begin{itemize}
-%\item Shopping items are categorised.
-%\item There is a recipe option.\\
-%\end{itemize}
-%Cons:
-%\begin{itemize}
-%\item Categories can not be changed or extended.
-%\item Own recipe book and other people's recipes are not separated.
-%\item Recipes can not be shared in a group.
-%\end{itemize}
+Bring is a multi-user shopping list app where the user can share shopping lists in a group. The app provides the user with default items those have icons matching the product. When an item is added to a shopping list the amount can be stated. The app provides a recipe book but the recipes added by the user are mixed with recipe suggestions which makes it harder to find recipes. New items can be added by the user. They can choose a name and one of the already existing icons for their item. Shopping items are categorized which make them easier to find but the categories can not be altered by the user in any way. That makes it hard to choose which category a new item should be in because the category where it actually belongs is not provided. Categories can also get redundant if the user is in no need for a certain type of item for example vegetarians do not need a "Meat and Fish" category. Bring has a web-interface   and is available for both android and IOS.  
+
 \subsubsection{Die Einkaufliste}
-In the app Die Einkaufsliste the user has the ability to share shopping lists via a link that can be send by email. The items on the list are categorized, but the order of the categories can not be changed. There also is a quick selection feature when adding an item and to remove an item the user only has to tick it and click on a button to remove all ticked items. There  is no feature for creating groups or managing recipes.
+In the app Die Einkaufsliste the user has the ability to share shopping lists via a link that can be send by email. The items on the list are categorized, but the order of the categories can not be changed. There also is a quick selection feature when adding an item and to remove an item the user only has to tick it and click on a button to remove all ticked items. There is no feature for creating groups or managing recipes.
 
 \pagebreak
 
@@ -114,13 +103,20 @@ Since we want to create an android app and plan to use Android Studio, we have t
 \pagebreak
 
 \section{Project Objectives and System Concepts}
+A user can have multiple shopping lists, where they can add and remove items. The Items are categorized, these categories can be altered, however there is a general category that can not be changed.This category obtains all items that are not assigned to an other category. When adding an item to the list the user can look for them in a search bar or select them via their category and when creating a new item the user can deicide which category it belongs to. Items can be marked as bought, all bought items will be moved to the end of the list and when pressing a remove button all marked items will be removed at once. The user can also remove items manually.
 
-Users should be able to create and enter groups with shared grocery lists. In those groups members can add and remove items from the grocery list. The user should be able to enter multiple groups. The grocery list can be sorted by categories. Default categories will be provided those can be altered or extended by the user. The user can add items to categories so they can be found more easily later on. The app should also help with recipe management, recipes can be saved in the recipe book. The ingredients of the recipe will be added automatically to the grocery list when selected. Recipes can be shared in a group or can be posted for other users to find. 
+Ever user also has their own recipe book where they can create recipes or add recipes from groups or recipes that are posted by an other user. The recipes can also be categorized. A recipe contains a description, the necessary items, optional items and optionally a picture of the meal. The ingredients of a recipe can be added to the shopping list automatically.
+
+All the recipes, categories, items and lists are saved on a database, so the user can access them from different devices and also local, so the user can use the app without internet connection.
+
+Users should be able to create and enter groups with shared grocery lists. A group has its own lists, categories and recipes. When creating a group the default categories, and items will be the same as the creators. These categories and items can be altered by every member of the group. A group member can add their own recipes to the groups recipe book.
+
+The recipes, categories, items and lists of a group are also saved on a database. The last downloaded version of a groups lists can be accessed offline, however the user can only mark items as bought, but can not remove nor add items. When the user obtains internet connection, the lists will be updated and the items that are marked as bought will also be marked in the groups lists.
 
 \pagebreak
 
 \section{Opportunities and Risks}
-\subsection{Potential customers}
+\subsection{Potential Customers}
 Every person that needs to go shopping for groceries is a potential costumer.
 Especially households with more than one member.
 
