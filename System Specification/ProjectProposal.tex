@@ -1,0 +1,114 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\usepackage[utf8]{inputenc}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+
+\newcommand{\projectname}{Smart Shopping List}
+\newcommand{\productname}{Smart Shopping List}
+\newcommand{\projectleader}{A. Walliser}
+\newcommand{\documentstatus}{In process}
+%\newcommand{\documentstatus}{Submitted}
+%\newcommand{\documentstatus}{Released}
+\newcommand{\version}{V. 1.0}
+
+\begin{document}
+\begin{titlepage}
+\begin{flushright}
+\includegraphics[scale=.5]{htlleondinglogo.png}\\
+\end{flushright}
+
+\vspace{10em}
+
+\begin{center}
+{\Huge System Specification} \\[3em]
+{\LARGE \productname} \\[3em]
+\end{center}
+
+\begin{flushleft}
+\begin{tabular}{|l|l|}
+\hline
+Project Name & \projectname \\ \hline
+Project Leader & \projectleader \\ \hline
+Document state & \documentstatus \\ \hline
+Version & \version \\ \hline
+\end{tabular}
+\end{flushleft}
+
+\end{titlepage}
+\section*{Revisions}
+\begin{tabular}{|l|l|l|}
+\hline
+\cellcolor[gray]{0.5}\textcolor{white}{Date} & \cellcolor[gray]{0.5}\textcolor{white}{Author} & \cellcolor[gray]{0.5}\textcolor{white}{Change} \\ \hline
+November 29, 2018&C. Wagner/A. Walliser&First version \\ \hline
+\end{tabular}
+\pagebreak
+
+\tableofcontents
+\pagebreak
+
+\section{Initial Situation and Goal}
+
+\subsection{Initial Situation}
+
+\subsubsection{Application Domain}
+
+\subsubsection{Glossary}
+
+\subsubsection{Model of the Application Domain}
+
+\subsubsection{Overview of the Business Processes}
+
+\subsubsection{Description of the Business Processes}
+
+\subsection{Goal Definition}
+
+\pagebreak
+
+\section{Functional Requirements}
+
+\subsection{Use-Case Diagrams}
+
+\subsection{Use Case Details}
+
+\subsubsection{Characteristic Information}
+
+\subsubsection{GUI to call the use case}
+
+\subsubsection{Scenario for the standard use}
+
+\subsubsection{GUIs for the standard use}
+
+\subsubsection{Scenarios for non-standard uses}
+
+\subsubsection{GUIs for the non-standard uses}
+
+\subsubsection{Workflow}
+
+\subsubsection{Open Points}
+
+\section{Non-functional Requirements}
+
+\section{Quantity Structure}
+
+\section{System Architecture and Interfaces}
+
+\section{Acceptance Criteria}
+
+\section{Acceptance Criteria}
+
+\section{References}
+
+\section{List of Figures}
+
+\end{document}  
