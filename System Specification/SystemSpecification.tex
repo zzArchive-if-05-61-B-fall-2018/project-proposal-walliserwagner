@@ -61,13 +61,23 @@ November 29, 2018&C. Wagner/A. Walliser&First version \\ \hline
 
 \subsection{Initial Situation}
 
+Members of a typical household must go shopping for groceries at least once a week. A lot of households use grocery lists to organise that process. Problems that could occur are that the grocery list gets lost or if the list is in use nobody else can add shopping items to the list. It also could happen that multiple lists get written because of miscommunication between the members of a household.
+
+Furthermore things get more complex when the combination of recipe books and grocery lists is considered. The items found in different recipe books have to be manually transferred to the shopping list. 
+
+These processes could be simplified by using a grocery list app.
+
 \subsubsection{Application Domain}
 
 \subsubsection{Glossary}
 
 \subsubsection{Model of the Application Domain}
 
+\includegraphics[scale=.65]{UMLClassDiagram.png}
+
 \subsubsection{Overview of the Business Processes}
+
+\includegraphics[scale=.5]{UseCase.png}
 
 \subsubsection{Description of the Business Processes}
 
@@ -86,7 +96,9 @@ Contributors &  \\ \hline
 
 \subsection{Use-Case Diagrams}
 
-\includegraphics[scale=.5]{UseCase.png}
+\includegraphics[scale=.5]{UseCaseStoreRecipe.png}\\
+
+
 
 \subsection{Use Case Details}
 
@@ -101,6 +113,40 @@ Postcondition &  \\ \hline
 Involved User &  \\ \hline
 Triggering Event &  \\ \hline
 \end{tabular}
+
+
+\includegraphics[scale=.5]{UseCaseCreateGroup.png}\\
+
+\subsection{Use Case Details}
+
+\subsubsection{Characteristic Information}
+
+\begin{tabular}{|l|l|}
+\hline
+Superior business process &  \\ \hline
+Goal &  \\ \hline
+Precondition &  \\ \hline
+Postcondition &  \\ \hline
+Involved User &  \\ \hline
+Triggering Event &  \\ \hline
+\end{tabular}
+
+\includegraphics[scale=.5]{UseCaseCreateShoppinglist.png}\\
+
+\subsection{Use Case Details}
+
+\subsubsection{Characteristic Information}
+
+\begin{tabular}{|l|l|}
+\hline
+Superior business process &  \\ \hline
+Goal &  \\ \hline
+Precondition &  \\ \hline
+Postcondition &  \\ \hline
+Involved User &  \\ \hline
+Triggering Event &  \\ \hline
+\end{tabular}
+
 
 \subsubsection{GUI to call the use case}
 
@@ -119,11 +165,13 @@ Step & User & Activity \\ \hline
 \end{tabular}
 
 \subsubsection{GUIs for the standard use}
+
 \begin{tabular}{|l|l|}
 \hline
 Input field & Valid inputs \\ \hline
  &  \\ \hline
 \end{tabular}
+
 \subsubsection{Scenarios for non-standard uses}
 
 \begin{tabular}{|l|l|l|}
