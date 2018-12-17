@@ -68,17 +68,21 @@ Furthermore things get more complex when the combination of recipe books and gro
 These processes could be simplified by using a grocery list app.
 
 \subsubsection{Application Domain}
-Most people write a shopping list before they go shopping. When one member of a household goes shopping they only buy the products they wrote down. To not forget a product they have to communicate with every member of the household and ask them which items they want. Furthermore the items are written down in the order the writer is thinking of it, but in the store they want the items to be sorted according to the departments they belong to. 
+Most people write a shopping list before they go shopping. When one member of a household goes shopping they only buy the products they wrote down. To not forget a product they have to communicate with every member of the household and ask them which items they want. Furthermore the items are written down in the order the writer is thinking of them, but in the store they want the items to be sorted according to the departments they belong to. 
 \subsubsection{Glossary}
 
 \subsubsection{Model of the Application Domain}
 
+\includegraphics[scale=.5]{AppDomain.png}
 
 \subsubsection{Overview of the Business Processes}
 
 \includegraphics[scale=.5]{UseCase.png}
 
 \subsection{Goal Definition}
+
+The main goal of our system is to speed up and simplify the process of going shopping and storing recipes. We especially want to help people living and shopping together so they need to spend less time talking about groceries. The system also helps managing and sharing ones recipes and lists because it is way more unlikely to lose or misplace ones recipes and shopping lists.
+Our target group is every person that goes shopping but we especially want to cater to households with multiple members.
 
 \pagebreak
 
@@ -90,32 +94,67 @@ Most people write a shopping list before they go shopping. When one member of a 
 
 \includegraphics[scale=.5]{UseCaseStoreRecipe.png}\\
 
+\subsection{Store Recipe Use Case Details}
+
+\subsubsection{GUI to call the use case}
+
+\begin{tabular}{|l|l|}
+\hline
+Input field & Valid inputs \\ \hline
+ &  \\ \hline
+\end{tabular}
+
+\subsubsection{Scenario for the standard use}
+
+\begin{tabular}{|l|l|l|}
+\hline
+Step & User & Activity \\ \hline
+ & & \\ \hline
+\end{tabular}
+
+\subsubsection{GUIs for the standard use}
+
+\begin{tabular}{|l|l|}
+\hline
+Input field & Valid inputs \\ \hline
+ &  \\ \hline
+\end{tabular}
+
+\subsubsection{Scenarios for non-standard uses}
+
+\begin{tabular}{|l|l|l|}
+\hline
+Step & User & Activity \\ \hline
+ & & \\ \hline
+\end{tabular}
+
+\subsubsection{GUIs for the non-standard uses}
+
+\begin{tabular}{|l|l|}
+\hline
+Input field & Valid inputs \\ \hline
+ &  \\ \hline
+\end{tabular}
+
+
 \subsubsection{Characteristic Information}
 
 \begin{tabular}{|l|l|}
 \hline
 Goal & Creates a recipe that is added to the users recipelist  \\ \hline
-Precondition & none \\ \hline
-Postcondition & New recipe in the recipelist \\ \hline
 Involved User & The user who wants to create a recipe \\ \hline
-Triggering Event & Event is triggered by the user \\ \hline
 \end{tabular}
 
 \subsection{Use Case Create Group}
 
 \includegraphics[scale=.5]{UseCaseCreateGroup.png}\\
 
-
-
 \subsubsection{Characteristic Information}
 
 \begin{tabular}{|l|l|}
 \hline
 Goal &  Create a group with the creators items and categories\\ \hline
-Precondition & none\\ \hline
-Postcondition & New group in the users list of groups which contains the creators items and categories \\ \hline
 Involved User &  \\ \hline
-Triggering Event & Event is triggered by the user \\ \hline
 \end{tabular}
 
 \subsection{Use Case Create Shoppinglist}
@@ -128,10 +167,7 @@ Triggering Event & Event is triggered by the user \\ \hline
 \begin{tabular}{|l|l|}
 \hline
 Goal &  \\ \hline
-Precondition &  \\ \hline
-Postcondition &  \\ \hline
 Involved User &  \\ \hline
-Triggering Event &  \\ \hline
 \end{tabular}
 
 
@@ -177,8 +213,6 @@ Input field & Valid inputs \\ \hline
 
 \subsubsection{Workflow}
 
-\subsubsection{Open Points}
-
 \pagebreak
 
 \section{Non-functional Requirements}
@@ -186,6 +220,8 @@ Input field & Valid inputs \\ \hline
 \pagebreak
 
 \section{Quantity Structure}
+
+Every user has a nickname, password and e-mail. All configuration from every user concerning items, shopping lists and recipes will be saved in order to be independent of devices. Every recipe that is created inside of a group will be added to ones recipe book. A group has its own items, shopping lists and recipes it also has every member. 
 
 \pagebreak
 
