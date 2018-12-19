@@ -9,6 +9,11 @@
 \usepackage[usenames,dvipsnames]{color}
 \usepackage[table]{xcolor}
 \usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{caption}
+\usepackage{floatrow}%
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 \theoremstyle{definition}
@@ -84,8 +89,6 @@ Our target group is every person that goes shopping but we especially want to ca
 
 \section{Functional Requirements}
 
-\subsection{Use-Case Diagrams}
-
 \subsection{Use Case Store Recipe}
 
 \includegraphics[scale=.5]{UseCaseStoreRecipe.png}\\
@@ -103,11 +106,20 @@ Involved User & The user who wants to create a recipe \\ \hline
 \end{tabular}
 
 \subsubsection{GUI to call the use case}
-
+\begin{figure}[!h]
+           \begin{floatrow}
+             \ffigbox{\includegraphics[scale=0.15]{GUI_Recipe_Tab.png}}{\caption{Recipe Tab}\label{case1}}
+             \ffigbox{\includegraphics[scale=0.15]{GUI_Recipe_Tab_Longclick.png}}{\caption{Long click on item}\label{zoom}}
+           \end{floatrow}
+        \end{figure}
+        
 \begin{tabular}{|l|l|}
 \hline
 Input field & Valid inputs \\ \hline
- &  \\ \hline
+ + &  \\ \hline
+ Post &  \\ \hline
+ Entfernen &  \\ \hline
+ Bearbeiten &  \\ \hline
 \end{tabular}
 
 \subsubsection{Scenario for the standard use}
@@ -161,7 +173,12 @@ Involved User & Leader of the group \\ \hline
 \end{tabular}
 
 \subsubsection{GUI to call the use case}
-
+\begin{figure}[!h]
+           \begin{floatrow}
+             \ffigbox{\includegraphics[scale=0.15]{GUI_Group_Tab.png}}{\caption{Group Tab}\label{case1}}
+             \ffigbox{\includegraphics[scale=0.15]{GUI_Group_Tab_Longclick.png}}{\caption{Long click on item}\label{zoom}}
+           \end{floatrow}
+        \end{figure}
 \begin{tabular}{|l|l|}
 \hline
 Input field & Valid inputs \\ \hline
@@ -209,7 +226,7 @@ Input field & Valid inputs \\ \hline
 \subsection{Create Shopping list Use Case Details}
 
 When creating a shopping list there are no necessary action. After the creation of the shopping list items can be added from the users personal items. When the required item is not found in the users item list it can created on the fly. In the shopping list the items are sorted by category which can be altered by the user. The items on the shopping list can be marked as bought those will be moved to the bottom of list so they do not get in the way. All bought items can be removed from the shopping list all at once. Items can also be removed. Items can also be created without a shopping list. When an item is created a name and its category has to be chosen. The user is able to choose an icon and a unit for the item.
-
+\pagebreak
 \subsubsection{Characteristic Information}
 
 \begin{tabular}{|l|l|}
@@ -218,9 +235,16 @@ Goal & Create an empty shopping list \\ \hline
 Involved User &  User who wants to create a shopping list \\ \hline
 \end{tabular}
 
-
 \subsubsection{GUI to call the use case}
-
+\begin{figure}[!h]
+           \begin{floatrow}
+             \ffigbox{\includegraphics[scale=0.15]{GUI_Shoppinglist_Tab.png}}{\caption{Shoppinglist Tab}\label{case1}}
+             \ffigbox{\includegraphics[scale=0.15]{GUI_Shoppinglist_Tab_Longclick.png}}{\caption{Long click on item}\label{zoom}}
+           \end{floatrow}
+        \end{figure}
+\includegraphics[scale=0.15]{GUI_Shoppinglist.png}
+\\
+\\
 \begin{tabular}{|l|l|}
 \hline
 Input field & Valid inputs \\ \hline
