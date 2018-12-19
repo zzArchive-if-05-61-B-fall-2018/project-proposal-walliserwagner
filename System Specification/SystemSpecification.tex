@@ -19,6 +19,8 @@
 \theoremstyle{definition}
 \newtheorem{example}{Example}
 
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
 \newcommand{\projectname}{Smart Shopping List}
 \newcommand{\productname}{Smart Shopping List}
 \newcommand{\projectleader}{A. Walliser}
@@ -289,6 +291,59 @@ Input field & Valid inputs \\ \hline
 
 \section{Non-functional Requirements}
 
+\begin{flushleft}
+  \begin{tabular}{|l|L{10cm}|}
+  \hline
+  ID & NFR001\\ \hline
+  Name & Data volume \\ \hline
+  Type &  EFFIC\\ \hline
+  Description & The data usage should be under 75 mb per month \\
+  & given that not a lot of pictures are up/downloaded. \\
+  & Assuming 8 Mbit/s download 2 Mbit/s upload. \\ \hline
+  \end{tabular}
+\end{flushleft}
+
+\vspace*{1 cm}
+
+\begin{flushleft}
+  \begin{tabular}{|l|L{10cm}|}
+  \hline
+  ID &  NFR002\\ \hline
+  Name & Start time \\ \hline
+  Type &  EFFIC\\ \hline
+  Description & The synchronisation of the user configuration and \\
+  & the database should not take longer than 5 seconds. \\ 
+  & Assuming 8 Mbit/s download 2 Mbit/s upload. \\ \hline
+  \end{tabular}
+\end{flushleft}
+
+\vspace*{1 cm}
+
+\begin{flushleft}
+  \begin{tabular}{|l|L{10cm}|}
+  \hline
+  ID &  NFR003\\ \hline
+  Name & Group \\ \hline
+  Type &  EFFIC\\ \hline
+  Description & Changes to the group should not take \\
+  & longer than 1 second to upload. \\ 
+  & Assuming 8 Mbit/s download 2 Mbit/s upload. \\ \hline
+  \end{tabular}
+\end{flushleft}
+
+\vspace*{1 cm}
+
+\begin{flushleft}
+  \begin{tabular}{|l|L{10cm}|}
+  \hline
+  ID &  NFR003\\ \hline
+  Name & Accessibility \\ \hline
+  Type &  SEC \\ \hline
+  Description & The only data we need to protect from \\
+  & unauthorized access are the users password and e-mail address. \\ \hline
+  \end{tabular}
+\end{flushleft}
+
 \pagebreak
 
 \section{Quantity Structure}
@@ -307,7 +362,7 @@ Every user has a nickname, password and e-mail. All configuration from every use
 
 \subsection{AC001}
 
-\begin{tabular}{|l|l|}
+\begin{tabular}{|L{8cm}|L{8cm}|}
 \hline 
 \cellcolor[gray]{0.5}\textcolor{white}{Test step} & \cellcolor[gray]{0.5}\textcolor{white}{Expected behaviour} \\ \hline
 Store a recipe without entering a name & Recipe will not be stored \\ 
@@ -324,20 +379,22 @@ has been posted & and all needed items will be created\\ \hline
 
 \subsection{AC002}
 
-\begin{tabular}{|l|l|}
+\begin{tabular}{|L{8cm}|L{8cm}|}
 \hline
 \cellcolor[gray]{0.5}\textcolor{white}{Test step} & \cellcolor[gray]{0.5}\textcolor{white}{Expected behaviour} \\ \hline
-Create a group without entering a name & Group will not be created \\ 
- & and the user will be asked for a name \\ \hline
+Create a group without & Group will not be created\\
+entering a name & and the user will be asked for a name \\ \hline 
 Send invite to other user & Other user receives the invite \\
 & and can join the group \\ \hline
 Send invite to non-existing user & No invite will be sent and the user is told \\
 & that the user does not exist \\ \hline
-User other than the group leader invites a user & User should be \\ & prevented from sending the invite \\ \hline
+User other than the & User should be \\
+group leader invites a user & prevented from sending the invite \\ \hline
 Remove user of a group & User can no longer access group information \\
 & and the removed user will be notified \\ \hline
 Remove user the does not exist & Group leader will be prevented\\ \hline
-User other than the group leader removes a user & The user will be prevented \\ \hline
+User other than & The user will be prevented \\
+the group leader removes a user & \\ \hline
 Group leader leaves the group & The group leader must assign \\
 & the next group leader \\ \hline
 User leaves group & User has no longer access to group information \\ \hline
@@ -345,11 +402,12 @@ User leaves group & User has no longer access to group information \\ \hline
 
 \subsection{AC003}
 
-\begin{tabular}{|l|l|}
+\begin{tabular}{|L{8cm}|L{8cm}|}
 \hline
 \cellcolor[gray]{0.5}\textcolor{white}{Test step} & \cellcolor[gray]{0.5}\textcolor{white}{Expected behaviour} \\ \hline
-Creating an shopping list without entering a name & shopping list will not be created \\ 
- & and the user will be asked for a name \\ \hline
+Creating an shopping list without & and the user will be asked for a name \\
+entering a name & shopping list will not be created \\ 
+  \hline
 Remove item from shopping list & Item is not in list any more \\ \hline
 Mark item as bought & Item will be marked \\
 & and moved to the bottom of the list \\ \hline
