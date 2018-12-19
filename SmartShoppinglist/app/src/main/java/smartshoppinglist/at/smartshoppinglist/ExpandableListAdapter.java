@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -38,8 +39,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItemName);
         txtListChild.setText(itemContainer.getItem().getName());
-        txtListChild = (TextView) convertView.findViewById(R.id.lblListItemIcon);
-        txtListChild.setCompoundDrawablesWithIntrinsicBounds(itemContainer.getItem().getIcon(),0,0,0);
+        ImageView imgListChild = (ImageView) convertView.findViewById(R.id.lblListItemIcon);
+        imgListChild.setImageResource(itemContainer.getItem().getIcon());
         txtListChild = (TextView) convertView.findViewById(R.id.lblListItemCount);
         txtListChild.setText(Integer.toString(itemContainer.getCount()));
         txtListChild = (TextView) convertView.findViewById(R.id.lblListItemUnit);

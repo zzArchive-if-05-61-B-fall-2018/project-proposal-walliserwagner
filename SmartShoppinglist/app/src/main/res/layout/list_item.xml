@@ -4,23 +4,29 @@
     android:layout_height="wrap_content"
     android:stretchColumns="*" >
     <TableRow android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft">
-        <TextView
+        <ImageView
             android:id="@+id/lblListItemIcon"
             android:layout_span="8"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:textSize="20dip"/>
         <TextView
             android:id="@+id/lblListItemName"
-            android:layout_span="67"
-            android:textSize="20dip" />
+            android:layout_span="62"
+            android:textSize="20dip"
+            android:textColor="#585858"/>
         <TextView
             android:id="@+id/lblListItemCount"
-            android:layout_span="10"
+            android:layout_span="15"
             android:layout_gravity="end"
-            android:textSize="20dip"/>
+            android:textSize="20dip"
+            android:textColor="#585858"/>
         <TextView
             android:id="@+id/lblListItemUnit"
             android:layout_span="15"
-            android:textSize="20dip"/>
+            android:textSize="20dip"
+            android:textColor="#585858"/>
     </TableRow>
 
 </TableLayout>
