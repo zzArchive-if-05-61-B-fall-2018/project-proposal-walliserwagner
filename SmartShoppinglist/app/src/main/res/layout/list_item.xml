@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:stretchColumns="*" >
-    <TableRow android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft">
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
         <ImageView
             android:id="@+id/lblListItemIcon"
-            android:layout_span="8"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:textSize="20dip"/>
+            android:layout_gravity="center"/>
+
         <TextView
             android:id="@+id/lblListItemName"
-            android:layout_span="62"
-            android:textSize="20dip"
-            android:textColor="#585858"/>
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/default_text_size"/>
+
         <TextView
             android:id="@+id/lblListItemCount"
-            android:layout_span="15"
-            android:layout_gravity="end"
-            android:textSize="20dip"
-            android:textColor="#585858"/>
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/default_text_size"/>
+
         <TextView
             android:id="@+id/lblListItemUnit"
-            android:layout_span="15"
-            android:textSize="20dip"
-            android:textColor="#585858"/>
-    </TableRow>
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/default_text_size"/>
 
-</TableLayout>
+    <CheckBox
+        android:id="@+id/lblListCheckbox"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"/>
+    </LinearLayout>
