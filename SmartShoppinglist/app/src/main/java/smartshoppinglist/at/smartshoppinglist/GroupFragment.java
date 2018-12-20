@@ -56,11 +56,14 @@ public class GroupFragment extends Fragment {
             case R.id.group_longClick_alter:
                 Toast.makeText(getActivity().getApplicationContext(), "Option 1 selected", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.group_longClick_remove:
+            case R.id.group_longClick_quit:
                 Toast.makeText(getActivity().getApplicationContext(), "Option 2 selected", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.group_longClick_invite:
+            case R.id.group_longClick_remove:
                 Toast.makeText(getActivity().getApplicationContext(), "Option 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.group_longClick_invite:
+                Toast.makeText(getActivity().getApplicationContext(), "Option 4 selected", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
