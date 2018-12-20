@@ -106,7 +106,7 @@ Store recipe can be used in single-user and group-mode. If a recipe is created a
 Goal & Creates a recipe that is added to the users recipelist  \\ \hline
 Involved User & The user who wants to create a recipe \\ \hline
 \end{tabular}
-
+\pagebreak
 \subsubsection{GUI to call the use case}
 \begin{figure}[!h]
            \begin{floatrow}
@@ -114,45 +114,55 @@ Involved User & The user who wants to create a recipe \\ \hline
              \ffigbox{\includegraphics[scale=0.15]{GUI_Recipe_Tab_Longclick.png}}{\caption{Long click on item}\label{zoom}}
            \end{floatrow}
         \end{figure}
-        
-\begin{tabular}{|l|l|}
-\hline
-Input field & Valid inputs \\ \hline
-\end{tabular}
 
 \subsubsection{Scenario for the standard use}
 
-\begin{tabular}{|l|l|l|}
-\hline
-Step & User & Activity \\ \hline
- & & \\ \hline
-\end{tabular}
-
-\subsubsection{GUIs for the standard use}
 
 \begin{tabular}{|l|l|}
 \hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
+Step & Activity \\ \hline
+Step01 & Press "+" button\\ \hline
+Step02 & Enter name and optionally ingredients, description, image\\ \hline
+Step03 & Press create button \\ \hline
 \end{tabular}
 
 \subsubsection{Scenarios for non-standard uses}
 
 \begin{tabular}{|l|l|l|}
 \hline
-Step & User & Activity \\ \hline
- & & \\ \hline
+Step & Activity \\ \hline
+Step01 & Press "+" button \\ \hline
+Step02 & Enter name longer than 30 characters or leave name empty \\ \hline
+Step03 & Press create button \\ \hline
 \end{tabular}
 
-\subsubsection{GUIs for the non-standard uses}
-
-\begin{tabular}{|l|l|}
+\vspace*{1 cm}
+\begin{flushleft}
+\begin{tabular}{|l|l|l|}
 \hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
+Step & Activity \\ \hline
+Step01 & Press "+" button \\ \hline
+Step02 & Enter name  \\ \hline
+Step03 & Enter description longer than 3000 characters\\ \hline
+Step04 & Press create button \\ \hline
 \end{tabular}
+\end{flushleft}
+
+\vspace*{1 cm}
+\begin{flushleft}
+\begin{tabular}{|l|l|l|}
+\hline
+Step & Activity \\ \hline
+Step01 & Press "+" button \\ \hline
+Step02 & Enter name  \\ \hline
+Step03 & Choose an image with a file extension other than: jpg, jpeg, png\\ \hline
+Step04 & Press create button \\ \hline
+\end{tabular}
+\end{flushleft}
 
 \subsubsection{Workflow}
+
+\includegraphics[scale=.5]{WorkflowStoreRecipe.png}
 
 \subsection{Open points}
 
@@ -180,45 +190,30 @@ Involved User & Leader of the group \\ \hline
              \ffigbox{\includegraphics[scale=0.15]{GUI_Group_Tab_Longclick.png}}{\caption{Long click on item}\label{zoom}}
            \end{floatrow}
         \end{figure}
-\begin{tabular}{|l|l|}
-\hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
-\end{tabular}
 
 \subsubsection{Scenario for the standard use}
 
 \begin{tabular}{|l|l|l|}
 \hline
-Step & User & Activity \\ \hline
- & & \\ \hline
-\end{tabular}
-
-\subsubsection{GUIs for the standard use}
-
-\begin{tabular}{|l|l|}
-\hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
+Step & Activity \\ \hline
+Step01 & Press "+" button\\ \hline
+Step02 & Enter group name \\ \hline
+Step03 & Press create button\\ \hline
 \end{tabular}
 
 \subsubsection{Scenarios for non-standard uses}
 
 \begin{tabular}{|l|l|l|}
 \hline
-Step & User & Activity \\ \hline
- & & \\ \hline
-\end{tabular}
-
-\subsubsection{GUIs for the non-standard uses}
-
-\begin{tabular}{|l|l|}
-\hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
+Step & Activity \\ \hline
+Step01 & Press "+" button \\ \hline
+Step02 & Enter name longer than 30 characters or leave name empty \\ \hline
+Step03 & Press create button \\ \hline
 \end{tabular}
 
 \subsubsection{Workflow}
+
+\includegraphics[scale=.5]{StateSendInvite.png}
 
 \subsection{Use Case Create Shopping list}
 
@@ -227,7 +222,7 @@ Input field & Valid inputs \\ \hline
 \subsection{Create Shopping list Use Case Details}
 
 When creating a shopping list there are no necessary action. After the creation of the shopping list items can be added from the users personal items. When the required item is not found in the users item list it can created on the fly. In the shopping list the items are sorted by category which can be altered by the user. The items on the shopping list can be marked as bought. All bought items can be removed from the shopping list all at once. Items can be removed. Items can also be created without a shopping list. When an item is created a name and its category has to be chosen. The user is able to choose an icon and a unit for the item.
-\pagebreak
+
 \subsubsection{Characteristic Information}
 
 \begin{tabular}{|l|l|}
@@ -245,46 +240,31 @@ Involved User &  User who wants to create a shopping list \\ \hline
         \end{figure}
 \includegraphics[scale=0.15]{GUI_Shoppinglist.png}
 \\
-\\
-\begin{tabular}{|l|l|}
-\hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
-\end{tabular}
 
 \subsubsection{Scenario for the standard use}
 
 \begin{tabular}{|l|l|l|}
 \hline
-Step & User & Activity \\ \hline
- & & \\ \hline
+Step & Activity \\ \hline
+Step01 & Press "+" button \\ \hline
+Step02 & Choose item \\ \hline
+Step03 & Enter amount \\ \hline
 \end{tabular}
 
-\subsubsection{GUIs for the standard use}
-
-\begin{tabular}{|l|l|}
-\hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
-\end{tabular}
 
 \subsubsection{Scenarios for non-standard uses}
 
 \begin{tabular}{|l|l|l|}
 \hline
-Step & User & Activity \\ \hline
- & & \\ \hline
-\end{tabular}
-
-\subsubsection{GUIs for the non-standard uses}
-
-\begin{tabular}{|l|l|}
-\hline
-Input field & Valid inputs \\ \hline
- &  \\ \hline
+Step & Activity \\ \hline
+Step01 & Press "+" button \\ \hline
+Step02 & Choose item \\ \hline
+Step03 & Enter non-numerical string \\ \hline
 \end{tabular}
 
 \subsubsection{Workflow}
+
+\includegraphics[scale=.5]{ActivityAddItem.png}
 
 \pagebreak
 
