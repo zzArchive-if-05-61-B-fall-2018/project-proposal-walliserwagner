@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         ItemContainer itemContainer = (ItemContainer)shoppinglist.getItems()[groupPosition].getElements()[childPosition];
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,6 +46,29 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(Integer.toString(itemContainer.getCount()));
         txtListChild = (TextView) convertView.findViewById(R.id.lblListItemUnit);
         txtListChild.setText(itemContainer.getUnit());
+
+        final CheckBox checkBox = convertView.findViewById(R.id.lblListCheckbox);
+        if(shoppinglist.getItemByPos(groupPosition,childPosition).isTicked()){
+            checkBox.setChecked(true);
+            notifyDataSetChanged();
+        }
+        else {
+            checkBox.setChecked(false);
+            notifyDataSetChanged();
+        }
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBox.isChecked()){
+                    shoppinglist.tickItem(shoppinglist.getItemByPos(groupPosition,childPosition));
+                    notifyDataSetChanged();
+                }
+                else {
+                    shoppinglist.unTickItem(shoppinglist.getItemByPos(groupPosition,childPosition));
+                    notifyDataSetChanged();
+                }
+            }
+        });
         return convertView;
     }
 
@@ -75,12 +99,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
-
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(shoppinglist.getItems()[groupPosition].getName());
-
         return convertView;
     }
 
@@ -91,6 +113,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
         return true;
     }
 }

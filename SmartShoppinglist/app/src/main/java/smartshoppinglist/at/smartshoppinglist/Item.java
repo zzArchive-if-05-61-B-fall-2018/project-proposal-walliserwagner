@@ -1,29 +1,31 @@
 package smartshoppinglist.at.smartshoppinglist;
 
-public class Item {
+public class Item implements Comparable<Item> {
+    private static String defaultCategory = "Allgemein";
+    private static String defaultDefaultUnit = "Stk";
     private String name;
     private int icon;
-    private String description;
+    private String category;
     private String defaultUnit;
 
-    public Item(String name, int icon, String description, String defaultUnit){
+    public Item(String name, int icon, String category, String defaultUnit){
         this.name = name;
         this.icon = icon;
-        this.description = description;
+        this.category = category;
         this.defaultUnit = defaultUnit;
     }
-    public Item(String name, int icon, String description){
-        this(name, icon, description, "Stk");
+    public Item(String name, int icon, String category){
+        this(name, icon, category, defaultDefaultUnit);
     }
     public Item(String name, int icon){
-        this(name, icon,"");
+        this(name, icon,defaultCategory);
     }
 
-    public  Item(String name, String description){
-        this(name, R.drawable.ic_questionmark ,description);
+    public  Item(String name, String category){
+        this(name, R.drawable.ic_questionmark , category);
     }
     public Item(String name){
-        this(name,"");
+        this(name,defaultCategory);
     }
 
     public int getIcon() {
@@ -33,20 +35,20 @@ public class Item {
         return name;
     }
 
-    public String getDefaultunit() {
+    public String getDefaultUnit() {
         return defaultUnit;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCategory() {
+        return category;
     }
 
     public void setDefaultunit(String defaultUnit) {
         this.defaultUnit = defaultUnit;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public void setIcon(int icon) {
@@ -55,5 +57,18 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int compareTo(Item i) {
+        return name.compareTo(i.name);
+    }
+
+    public static String getDefaultCategory() {
+        return defaultCategory;
+    }
+
+    public static String getDefaultDefaultUnit() {
+        return defaultDefaultUnit;
     }
 }
