@@ -1,7 +1,9 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.objects;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
 
 public class ItemList {
     List<Item> items;

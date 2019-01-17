@@ -1,11 +1,11 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.activitys;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,14 +17,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.fragments.GroupFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.HomeFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.ItemsFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.ListFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.RecipeFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.SearchFragment;
+import smartshoppinglist.at.smartshoppinglist.objects.Category;
+import smartshoppinglist.at.smartshoppinglist.objects.CategoryList;
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
+import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -171,16 +182,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
-        int count = getFragmentManager().getBackStackEntryCount();
-        View v = findViewById(R.id.fab);
-        v.setVisibility(View.VISIBLE);
+        int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             super.onBackPressed();
             //additional code
         } else {
+            Fragment f = getTopFragment();
+            if (f instanceof SearchFragment){
+                ((SearchFragment)f).onBackPressed();
+                setAddButtonVisible();
+            }
+            View view = getCurrentFocus();
+            if(view != null){
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+            }
             getFragmentManager().popBackStack();
         }
 
+    }
+
+    private void setAddButtonVisible(){
+        View v = findViewById(R.id.fab);
+        v.setVisibility(View.VISIBLE);
+    }
+    public Fragment getTopFragment() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            return null;
+        }
+        String fragmentTag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        return getSupportFragmentManager().findFragmentByTag(fragmentTag);
     }
 
     public Shoppinglist getShoppinglist() {

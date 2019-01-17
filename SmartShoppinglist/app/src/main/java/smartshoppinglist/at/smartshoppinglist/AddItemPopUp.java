@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
+
 public class AddItemPopUp extends Activity {
     Item item;
     @Override

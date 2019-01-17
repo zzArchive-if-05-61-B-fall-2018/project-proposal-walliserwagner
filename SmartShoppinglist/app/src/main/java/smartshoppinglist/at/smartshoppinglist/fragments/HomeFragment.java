@@ -1,4 +1,4 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.fragments;
 
 
 import android.app.Application;
@@ -12,8 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.Toast;
+
+import smartshoppinglist.at.smartshoppinglist.uiadapters.ExpandableListAdapter;
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.objects.Category;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
+import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 
 /**
@@ -95,8 +101,8 @@ public class HomeFragment extends Fragment {
     public void searchItem(Application application) {
         FragmentTransaction fragmentTransaction;
         fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.main_container, new SearchFragment());
-        fragmentTransaction.addToBackStack("");
+        fragmentTransaction.add(R.id.main_container, new SearchFragment(),"search");
+        fragmentTransaction.addToBackStack("search");
         fragmentTransaction.commit();
     }
 }

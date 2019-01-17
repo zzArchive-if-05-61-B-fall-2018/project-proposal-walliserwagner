@@ -1,4 +1,6 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.objects;
+
+import smartshoppinglist.at.smartshoppinglist.R;
 
 public class Item implements Comparable<Item> {
     private static String defaultCategory = "Allgemein";

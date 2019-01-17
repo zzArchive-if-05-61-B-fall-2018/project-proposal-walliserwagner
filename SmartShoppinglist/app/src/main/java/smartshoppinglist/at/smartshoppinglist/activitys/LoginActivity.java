@@ -1,4 +1,4 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.activitys;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,6 +31,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import smartshoppinglist.at.smartshoppinglist.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 

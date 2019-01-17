@@ -1,8 +1,10 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.objects;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import smartshoppinglist.at.smartshoppinglist.objects.Category;
 
 public class CategoryList<T extends Comparable<T>> {
     List<Category<T>> categories;

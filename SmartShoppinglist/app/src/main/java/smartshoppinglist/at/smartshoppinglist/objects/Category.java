@@ -1,10 +1,7 @@
-package smartshoppinglist.at.smartshoppinglist;
-
-import android.content.Intent;
+package smartshoppinglist.at.smartshoppinglist.objects;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

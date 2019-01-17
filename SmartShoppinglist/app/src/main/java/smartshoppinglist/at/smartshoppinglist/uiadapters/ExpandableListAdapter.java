@@ -1,4 +1,4 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.uiadapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,6 +9,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
+import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 

@@ -1,4 +1,4 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.fragments;
 
 
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import smartshoppinglist.at.smartshoppinglist.R;
 
 
 /**

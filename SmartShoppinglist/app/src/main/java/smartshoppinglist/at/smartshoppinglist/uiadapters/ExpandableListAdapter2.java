@@ -1,4 +1,4 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.uiadapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.List;
+
+import smartshoppinglist.at.smartshoppinglist.R;
 
 public class ExpandableListAdapter2 extends BaseExpandableListAdapter {
 

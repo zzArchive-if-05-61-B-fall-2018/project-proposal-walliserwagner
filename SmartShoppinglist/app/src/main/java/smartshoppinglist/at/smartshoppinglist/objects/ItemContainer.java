@@ -1,4 +1,4 @@
-package smartshoppinglist.at.smartshoppinglist;
+package smartshoppinglist.at.smartshoppinglist.objects;
 
 public class ItemContainer implements Comparable<ItemContainer> {
     private static String defaultUnit = "Stk";
