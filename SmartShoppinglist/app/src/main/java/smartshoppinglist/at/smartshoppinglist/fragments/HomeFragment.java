@@ -43,6 +43,12 @@ public class HomeFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         expListView = (ExpandableListView) v.findViewById(R.id.listView);
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return true;
+            }
+        });
         listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), shoppinglist);
         expListView.setAdapter(listAdapter);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(shoppinglist.getName());

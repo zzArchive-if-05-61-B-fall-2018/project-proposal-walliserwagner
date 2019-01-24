@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
@@ -18,6 +20,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private Shoppinglist shoppinglist;
+
 
     public ExpandableListAdapter(Context context, Shoppinglist shoppinglist) {
         this.context = context;
@@ -97,7 +100,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -107,6 +110,31 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(shoppinglist.getItems()[groupPosition].getName());
+        lblListHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        ImageView indicator = (ImageView) convertView.findViewById(R.id.indicator);
+        indicator.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ImageView image =  v.findViewById(R.id.indicator);
+                if(isExpanded){
+                    ((ExpandableListView) parent).collapseGroup(groupPosition);
+                    image.setImageResource(R.drawable.ic_arrow_down);
+                }
+                else {
+                    ((ExpandableListView) parent).expandGroup(groupPosition, true);
+                    image.setImageResource(R.drawable.ic_arrow_up);
+                }
+
+            }
+        });
+
+
         return convertView;
     }
 
