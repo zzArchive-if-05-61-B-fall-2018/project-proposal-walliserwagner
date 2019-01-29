@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ImageView
+            android:id="@+id/lblListItemIcon"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/lblListItemName"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="match_parent"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/default_text_size"/>
+
+        <TextView
+            android:id="@+id/lblListItemCount"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="end"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/default_text_size"/>
+
+        <TextView
+            android:id="@+id/lblListItemUnit"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/default_text_size"/>
+
+    <CheckBox
+        android:id="@+id/lblListCheckbox"
+        android:focusable="false"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"/>
+    </LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/group_longClick_alter"
+        android:title="Bearbeiten" />
+
+    <item
+        android:id="@+id/group_longClick_quit"
+        android:title="Verlassen" />
+    <item
+        android:id="@+id/group_longClick_remove"
+        android:title="Mitglied entfernen" />
+
+    <item
+        android:id="@+id/group_longClick_invite"
+        android:title="Einladen" />
+</menu>
