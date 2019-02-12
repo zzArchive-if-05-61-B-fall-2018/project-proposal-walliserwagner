@@ -1,10 +1,14 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import android.content.Context;
+
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 
@@ -12,6 +16,7 @@ public class Shoppinglist {
     private List<Category<ItemContainer>> items;
     private String name;
     private String categoryBought;
+    private Context context;
 
     public Shoppinglist(String name){
         this.name = name;
@@ -46,6 +51,11 @@ public class Shoppinglist {
         }
         category.addElement(itemContainer);
         category.sort();
+        try {
+            Save.save(context, new String[]{"title", "amount", "unit"}, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public void removeItem(ItemContainer itemContainer){
         Category<ItemContainer> category;
