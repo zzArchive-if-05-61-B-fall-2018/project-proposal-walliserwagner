@@ -138,7 +138,6 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                 }
 
                 final AutoCompleteTextView category = (AutoCompleteTextView) popup.findViewById(R.id.autocomplete_category);
-
                 String[] categories = (((MainActivity)getActivity()).getItemCategorys().getNames().toArray(new String[0]));
                 String itemName = text;
                 ArrayAdapter<String> adapter =
@@ -146,7 +145,8 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                 category.setAdapter(adapter);
 
                 final Item item = new Item(itemName);
-                EditText name = popup.findViewById(R.id.create_item_popup_name);
+                category.setHint(Item.getDefaultCategory());
+                final EditText name = popup.findViewById(R.id.create_item_popup_name);
                 name.setText(item.getName());
                 final EditText count = popup.findViewById(R.id.create_item_popup_count);
                 count.setText("1");
@@ -164,6 +164,7 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                     @Override
                     public void onClick(View v) {
                         try {
+                            item.setName(name.getText().toString());
                             item.setCategory(category.getText().toString());
                             ItemContainer itemContainer = new ItemContainer(item, Integer.parseInt(count.getText().toString()), unit.getText().toString());
                             ((MainActivity)getActivity()).getShoppinglist().addItem(itemContainer);
@@ -191,6 +192,9 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
         searchView.setOnQueryTextListener(this);
         searchView.setQueryHint("Suchen");
         searchView.setIconified(false);
+
+        menu.findItem(R.id.remove_items).setVisible(false);
+
         super.onCreateOptionsMenu(menu, inflater);
 
         super.onCreateOptionsMenu(menu, inflater);

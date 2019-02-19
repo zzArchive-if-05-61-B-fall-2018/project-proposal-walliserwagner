@@ -50,7 +50,12 @@ public class Item implements Comparable<Item> {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if(category.equals("")){
+            this.category = defaultCategory;
+        }
+        else{
+            this.category = category;
+        }
     }
 
     public void setIcon(int icon) {

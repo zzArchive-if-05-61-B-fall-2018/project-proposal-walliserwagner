@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.objects.Category;
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
@@ -55,7 +57,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(itemContainer.getUnit());
 
         final CheckBox checkBox = convertView.findViewById(R.id.lblListCheckbox);
-        if(shoppinglist.getItemByPos(groupPosition,childPosition).isTicked()){
+        ItemContainer i = shoppinglist.getItemByPos(groupPosition,childPosition);
+        if( i.isTicked()){
             checkBox.setChecked(true);
             notifyDataSetChanged();
         }
@@ -109,7 +112,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = (TextView) convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(shoppinglist.getItems()[groupPosition].getName());
+        Category i = shoppinglist.getItems()[groupPosition];
+        lblListHeader.setText(i.getName());
         lblListHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

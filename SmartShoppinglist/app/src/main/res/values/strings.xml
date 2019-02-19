@@ -23,17 +23,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string-array name="mobile_manufacturers">
-        <item>Select one Item</item>
-        <item>Samsung</item>
-        <item>Foxconn</item>
-        <item>Apple</item>
-        <item>Oppo</item>
-        <item>Nokia</item>
-        <item>LYF</item>
-        <item>Xiaomi</item>
-        <item>Huawei</item>
-        <item>Asus</item>
-        <item>Lenovo</item>
-    </string-array>
+    <string name="cancel">Nein</string>
+    <string name="yes">Ja</string>
+    <string name="really_want_to_delete">"Alle markierten Items löschen?"</string>
 </resources>
