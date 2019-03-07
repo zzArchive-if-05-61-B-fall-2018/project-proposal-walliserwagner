@@ -120,6 +120,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             }
         });
 
+        ImageView image =  convertView.findViewById(R.id.indicator);
+        if(isExpanded){
+            image.setImageResource(R.drawable.ic_arrow_up);
+        }
+        else {
+            image.setImageResource(R.drawable.ic_arrow_down);
+        }
+
+
+
+
+
         ImageView indicator = (ImageView) convertView.findViewById(R.id.indicator);
         indicator.setOnClickListener(new View.OnClickListener() {
 
@@ -129,10 +141,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 if(isExpanded){
                     ((ExpandableListView) parent).collapseGroup(groupPosition);
                     image.setImageResource(R.drawable.ic_arrow_down);
+                    shoppinglist.getItems()[groupPosition].setExpanded(false);
                 }
                 else {
                     ((ExpandableListView) parent).expandGroup(groupPosition, true);
                     image.setImageResource(R.drawable.ic_arrow_up);
+                    shoppinglist.getItems()[groupPosition].setExpanded(true);
                 }
 
             }

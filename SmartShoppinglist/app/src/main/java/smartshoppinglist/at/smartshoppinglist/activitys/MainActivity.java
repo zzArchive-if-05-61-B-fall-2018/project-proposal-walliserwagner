@@ -296,23 +296,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
     }
-    public void removeTickedItemsFromListDialog(){
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage(R.string.really_want_to_delete);
-        dialog.setCancelable(false);
-
-        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                getShoppinglist().removeTickedItems();
-            }
-        });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        dialog.create().show();
-    }
 }

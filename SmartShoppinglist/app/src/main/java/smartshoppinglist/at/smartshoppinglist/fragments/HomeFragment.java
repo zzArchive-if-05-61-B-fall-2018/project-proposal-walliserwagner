@@ -2,9 +2,11 @@ package smartshoppinglist.at.smartshoppinglist.fragments;
 
 
 import android.app.Application;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
         //noinspection SimplifiableIfStatement
 
         if(id == R.id.remove_items){
-            ((MainActivity) getActivity()).removeTickedItemsFromListDialog();
+            removeTickedItemsFromListDialog();
             return true;
         }
 
@@ -118,6 +120,33 @@ public class HomeFragment extends Fragment {
                 return super.onContextItemSelected(item);
         }
     }
+    public void searchItem(Application application) {
+        FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.main_container, new SearchFragment(),"search");
+        fragmentTransaction.addToBackStack("search");
+        fragmentTransaction.commit();
+    }
+    public void removeTickedItemsFromListDialog(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setMessage(R.string.really_want_to_delete);
+        dialog.setCancelable(false);
+
+        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                shoppinglist.removeTickedItems();
+                listAdapter.notifyDataSetChanged();
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        dialog.create().show();
+    }
     private void expandListView(){
         Category<ItemContainer>[] category = shoppinglist.getItems();
         for (int i = 0; i < category.length;i++) {
@@ -125,12 +154,5 @@ public class HomeFragment extends Fragment {
                 expListView.expandGroup(i);
             }
         }
-    }
-    public void searchItem(Application application) {
-        FragmentTransaction fragmentTransaction;
-        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.main_container, new SearchFragment(),"search");
-        fragmentTransaction.addToBackStack("search");
-        fragmentTransaction.commit();
     }
 }
