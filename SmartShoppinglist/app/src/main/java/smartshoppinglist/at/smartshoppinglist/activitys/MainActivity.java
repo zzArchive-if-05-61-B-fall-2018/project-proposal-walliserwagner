@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ItemList items;
     private CategoryList<ItemContainer> itemCategorys;
     private static MainActivity mainActivity;
+
+
+
+
 
     public static MainActivity getInstance(){
         return mainActivity;
