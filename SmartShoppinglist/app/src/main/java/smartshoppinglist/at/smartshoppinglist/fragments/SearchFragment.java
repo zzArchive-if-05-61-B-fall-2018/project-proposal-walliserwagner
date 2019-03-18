@@ -2,11 +2,9 @@ package smartshoppinglist.at.smartshoppinglist.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +13,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -27,13 +24,9 @@ import android.widget.PopupWindow;
 import android.widget.SearchView;
 import android.support.v4.app.ListFragment;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import smartshoppinglist.at.smartshoppinglist.AddItemPopUp;
-import smartshoppinglist.at.smartshoppinglist.CreateItemPopUp;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
@@ -53,8 +46,8 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
     private ArrayAdapter<String> mAdapter;
     private Context mContext;
     private String text;
-    private PopupWindow createItemPopUp;
-    private PopupWindow addItemPopUp;
+    private AlertDialog createItemDialog;
+    private AlertDialog addItemDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,14 +69,9 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
 
         View popup = inflater.inflate(R.layout.add_item_popup, null);
 
-        addItemPopUp = new PopupWindow(
-                popup,
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-        );
-        if(Build.VERSION.SDK_INT>=21){
-            addItemPopUp.setElevation(5.0f);
-        }
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(popup);
+
         TextView name = popup.findViewById(R.id.add_item_popup_name);
         name.setText(item.getName());
         final EditText count = popup.findViewById(R.id.add_item_popup_count);
@@ -102,9 +90,8 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                 }catch (Exception e){}
             }
         });
-        addItemPopUp.setTouchable(true);
-        addItemPopUp.setFocusable(true);
-        addItemPopUp.showAtLocation(ll, Gravity.CENTER,0,-500);
+        addItemDialog = alertDialogBuilder.create();
+        addItemDialog.show();
     }
     @Override
     public void onDetach() {
@@ -112,7 +99,7 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_search, container, false);
         final ListView listView = (ListView) layout.findViewById(android.R.id.list);
         Button emptyTextView = (Button) layout.findViewById(R.id.searchfragment_create_item);
@@ -127,15 +114,8 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
 
                 View popup = inflater.inflate(R.layout.create_item_popup, null);
-
-                createItemPopUp = new PopupWindow(
-                        popup,
-                        LayoutParams.WRAP_CONTENT,
-                        LayoutParams.WRAP_CONTENT
-                );
-                if(Build.VERSION.SDK_INT>=21){
-                    createItemPopUp.setElevation(5.0f);
-                }
+                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                alertDialogBuilder.setView(popup);
 
                 final AutoCompleteTextView category = (AutoCompleteTextView) popup.findViewById(R.id.autocomplete_category);
                 String[] categories = (((MainActivity)getActivity()).getItemCategorys().getNames().toArray(new String[0]));
@@ -174,9 +154,8 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                         }
                     }
                 });
-                createItemPopUp.setTouchable(true);
-                createItemPopUp.setFocusable(true);
-                createItemPopUp.showAtLocation(ll, Gravity.CENTER,0,-500);
+                createItemDialog = alertDialogBuilder.create();
+                createItemDialog.show();
             }
         });
         return layout;
@@ -197,7 +176,6 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
 
         super.onCreateOptionsMenu(menu, inflater);
 
-        super.onCreateOptionsMenu(menu, inflater);
         int searchCloseButtonId = searchView.getContext().getResources()
                 .getIdentifier("android:id/search_close_btn", null, null);
         ImageView closeButton = (ImageView) searchView.findViewById(searchCloseButtonId);
@@ -211,11 +189,13 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
     }
     public void onBackPressed()
     {
-        if(createItemPopUp != null && createItemPopUp.isShowing()){
-            createItemPopUp.dismiss();
+        if(createItemDialog != null){
+            createItemDialog.dismiss();
+            createItemDialog = null;
         }
-        else if(addItemPopUp != null && addItemPopUp.isShowing()){
-            addItemPopUp.dismiss();
+        else if(addItemDialog != null){
+            addItemDialog.dismiss();
+            addItemDialog = null;
         }
         else{
             getFragmentManager().popBackStack();
