@@ -48,10 +48,13 @@ public class Read {
         for (int i = 0; i < arr.length(); i++) {
             currentJobj = arr.getJSONObject(i);
             if(itemList.FindItemByName(currentJobj.getString("title"))!= null) {
-                items.add(new ItemContainer(itemList.FindItemByName
+                ItemContainer item = new ItemContainer(itemList.FindItemByName
                         (currentJobj.getString("title")),
                         currentJobj.getInt("amount"),
-                        currentJobj.getString("unit")));
+                        currentJobj.getString("unit"));
+                item.setTicked(currentJobj.getBoolean("ticked"));
+                items.add(item);
+
             }
         }
         return items;
