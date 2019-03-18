@@ -1,10 +1,15 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import android.content.Context;
+
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.localsave.Read;
+import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 
@@ -20,6 +25,20 @@ public class Shoppinglist {
         addCategory(new Category<ItemContainer>(ItemContainer.class,"Gekauft",-2,true));
         categoryBought = "Gekauft";
     }
+
+    public void addItemList(List<ItemContainer> itemContainers){
+        for (ItemContainer itemContainer:
+             itemContainers) {
+            Category<ItemContainer> category = getCategoryByName(itemContainer.getItem().getCategory());
+            if(category == null){
+                category = new Category<ItemContainer>(ItemContainer.class,itemContainer.getItem().getCategory(),true);
+                addCategory(category);
+            }
+            category.addElement(itemContainer);
+            category.sort();
+        }
+    }
+
     public Category<ItemContainer>[] getItems(){
         List<Category<ItemContainer>> result = new ArrayList<>();
         for (Category<ItemContainer> category:items) {
@@ -46,6 +65,13 @@ public class Shoppinglist {
         }
         category.addElement(itemContainer);
         category.sort();
+        try {
+            Save.saveItemContainer(itemContainer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }catch (org.json.JSONException e){
+            e.printStackTrace();
+        }
     }
     public void removeItem(ItemContainer itemContainer){
         Category<ItemContainer> category;
