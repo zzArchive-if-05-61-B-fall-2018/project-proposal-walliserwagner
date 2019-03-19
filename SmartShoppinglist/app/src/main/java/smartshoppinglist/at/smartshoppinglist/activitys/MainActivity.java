@@ -25,6 +25,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.R;
@@ -34,6 +37,8 @@ import smartshoppinglist.at.smartshoppinglist.fragments.ItemsFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.ListFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.RecipeFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.SearchFragment;
+import smartshoppinglist.at.smartshoppinglist.localsave.Read;
+import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.CategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
@@ -62,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainActivity = this;
+        Save.context = getApplicationContext();
+        Read.context = getApplicationContext();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -225,47 +232,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public Shoppinglist getShoppinglist() {
+        getItems();
         if(shoppinglist == null){
             shoppinglist = new Shoppinglist("Haushalt");
-            Category<ItemContainer> category;
-            category = new Category<ItemContainer>(ItemContainer.class,"Obst & Gemüse", true);
-            category.addElement(new ItemContainer(new Item("Avocado", R.drawable.avocado,"Obst & Gemüse"),3));
-            category.addElement(new ItemContainer(new Item("Chili", R.drawable.chilipepper,"Obst & Gemüse"),1));
-            category.addElement(new ItemContainer(new Item("Mais", R.drawable.corn,"Obst & Gemüse"),1,"Pak"));
-            category.addElement(new ItemContainer(new Item("Paprika", R.drawable.paprika,"Obst & Gemüse"),1,"kg"));
-            category.sort();
-            shoppinglist.addCategory(category);
-            category = new Category<ItemContainer>(ItemContainer.class,"Fisch & Fleisch",true);
-            category.addElement(new ItemContainer(new Item("Speck", R.drawable.bacon,"Fisch & Fleisch"),500,"g"));
-            category.addElement(new ItemContainer(new Item("Forelle", R.drawable.fish,"Fisch & Fleisch"),200,"dag"));
-            category.sort();
-            shoppinglist.addCategory(category);
-            category = new Category<ItemContainer>(ItemContainer.class,"Gewürze",true);
-            category.addElement(new ItemContainer(new Item("Salz", R.drawable.saltshaker,"Gewürze"),"Pak"));
-            category.addElement(new ItemContainer(new Item("Pfeffer", R.drawable.spice,"Gewürze"),"Pak"));
-            category.addElement(new ItemContainer(new Item("Kümmel", R.drawable.ic_questionmark,"Gewürze"),1,"Pak"));
-            category.sort();
-            shoppinglist.addCategory(category);
-            category = new Category<ItemContainer>(ItemContainer.class,"Süßigkeiten",true);
-            category.addElement(new ItemContainer(new Item("Schokodonute", R.drawable.doughnut,"Süßigkeiten"),1));
-            category.addElement(new ItemContainer(new Item("Kekse", R.drawable.cookies,"Süßigkeiten"),2,"Pak"));
-            category.addElement(new ItemContainer(new Item("Zuckerl", R.drawable.christmascandy,"Süßigkeiten"),"Pak"));
-            category.sort();
-            shoppinglist.addCategory(category);
-            ItemContainer ic = new ItemContainer(new Item("Wurst","Fisch & Fleisch"));
-            shoppinglist.addItem(ic);
-            shoppinglist.tickItem(ic);
-            shoppinglist.addItem(new ItemContainer(new Item("Lego","Spielzeug")));
-            //shoppinglist.unTickItem(ic);
-            shoppinglist.removeItem(ic);
-            shoppinglist.removeTickedItems();
+            try {
+                shoppinglist.addItemList(Read.readItems());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return shoppinglist;
     }
 
     public ItemList getItems() {
         if(items == null){
-            items = new ItemList();
+            items = ItemList.getInstance();
             items.addItem(new Item("Apfle"));
             items.addItem(new Item("Birne"));
             items.addItem(new Item("Speck"));
