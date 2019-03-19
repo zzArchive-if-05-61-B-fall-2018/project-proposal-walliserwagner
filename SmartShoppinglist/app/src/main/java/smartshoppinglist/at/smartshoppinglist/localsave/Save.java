@@ -70,6 +70,9 @@ public class Save {
 
     private static String getStringFromFile(String filePath) throws Exception {
         File fl = new File(filePath);
+        if (!fl.exists()) {
+            fl.createNewFile();
+        }
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
         fin.close();
