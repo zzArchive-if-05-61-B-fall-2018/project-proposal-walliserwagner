@@ -41,6 +41,7 @@ import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.CategoryList;
+import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentTransaction fragmentTransaction;
     private Shoppinglist shoppinglist;
     private ItemList items;
+    private GroupList groupList;
     private CategoryList<ItemContainer> itemCategorys;
     private static MainActivity mainActivity;
 
@@ -270,6 +272,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             itemCategorys.addCategory(new Category<ItemContainer>(ItemContainer.class,"Süßigkeiten",true));
         }
         return itemCategorys;
+    }
+    public GroupList getGroups(){
+        if(groupList == null){
+            groupList = GroupList.getInstance();
+        }
+        return groupList;
     }
 
     @Override

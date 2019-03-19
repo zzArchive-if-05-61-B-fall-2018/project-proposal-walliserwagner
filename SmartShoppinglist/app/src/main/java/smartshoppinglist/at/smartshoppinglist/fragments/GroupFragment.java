@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Group;
+import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 
 
 /**
@@ -34,13 +37,12 @@ public class GroupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        List<String> groups = new ArrayList<>();
-        groups.add("Familie");
+        GroupList groupList = MainActivity.getInstance().getGroups();
         View v = inflater.inflate(R.layout.fragment_group, container, false);
-        groupList = (ListView) v.findViewById(R.id.groupList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.simple_list_item,groups);
+        /*groupList = (ListView) v.findViewById(R.id.groupList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.simple_list_item,groupList.getGroups());
         groupList.setAdapter(adapter);
-        registerForContextMenu(groupList);
+        registerForContextMenu(groupList);*/
         return v;
     }
     @Override
