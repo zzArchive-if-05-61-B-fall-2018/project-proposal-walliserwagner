@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
-        listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), shoppinglist);
+        listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), shoppinglist,expListView);
         expListView.setAdapter(listAdapter);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(shoppinglist.getName());
         registerForContextMenu(expListView);

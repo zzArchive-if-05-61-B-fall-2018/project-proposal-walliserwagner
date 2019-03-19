@@ -22,11 +22,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private Shoppinglist shoppinglist;
+    private ExpandableListView expandableListView;
 
 
-    public ExpandableListAdapter(Context context, Shoppinglist shoppinglist) {
+    public ExpandableListAdapter(Context context, Shoppinglist shoppinglist, ExpandableListView expandableListView) {
         this.context = context;
         this.shoppinglist = shoppinglist;
+        this.expandableListView = expandableListView;
     }
 
     @Override
@@ -104,55 +106,55 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_group, null);
-        }
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        Category i = shoppinglist.getItems()[groupPosition];
-        lblListHeader.setText(i.getName());
-        lblListHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Category<ItemContainer>[] categorys = shoppinglist.getItems();
+        if(categorys.length > groupPosition){
+            if (convertView == null) {
+                LayoutInflater infalInflater = (LayoutInflater) this.context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = infalInflater.inflate(R.layout.list_group, null);
             }
-        });
-
-        ImageView image =  convertView.findViewById(R.id.indicator);
-        if(isExpanded){
-            image.setImageResource(R.drawable.ic_arrow_up);
-        }
-        else {
-            image.setImageResource(R.drawable.ic_arrow_down);
-        }
-
-
-
-
-
-        ImageView indicator = (ImageView) convertView.findViewById(R.id.indicator);
-        indicator.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ImageView image =  v.findViewById(R.id.indicator);
-                if(isExpanded){
-                    ((ExpandableListView) parent).collapseGroup(groupPosition);
-                    image.setImageResource(R.drawable.ic_arrow_down);
-                    shoppinglist.getItems()[groupPosition].setExpanded(false);
-                }
-                else {
-                    ((ExpandableListView) parent).expandGroup(groupPosition, true);
-                    image.setImageResource(R.drawable.ic_arrow_up);
-                    shoppinglist.getItems()[groupPosition].setExpanded(true);
-                }
-
+            TextView lblListHeader = (TextView) convertView
+                    .findViewById(R.id.lblListHeader);
+            lblListHeader.setTypeface(null, Typeface.BOLD);
+            Category i = categorys[groupPosition];
+            if(!isExpanded && i.isExpanded()){
+                expandableListView.expandGroup(groupPosition);
             }
-        });
+            lblListHeader.setText(i.getName());
+            lblListHeader.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
 
+            ImageView image =  convertView.findViewById(R.id.indicator);
+            if(isExpanded){
+                image.setImageResource(R.drawable.ic_arrow_up);
+            }
+            else {
+                image.setImageResource(R.drawable.ic_arrow_down);
+            }
+            ImageView indicator = (ImageView) convertView.findViewById(R.id.indicator);
+            indicator.setOnClickListener(new View.OnClickListener() {
 
+                @Override
+                public void onClick(View v) {
+                    ImageView image =  v.findViewById(R.id.indicator);
+                    if(isExpanded){
+                        ((ExpandableListView) parent).collapseGroup(groupPosition);
+                        image.setImageResource(R.drawable.ic_arrow_down);
+                        shoppinglist.getItems()[groupPosition].setExpanded(false);
+                    }
+                    else {
+                        ((ExpandableListView) parent).expandGroup(groupPosition, true);
+                        image.setImageResource(R.drawable.ic_arrow_up);
+                        shoppinglist.getItems()[groupPosition].setExpanded(true);
+                    }
+
+                }
+            });
+
+        }
         return convertView;
     }
 
