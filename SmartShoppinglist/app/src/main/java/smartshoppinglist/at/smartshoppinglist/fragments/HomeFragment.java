@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.remove_items_menu, menu);
+        listAdapter.notifyDataSetChanged();
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override

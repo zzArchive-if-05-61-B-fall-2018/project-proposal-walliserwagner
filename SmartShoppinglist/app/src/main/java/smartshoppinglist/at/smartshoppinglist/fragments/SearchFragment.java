@@ -87,7 +87,10 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                     ((MainActivity)getActivity()).getShoppinglist().addItem(itemContainer);
                     getActivity().onBackPressed();
                     getFragmentManager().popBackStack();
-                }catch (Exception e){}
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         });
         addItemDialog = alertDialogBuilder.create();
