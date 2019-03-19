@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(shoppinglist == null){
             shoppinglist = new Shoppinglist("Haushalt");
             try {
-                shoppinglist.addItemList(Read.readItems());
+                shoppinglist.addItemList(Read.readItems(shoppinglist.getName()));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {

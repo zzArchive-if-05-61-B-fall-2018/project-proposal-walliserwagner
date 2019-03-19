@@ -20,8 +20,8 @@ public class Read {
 
     public static Context context;
 
-    private static JSONArray read(String name) throws IOException, JSONException {
-        FileReader fr = new FileReader(context.getFilesDir().getAbsolutePath()+"/db.json");
+    private static JSONArray read(String name, String file) throws IOException, JSONException {
+        FileReader fr = new FileReader(context.getFilesDir().getAbsolutePath() + "/" +file);
         BufferedReader br = new BufferedReader(fr);
         String currentLine = br.readLine();
         String jsonString = "";
@@ -40,10 +40,10 @@ public class Read {
     }
 
 
-    public static List<ItemContainer> readItems() throws JSONException, IOException {
+    public static List<ItemContainer> readItems(String shoppinglistName) throws JSONException, IOException {
         List<ItemContainer> items = new LinkedList<>();
         ItemList itemList = ItemList.getInstance();
-        JSONArray arr = read("items");
+        JSONArray arr = read(shoppinglistName, "shoppinglist.json");
         JSONObject currentJobj = null;
         for (int i = 0; i < arr.length(); i++) {
             currentJobj = arr.getJSONObject(i);

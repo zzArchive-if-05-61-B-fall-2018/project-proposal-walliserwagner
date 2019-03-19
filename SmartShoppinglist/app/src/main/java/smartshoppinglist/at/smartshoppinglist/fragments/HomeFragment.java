@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import smartshoppinglist.at.smartshoppinglist.uiadapters.ExpandableListAdapter;
@@ -126,6 +127,7 @@ public class HomeFragment extends Fragment {
         fragmentTransaction.add(R.id.main_container, new SearchFragment(),"search");
         fragmentTransaction.addToBackStack("search");
         fragmentTransaction.commit();
+        listAdapter.notifyDataSetChanged();
     }
     public void removeTickedItemsFromListDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
