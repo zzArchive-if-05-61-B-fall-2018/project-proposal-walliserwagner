@@ -46,12 +46,13 @@ import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
+import smartshoppinglist.at.smartshoppinglist.objects.ShoppinglistList;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentTransaction fragmentTransaction;
-    private Shoppinglist shoppinglist;
+    private ShoppinglistList shoppinglistList;
     private ItemList items;
     private GroupList groupList;
     private CategoryList<ItemContainer> itemCategorys;
@@ -79,8 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment f = getVisibleFragment();
-                if (f instanceof HomeFragment){
+                Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_container);
+                if (f instanceof SearchFragment){
+                    ((SearchFragment)f).createItem();
+                }
+                else if (f instanceof HomeFragment){
                     ((HomeFragment)f).searchItem(getApplication());
                 }
             }
@@ -233,10 +237,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return getSupportFragmentManager().findFragmentByTag(fragmentTag);
     }
 
+    public ShoppinglistList getShoppinglistList(){
+        if(shoppinglistList == null){
+            shoppinglistList = ShoppinglistList.getInstance();
+        }
+        return shoppinglistList;
+    }
+
     public Shoppinglist getShoppinglist() {
         getItems();
+        Shoppinglist shoppinglist = getShoppinglistList().getCurrentList();
         if(shoppinglist == null){
             shoppinglist = new Shoppinglist("Haushalt");
+            getShoppinglistList().setCurrentLIst(shoppinglist);
             try {
                 shoppinglist.addItemList(Read.readItems(shoppinglist.getName()));
             } catch (IOException e) {
@@ -288,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Bundle extra = data.getExtras();
                 if (extra != null){
                     ItemContainer itemContainer = new Gson().fromJson(extra.getString("itemContainer"), ItemContainer.class);
-                    shoppinglist.addItem(itemContainer);
+                    getShoppinglist().addItem(itemContainer);
                 }
             }
     }

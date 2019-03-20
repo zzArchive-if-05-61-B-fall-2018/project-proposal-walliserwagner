@@ -29,4 +29,11 @@ public class CategoryList<T extends Comparable<T>> {
         }
         return names;
     }
+    public boolean addCategoryByName(Class<T> type, String name){
+        for (Category c:categories) {
+            if(c.getName().equals(name)) return false;
+        }
+        categories.add(new Category<T>(type,name,true));
+        return true;
+    }
 }

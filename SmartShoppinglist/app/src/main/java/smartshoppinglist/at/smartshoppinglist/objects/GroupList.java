@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class GroupList {
-    private static final GroupList ourInstance = new GroupList();
+    private static final GroupList instance = new GroupList();
     private List<Group> groups;
 
     public static GroupList getInstance() {
-        return ourInstance;
+        return instance;
     }
 
     private GroupList() {
