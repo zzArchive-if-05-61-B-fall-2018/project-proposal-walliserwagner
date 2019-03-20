@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.JsonWriter;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -20,37 +21,54 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
 
+import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
+import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class Save {
 
     public static Context context;
 
+    public static synchronized void saveShoppinglist(Shoppinglist shoppinglist) throws IOException, JSONException {
+        Category<ItemContainer>[] categories = shoppinglist.getItems();
+        dumpJsonArray(shoppinglist.getName());
+        ItemContainer[] itemContainers;
+        for (Category<ItemContainer> c:
+             categories) {
+            itemContainers = c.getElements();
+            for (ItemContainer item:
+                 itemContainers) {
+                saveItemContainer(item, shoppinglist.getName());
+            }
+        }
+    }
 
-    public static synchronized void saveItemContainer(ItemContainer itemContainer) throws IOException, JSONException {
-        save(new String[]{"title", "amount", "unit", "category", "ticked"},"items", itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked());
+    public static synchronized void saveItemContainer(ItemContainer itemContainer, String shoppinglist) throws IOException, JSONException {
+        save(new String[]{"title", "amount", "unit", "category", "ticked"},shoppinglist, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked());
+    }
+
+    private static void dumpJsonArray(String arrayName) throws JSONException {
+        File fileJson = new File(context.getFilesDir().getAbsolutePath(),"shoppinglist.json");
+        JSONArray jsonArray = getJsonArrayfromFile(fileJson, arrayName);
+        /*for (int i = 0; i < jsonArray.length(); i++) {
+            jsonArray.remove(i);
+        }*/
+        int i = 0;
+        while(jsonArray.length() > 0 && jsonArray.getJSONObject(i) != null){
+            jsonArray.remove(i);
+        }
+
+        JSONObject currentJsonObject = new JSONObject();
+        currentJsonObject.put(arrayName,jsonArray);
+
+        writeJsonFile(fileJson, currentJsonObject.toString());
     }
 
     private static synchronized void save(String[] keys, String arrName, Object... values) throws IOException, JSONException {
 
-        File fileJson = new File(context.getFilesDir().getAbsolutePath(),"db.json");
-        String strFileJson = null;
-        try {
-            strFileJson = getStringFromFile(fileJson.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        File fileJson = new File(context.getFilesDir().getAbsolutePath(),"shoppinglist.json");
 
-        JSONObject oldJsonObj;
-        JSONArray jsonArray;
-        if(!strFileJson.equals("")) {
-            oldJsonObj = new JSONObject(strFileJson);
-            jsonArray = oldJsonObj.getJSONArray(arrName);
-        }
-        else {
-
-            jsonArray = new JSONArray();
-        }
+        JSONArray jsonArray = getJsonArrayfromFile(fileJson, arrName);
 
         JSONObject jsonObj = new JSONObject();
 
@@ -70,10 +88,34 @@ public class Save {
 
     private static String getStringFromFile(String filePath) throws Exception {
         File fl = new File(filePath);
+        if (!fl.exists()) {
+            fl.createNewFile();
+        }
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
         fin.close();
         return ret;
+    }
+
+    private static JSONArray getJsonArrayfromFile(File fileJson, String arrName) throws JSONException {
+        String strFileJson = null;
+        try {
+            strFileJson = getStringFromFile(fileJson.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONObject oldJsonObj;
+        JSONArray jsonArray;
+        if(!strFileJson.equals("")) {
+            oldJsonObj = new JSONObject(strFileJson);
+            jsonArray = oldJsonObj.getJSONArray(arrName);
+        }
+        else {
+
+            jsonArray = new JSONArray();
+        }
+        return jsonArray;
     }
 
     public static String convertStreamToString(InputStream is) throws Exception {

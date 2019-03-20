@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import smartshoppinglist.at.smartshoppinglist.uiadapters.ExpandableListAdapter;
@@ -40,6 +41,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.remove_items_menu, menu);
+        listAdapter.notifyDataSetChanged();
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override
@@ -126,6 +128,7 @@ public class HomeFragment extends Fragment {
         fragmentTransaction.add(R.id.main_container, new SearchFragment(),"search");
         fragmentTransaction.addToBackStack("search");
         fragmentTransaction.commit();
+        listAdapter.notifyDataSetChanged();
     }
     public void removeTickedItemsFromListDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());

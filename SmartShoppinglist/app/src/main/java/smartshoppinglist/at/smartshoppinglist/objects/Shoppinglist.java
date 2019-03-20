@@ -29,7 +29,13 @@ public class Shoppinglist {
     public void addItemList(List<ItemContainer> itemContainers){
         for (ItemContainer itemContainer:
              itemContainers) {
-            Category<ItemContainer> category = getCategoryByName(itemContainer.getItem().getCategory());
+            Category<ItemContainer> category = null;
+            if(itemContainer.isTicked()){
+                category = getCategoryByName(categoryBought);
+
+            }else {
+                category = getCategoryByName(itemContainer.getItem().getCategory());
+            }
             if(category == null){
                 category = new Category<ItemContainer>(ItemContainer.class,itemContainer.getItem().getCategory(),true);
                 addCategory(category);
@@ -65,8 +71,12 @@ public class Shoppinglist {
         }
         category.addElement(itemContainer);
         category.sort();
+        setChanges();
+    }
+
+    private void setChanges(){
         try {
-            Save.saveItemContainer(itemContainer);
+            Save.saveShoppinglist(this);
         } catch (IOException e) {
             e.printStackTrace();
         }catch (org.json.JSONException e){
@@ -84,6 +94,7 @@ public class Shoppinglist {
         if(category != null){
             category.removeElement(itemContainer);
         }
+        setChanges();
     }
     private Category<ItemContainer> getCategoryByName(String name){
         for (Category<ItemContainer> category:items) {
@@ -101,6 +112,7 @@ public class Shoppinglist {
             getCategoryByName(categoryBought).addElement(itemContainer);
             getCategoryByName(categoryBought).sort();
         }
+        setChanges();
     }
     public void unTickItem(ItemContainer itemContainer){
         itemContainer.setTicked(false);
@@ -109,12 +121,14 @@ public class Shoppinglist {
             category.removeElement(itemContainer);
             addItem(itemContainer);
         }
+        setChanges();
     }
     public void removeTickedItems(){
         Category<ItemContainer> category = getCategoryByName(categoryBought);
         if (category != null){
             category.clear();
         }
+        setChanges();
     }
     public ItemContainer getItemByPos(int x, int y){
         return (ItemContainer) getItems()[x].getElements()[y];
