@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(shoppinglist == null){
             shoppinglist = new Shoppinglist("Haushalt");
             try {
-                shoppinglist.addItemList(Read.readItems(shoppinglist.getName()));
+                shoppinglist.addItemList(Read.readShoppinglistItems(shoppinglist.getName()));
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -251,14 +251,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ItemList getItems() {
         if(items == null){
             items = ItemList.getInstance();
-            items.addItem(new Item("Apfle"));
-            items.addItem(new Item("Birne"));
-            items.addItem(new Item("Speck"));
-            items.addItem(new Item("Käse"));
-            items.addItem(new Item("Milch"));
-            items.addItem(new Item("Ei"));
-            items.addItem(new Item("Huhn"));
-            items.addItem(new Item("Pute"));
+            try {
+                items.addItemList(Read.readItems());
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return items;
     }

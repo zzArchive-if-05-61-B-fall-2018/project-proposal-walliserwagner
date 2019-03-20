@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 
@@ -39,8 +40,22 @@ public class Read {
         return arr;
     }
 
+    public static List<Item> readItems() throws IOException, JSONException {
+        List<Item> items = new LinkedList<>();
+        JSONArray arr = read("items", "itemlist.json");
+        JSONObject currentJobj = null;
+        for (int i = 0; i < arr.length(); i++) {
+            currentJobj = arr.getJSONObject(i);
+            Item item = new Item(currentJobj.getString("name"),
+                    currentJobj.getInt("icon"),
+                    currentJobj.getString("category"),
+                    currentJobj.getString("defaultUnit"));
+            items.add(item);
+        }
+        return items;
+    }
 
-    public static List<ItemContainer> readItems(String shoppinglistName) throws JSONException, IOException {
+    public static List<ItemContainer> readShoppinglistItems(String shoppinglistName) throws JSONException, IOException {
         List<ItemContainer> items = new LinkedList<>();
         ItemList itemList = ItemList.getInstance();
         JSONArray arr = read(shoppinglistName, "shoppinglist.json");

@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class Save {
@@ -31,7 +34,7 @@ public class Save {
 
     public static synchronized void saveShoppinglist(Shoppinglist shoppinglist) throws IOException, JSONException {
         Category<ItemContainer>[] categories = shoppinglist.getItems();
-        dumpJsonArray(shoppinglist.getName());
+        dumpJsonArray(shoppinglist.getName(), "shoppinglist.json");
         ItemContainer[] itemContainers;
         for (Category<ItemContainer> c:
              categories) {
@@ -43,16 +46,26 @@ public class Save {
         }
     }
 
-    public static synchronized void saveItemContainer(ItemContainer itemContainer, String shoppinglist) throws IOException, JSONException {
-        save(new String[]{"title", "amount", "unit", "category", "ticked"},shoppinglist, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked());
+    public static synchronized void saveItemList(ItemList itemlist) throws JSONException, IOException {
+        List<Item> items = itemlist.getItems();
+        dumpJsonArray("items", "itemlist.json");
+        for (Item item:
+             items) {
+            saveItem(item);
+        }
     }
 
-    private static void dumpJsonArray(String arrayName) throws JSONException {
-        File fileJson = new File(context.getFilesDir().getAbsolutePath(),"shoppinglist.json");
+    private static synchronized void saveItem(Item item) throws IOException, JSONException {
+        save("itemlist.json", new String[]{"name", "icon", "category", "defaultUnit"}, "items", item.getName(), item.getIcon(), item.getCategory(), item.getDefaultUnit());
+    }
+
+    private static synchronized void saveItemContainer(ItemContainer itemContainer, String shoppinglist) throws IOException, JSONException {
+        save("shoppinglist.json", new String[]{"title", "amount", "unit", "category", "ticked"},shoppinglist, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked());
+    }
+
+    private static void dumpJsonArray(String arrayName, String filename) throws JSONException {
+        File fileJson = new File(context.getFilesDir().getAbsolutePath(),filename);
         JSONArray jsonArray = getJsonArrayfromFile(fileJson, arrayName);
-        /*for (int i = 0; i < jsonArray.length(); i++) {
-            jsonArray.remove(i);
-        }*/
         int i = 0;
         while(jsonArray.length() > 0 && jsonArray.getJSONObject(i) != null){
             jsonArray.remove(i);
@@ -64,9 +77,9 @@ public class Save {
         writeJsonFile(fileJson, currentJsonObject.toString());
     }
 
-    private static synchronized void save(String[] keys, String arrName, Object... values) throws IOException, JSONException {
+    private static synchronized void save(String filename, String[] keys, String arrName, Object... values) throws IOException, JSONException {
 
-        File fileJson = new File(context.getFilesDir().getAbsolutePath(),"shoppinglist.json");
+        File fileJson = new File(context.getFilesDir().getAbsolutePath(),filename);
 
         JSONArray jsonArray = getJsonArrayfromFile(fileJson, arrName);
 
