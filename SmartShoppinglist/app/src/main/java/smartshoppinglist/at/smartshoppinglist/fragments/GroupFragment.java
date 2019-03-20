@@ -20,6 +20,7 @@ import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.uiadapters.GroupListAdapter;
 
 
 /**
@@ -27,7 +28,7 @@ import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
  */
 public class GroupFragment extends Fragment {
 
-    ListView groupList;
+    ListView groupListView;
 
     public GroupFragment() {
         // Required empty public constructor
@@ -39,10 +40,10 @@ public class GroupFragment extends Fragment {
                              Bundle savedInstanceState) {
         GroupList groupList = MainActivity.getInstance().getGroups();
         View v = inflater.inflate(R.layout.fragment_group, container, false);
-        /*groupList = (ListView) v.findViewById(R.id.groupList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.simple_list_item,groupList.getGroups());
-        groupList.setAdapter(adapter);
-        registerForContextMenu(groupList);*/
+        groupListView = (ListView) v.findViewById(R.id.groupList);
+        ArrayAdapter<Group> adapter = new GroupListAdapter(getActivity(),groupList);
+        groupListView.setAdapter(adapter);
+        registerForContextMenu(groupListView);
         return v;
     }
     @Override
