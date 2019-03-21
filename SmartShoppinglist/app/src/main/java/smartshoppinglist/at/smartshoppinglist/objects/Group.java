@@ -40,7 +40,7 @@ public class Group {
         return shoppinglists.toArray(new Shoppinglist[0]);
     }
 
-    public void setShoppinglists(Shoppinglist shoppinglists) {
+    public void addShoppinglist(Shoppinglist shoppinglists) {
         this.shoppinglists.add(shoppinglists);
     }
 }

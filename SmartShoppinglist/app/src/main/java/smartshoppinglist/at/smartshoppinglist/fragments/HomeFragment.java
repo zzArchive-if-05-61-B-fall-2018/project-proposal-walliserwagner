@@ -16,10 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import smartshoppinglist.at.smartshoppinglist.uiadapters.ExpandableListAdapter;
+import smartshoppinglist.at.smartshoppinglist.uiadapters.ShoppingListExpandableAdapter;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
@@ -31,8 +30,8 @@ import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
+    private ShoppingListExpandableAdapter listAdapter;
+    private ExpandableListView expListView;
     private Shoppinglist shoppinglist;
 
     public HomeFragment() {
@@ -75,7 +74,7 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
-        listAdapter = new ExpandableListAdapter(getActivity().getApplicationContext(), shoppinglist,expListView);
+        listAdapter = new ShoppingListExpandableAdapter(getActivity().getApplicationContext(), shoppinglist,expListView);
         expListView.setAdapter(listAdapter);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(shoppinglist.getName());
         registerForContextMenu(expListView);

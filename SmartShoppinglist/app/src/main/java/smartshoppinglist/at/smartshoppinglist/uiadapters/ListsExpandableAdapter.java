@@ -10,30 +10,30 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
-import smartshoppinglist.at.smartshoppinglist.objects.Item;
+import smartshoppinglist.at.smartshoppinglist.objects.Group;
+import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class ListsExpandableAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private Shoppinglist shoppinglist;
+    private GroupList groupList;
     private ExpandableListView expandableListView;
 
 
-    public ExpandableListAdapter(Context context, Shoppinglist shoppinglist, ExpandableListView expandableListView) {
+    public ListsExpandableAdapter(Context context, GroupList groupList, ExpandableListView expandableListView) {
         this.context = context;
-        this.shoppinglist = shoppinglist;
+        this.groupList = groupList;
         this.expandableListView = expandableListView;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this.shoppinglist.getItems()[groupPosition].getElements()[childPosititon];
+        return this.groupList.getGroups()[groupPosition].getShoppinglists()[childPosititon];
     }
 
     @Override
@@ -43,60 +43,30 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ItemContainer itemContainer = (ItemContainer)shoppinglist.getItems()[groupPosition].getElements()[childPosition];
+        Shoppinglist shoppinglist = groupList.getGroups()[groupPosition].getShoppinglists()[childPosition];
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item, null);
+            convertView = infalInflater.inflate(R.layout.expandablelistview_row, null);
         }
 
-        TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItemName);
-        txtListChild.setText(itemContainer.getItem().getName());
-        ImageView imgListChild = (ImageView) convertView.findViewById(R.id.lblListItemIcon);
-        imgListChild.setImageResource(itemContainer.getItem().getIcon());
-        txtListChild = (TextView) convertView.findViewById(R.id.lblListItemCount);
-        txtListChild.setText(Integer.toString(itemContainer.getCount()));
-        txtListChild = (TextView) convertView.findViewById(R.id.lblListItemUnit);
-        txtListChild.setText(itemContainer.getUnit());
-
-        final CheckBox checkBox = convertView.findViewById(R.id.lblListCheckbox);
-        ItemContainer i = shoppinglist.getItemByPos(groupPosition,childPosition);
-        if( i.isTicked()){
-            checkBox.setChecked(true);
-            notifyDataSetChanged();
-        }
-        else {
-            checkBox.setChecked(false);
-            notifyDataSetChanged();
-        }
-        checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkBox.isChecked()){
-                    shoppinglist.tickItem(shoppinglist.getItemByPos(groupPosition,childPosition));
-                    notifyDataSetChanged();
-                }
-                else {
-                    shoppinglist.unTickItem(shoppinglist.getItemByPos(groupPosition,childPosition));
-                    notifyDataSetChanged();
-                }
-            }
-        });
+        TextView textView = convertView.findViewById(R.id.expandablelistview_row_text);
+        textView.setText(shoppinglist.getName());
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.shoppinglist.getItems()[groupPosition].getElements().length;
+        return this.groupList.getGroups()[groupPosition].getShoppinglists().length;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this.shoppinglist.getItems()[groupPosition];
+        return this.groupList.getGroups()[groupPosition];
     }
 
     @Override
     public int getGroupCount() {
-        return this.shoppinglist.getItems().length;
+        return this.groupList.getGroups().length;
     }
 
     @Override
@@ -106,8 +76,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
-        Category<ItemContainer>[] categorys = shoppinglist.getItems();
-        if(categorys.length > groupPosition){
+        Group[] groups = groupList.getGroups();
+        if(groups.length > groupPosition){
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this.context
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -116,11 +86,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             TextView lblListHeader = (TextView) convertView
                     .findViewById(R.id.lblListHeader);
             lblListHeader.setTypeface(null, Typeface.BOLD);
-            Category i = categorys[groupPosition];
-            if(!isExpanded && i.isExpanded()){
+            Group group = groups[groupPosition];
+            /*if(!isExpanded){
                 expandableListView.expandGroup(groupPosition);
-            }
-            lblListHeader.setText(i.getName());
+            }*/
+            lblListHeader.setText(group.getName());
             lblListHeader.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -143,12 +113,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     if(isExpanded){
                         ((ExpandableListView) parent).collapseGroup(groupPosition);
                         image.setImageResource(R.drawable.ic_arrow_down);
-                        shoppinglist.getItems()[groupPosition].setExpanded(false);
                     }
                     else {
                         ((ExpandableListView) parent).expandGroup(groupPosition, true);
                         image.setImageResource(R.drawable.ic_arrow_up);
-                        shoppinglist.getItems()[groupPosition].setExpanded(true);
                     }
 
                 }

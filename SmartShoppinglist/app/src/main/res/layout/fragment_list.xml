@@ -5,9 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ListFragment">
 
-    <ListView
+    <ExpandableListView
         android:id="@+id/shoppingListList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:groupIndicator="@null"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false"/>
 
 </FrameLayout>

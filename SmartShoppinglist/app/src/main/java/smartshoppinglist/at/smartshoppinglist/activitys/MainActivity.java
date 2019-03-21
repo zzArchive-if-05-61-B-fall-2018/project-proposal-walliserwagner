@@ -2,7 +2,6 @@ package smartshoppinglist.at.smartshoppinglist.activitys;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +12,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -41,18 +38,17 @@ import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.CategoryList;
+import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
-import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
-import smartshoppinglist.at.smartshoppinglist.objects.ShoppinglistList;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FragmentTransaction fragmentTransaction;
-    private ShoppinglistList shoppinglistList;
+    private Shoppinglist shoppinglist;
     private ItemList items;
     private GroupList groupList;
     private CategoryList<ItemContainer> itemCategorys;
@@ -103,6 +99,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.add(R.id.main_container, new HomeFragment());
         fragmentTransaction.commit();
         getSupportActionBar().setTitle("Home");
+
+
+
+
+
+        getGroups().addGroup(new Group("Arbeit",null));
+        getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));
 
 
 
@@ -237,19 +240,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return getSupportFragmentManager().findFragmentByTag(fragmentTag);
     }
 
-    public ShoppinglistList getShoppinglistList(){
-        if(shoppinglistList == null){
-            shoppinglistList = ShoppinglistList.getInstance();
-        }
-        return shoppinglistList;
-    }
 
     public Shoppinglist getShoppinglist() {
         getItems();
-        Shoppinglist shoppinglist = getShoppinglistList().getCurrentList();
         if(shoppinglist == null){
             shoppinglist = new Shoppinglist("Haushalt");
-            getShoppinglistList().setCurrentLIst(shoppinglist);
+            getGroups().findGroupByName("Local").addShoppinglist(shoppinglist);
             try {
                 shoppinglist.addItemList(Read.readShoppinglistItems(shoppinglist.getName()));
             } catch (IOException e) {
@@ -303,5 +299,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getShoppinglist().addItem(itemContainer);
                 }
             }
+    }
+
+    public void setShoppinglist(Shoppinglist shoppinglist) {
+        this.shoppinglist = shoppinglist;
     }
 }
