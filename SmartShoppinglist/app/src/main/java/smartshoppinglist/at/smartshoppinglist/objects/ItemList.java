@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
 
@@ -16,7 +17,15 @@ public class ItemList {
     List<Item> items;
     private ItemList(){
         items = new ArrayList<>();
+        try {
+            this.addItemList(Read.readItems());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
+
     public void addItem(Item item){
         items.add(item);
         setChanges();

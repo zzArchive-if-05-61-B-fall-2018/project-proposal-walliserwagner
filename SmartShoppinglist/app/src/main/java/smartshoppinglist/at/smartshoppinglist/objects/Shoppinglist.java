@@ -2,6 +2,8 @@ package smartshoppinglist.at.smartshoppinglist.objects;
 
 import android.content.Context;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,6 +26,13 @@ public class Shoppinglist {
         addCategory(new Category<ItemContainer>(ItemContainer.class,"Allgemein",-1,true));
         addCategory(new Category<ItemContainer>(ItemContainer.class,"Gekauft",-2,true));
         categoryBought = "Gekauft";
+        try {
+            this.addItemList(Read.readShoppinglistItems(name));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addItemList(List<ItemContainer> itemContainers){
