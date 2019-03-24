@@ -249,13 +249,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(shoppinglist == null){
             shoppinglist = new Shoppinglist("Haushalt");
             getGroups().findGroupByName("Local").addShoppinglist(shoppinglist);
-            try {
-                shoppinglist.addItemList(Read.readShoppinglistItems(shoppinglist.getName()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
         return shoppinglist;
     }
@@ -263,13 +256,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ItemList getItems() {
         if(items == null){
             items = ItemList.getInstance();
-            try {
-                items.addItemList(Read.readItems());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
         return items;
     }
