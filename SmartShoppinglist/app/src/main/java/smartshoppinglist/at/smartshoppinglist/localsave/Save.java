@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
@@ -68,6 +69,10 @@ public class Save {
         }
     }
 
+    public static synchronized void saveConfig(HashMap<String, String> config){
+
+    }
+
     private static synchronized void saveItem(Item item) throws IOException, JSONException {
         save("itemlist.json", new String[]{"name", "icon", "category", "defaultUnit"}, "items", item.getName(), item.getIcon(), item.getCategory(), item.getDefaultUnit());
     }
@@ -76,7 +81,6 @@ public class Save {
         save("shoppinglist.json", new String[]{"title", "amount", "unit", "category", "ticked"},shoppinglist, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private static void dumpJsonArray(String arrayName, String filename) throws Exception {
         File fileJson = new File(context.getFilesDir().getAbsolutePath(),filename);
         HashMap<String, JSONArray> jsonArrays = getAllJsonArraysFromFile(fileJson);
@@ -92,14 +96,14 @@ public class Save {
 
         final JSONObject currentJsonObject = new JSONObject();
 
-        jsonArrays.forEach((k,v)-> {
+        for(Map.Entry<String, JSONArray> entry : jsonArrays.entrySet()){
             try {
-                if(!k.equals(arrayName))
-                    currentJsonObject.put(k,v);
+                if(!entry.getKey().equals(arrayName))
+                    currentJsonObject.put(entry.getKey(),entry.getValue());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        });
+        }
 
         currentJsonObject.put(arrayName, jsonArray);
         writeJsonFile(fileJson, currentJsonObject.toString());
@@ -151,14 +155,17 @@ public class Save {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        jsonArrays.forEach((k,v)-> {
+
+
+        for(Map.Entry<String, JSONArray> entry : jsonArrays.entrySet()){
             try {
-                if(!k.equals(arrName))
-                    currentJsonObject.put(k,v);
+                if(!entry.getKey().equals(arrName))
+                    currentJsonObject.put(entry.getKey(),entry.getValue());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        });
+        }
+
 
         currentJsonObject.put(arrName,jsonArray);
 

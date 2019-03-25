@@ -2,6 +2,8 @@ package smartshoppinglist.at.smartshoppinglist.localsave;
 
 import android.content.Context;
 
+import com.google.gson.JsonArray;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,6 +42,23 @@ public class Read {
         }
         arr = jobj.getJSONArray(name);
         return arr;
+    }
+
+    public static HashMap<String, String> readConfig() throws IOException, JSONException {
+        JSONArray arr = read("config", "config.json");
+        int i = 0;
+        JSONObject jobject;
+        HashMap<String, String> config = new HashMap<>();
+        while(arr.length() > 0 && arr.getJSONObject(i) != null){
+            jobject = arr.getJSONObject(i);
+            Iterator<String> it = jobject.keys();
+            while (it.hasNext()){
+                String tmp = it.next();
+                config.put(tmp, (String)jobject.get(tmp));
+            }
+            i++;
+        }
+        return config;
     }
 
     public static List<Item> readItems() throws IOException, JSONException {
