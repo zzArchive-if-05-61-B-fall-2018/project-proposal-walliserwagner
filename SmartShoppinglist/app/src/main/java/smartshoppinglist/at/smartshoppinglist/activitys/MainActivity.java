@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else if (f instanceof HomeFragment){
                     ((HomeFragment)f).searchItem(getApplication());
                 }
+                else if (f instanceof GroupFragment){
+                    ((GroupFragment)f).createGroup();
+                }
             }
         });
 
