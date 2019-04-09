@@ -32,8 +32,17 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.READ_CONTACTS;
@@ -173,9 +182,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        ExecutorService exc = Executors.newSingleThreadExecutor();
 
+        Callable<Boolean> callable = new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return Server.getInstance().login(email, password);
+            }
+        };
+
+        Future<Boolean> validLogin = exc.submit(callable);
+
+        boolean valid = false;
         boolean cancel = false;
         View focusView = null;
+
+        try {
+            valid = validLogin.get(2, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            mPasswordView.setError("Something went wrong");
+            cancel = true;
+            e.printStackTrace();
+        }
+
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -192,6 +221,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
+            cancel = true;
+        }
+
+        if(!valid){
+            mPasswordView.setError("Wrong password or E-mail");
+            focusView = mPasswordView;
             cancel = true;
         }
 
