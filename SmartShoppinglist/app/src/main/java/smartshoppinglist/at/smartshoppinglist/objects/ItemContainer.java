@@ -1,6 +1,8 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
-public class ItemContainer implements Comparable<ItemContainer> {
+import java.io.Serializable;
+
+public class ItemContainer implements Comparable<ItemContainer>, Serializable {
     private static String defaultUnit = "Stk";
     private static int defaultCount = 1;
     private Item item;

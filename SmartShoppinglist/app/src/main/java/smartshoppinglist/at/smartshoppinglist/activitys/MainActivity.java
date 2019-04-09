@@ -282,11 +282,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-            if (resultCode == RESULT_OK) {
-                Bundle extra = data.getExtras();
-                if (extra != null){
-                    ItemContainer itemContainer = new Gson().fromJson(extra.getString("itemContainer"), ItemContainer.class);
-                    getShoppinglist().addItem(itemContainer);
+            if (resultCode == GroupFragment.REQUEST_ID) {
+                Group group = (Group)data.getSerializableExtra("group");
+                String name = data.getStringExtra("name");
+                if (group != null){
+                    Group oldGroup = groupList.findGroupByName(name);
+                    groupList.removeGroups(oldGroup);
+                    groupList.addGroup(group);
                 }
             }
     }

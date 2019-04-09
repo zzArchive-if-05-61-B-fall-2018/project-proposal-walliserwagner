@@ -1,6 +1,7 @@
 package smartshoppinglist.at.smartshoppinglist.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -10,30 +11,34 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.Serializable;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.activitys.AlterGroupActivity;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.GroupListAdapter;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static java.lang.reflect.Modifier.TRANSIENT;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class GroupFragment extends Fragment {
-
+    public static final int REQUEST_ID = 1;
     private ListView groupListView;
     private AlertDialog dialog;
 
@@ -61,15 +66,17 @@ public class GroupFragment extends Fragment {
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
         switch (item.getItemId()) {
             case R.id.group_longClick_alter:
-                Toast.makeText(getActivity().getApplicationContext(), "Option 1 selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), AlterGroupActivity.class);
+                Group group = MainActivity.getInstance().getGroups().getGroups()[index];
+                intent.putExtra ("group", group);
+                startActivityForResult(intent,REQUEST_ID);
                 return true;
             case R.id.group_longClick_quit:
                 Toast.makeText(getActivity().getApplicationContext(), "Option 2 selected", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.group_longClick_remove:
-                Toast.makeText(getActivity().getApplicationContext(), "Option 3 selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.group_longClick_invite:
                 Toast.makeText(getActivity().getApplicationContext(), "Option 4 selected", Toast.LENGTH_SHORT).show();

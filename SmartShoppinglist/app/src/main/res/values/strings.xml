@@ -27,4 +27,7 @@
     <string name="yes">Ja</string>
     <string name="really_want_to_delete">"Alle markierten Items löschen?"</string>
     <string name="group_name">"Gruppen Name"</string>
+    <string name="member">"Mitglieder"</string>
+    <string name="save">"Speichern"</string>
+    <string name="no_acount_yet">Du hast noch keinen Account? Erstelle einen</string>
 </resources>

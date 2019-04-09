@@ -1,11 +1,12 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Category<T extends Comparable<T>> implements Comparable<Category<T>> {
+public class Category<T extends Comparable<T>> implements Comparable<Category<T>>, Serializable {
     private static int defaultpriority = 0;
     private Class<T> type;
     private List<T> categrorizedObjects;
