@@ -1,8 +1,10 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import java.io.Serializable;
+
 import smartshoppinglist.at.smartshoppinglist.R;
 
-public class Item implements Comparable<Item> {
+public class Item implements Comparable<Item>, Serializable {
     private static String defaultCategory = "Allgemein";
     private static String defaultDefaultUnit = "Stk";
     private String name;

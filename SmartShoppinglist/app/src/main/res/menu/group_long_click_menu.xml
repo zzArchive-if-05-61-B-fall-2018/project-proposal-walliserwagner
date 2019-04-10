@@ -7,9 +7,6 @@
     <item
         android:id="@+id/group_longClick_quit"
         android:title="Verlassen" />
-    <item
-        android:id="@+id/group_longClick_remove"
-        android:title="Mitglied entfernen" />
 
     <item
         android:id="@+id/group_longClick_invite"

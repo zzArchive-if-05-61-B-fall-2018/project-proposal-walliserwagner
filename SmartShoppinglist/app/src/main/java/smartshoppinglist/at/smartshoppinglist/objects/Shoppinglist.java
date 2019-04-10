@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 
-public class Shoppinglist {
+public class Shoppinglist implements Serializable {
     private List<Category<ItemContainer>> items;
     private String name;
     private String categoryBought;
