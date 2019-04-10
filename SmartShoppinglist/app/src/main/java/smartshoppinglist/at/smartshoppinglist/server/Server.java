@@ -70,7 +70,7 @@ public class Server {
             Callable<Boolean> call = new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    String tmp = http.sendGet("/users?Email="+email+"&password="+hashpw);
+                    String tmp = http.sendGet("/users?Email="+email+"&password="+password);
                     if(!tmp.equals("")){
                         return true;
                     }
@@ -87,12 +87,21 @@ public class Server {
 
     public boolean register(String email, String password, String name){
         try {
-            if(http.sendGet("/users?Email="+email).equals("")){
-                String hashpw = hashPassword(password);
-                http.sendPost("/users", "{\"Name\":\"" + name + "\",\"Email\":\" " + email + "\",\"password\":\"" + hashpw + "\"}");
-                return true;
-            }
-            return false;
+            ExecutorService exc = Executors.newSingleThreadExecutor();
+            Callable<Boolean> call = new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    if(http.sendGet("/users?Email="+email).equals("")){
+                        String hashpw = hashPassword(password);
+                        http.sendPost("/users", String.format("{\"Name\":\"%s\",\"Email\":\"%s\",\"password\":\"%s\"}", name, email, password));
+                        return true;
+                    }
+                    return false;
+                }
+            };
+            Future<Boolean> valid = exc.submit(call);
+
+            return valid.get(3, TimeUnit.SECONDS);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -73,6 +74,11 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
+
+        if(!Server.getInstance().register(email, password, name)){
+            onSignupFailed();
+            return;
+        }
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

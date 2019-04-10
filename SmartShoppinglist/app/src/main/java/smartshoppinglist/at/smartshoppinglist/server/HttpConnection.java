@@ -8,7 +8,8 @@ import java.net.URL;
 
 public class HttpConnection {
 
-    String Serverurl = "http://192.168.1.104:3000";
+    //String Serverurl = "http://192.168.1.104:3000";
+    String Serverurl = "http://10.0.0.4:3000";
     protected String sendGet(String getRequest) throws Exception {
         String url = Serverurl+getRequest;
 
@@ -46,6 +47,7 @@ public class HttpConnection {
 
         httpCon.setRequestProperty("Content-Type", "application/json");
         httpCon.setDoOutput(true);
+        httpCon.setConnectTimeout(2000);
         OutputStream os = httpCon.getOutputStream();
         os.write(payload.getBytes());
         os.flush();
