@@ -200,11 +200,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Future<Boolean> validLogin = exc.submit(callable);*/
 
-<<<<<<< HEAD
-        boolean valid = true;
-=======
         boolean valid = Server.getInstance().login(email, password);
->>>>>>> 9704848447c0d90ecdc76037cb104f93aae7bbd7
         boolean cancel = false;
         View focusView = null;
         /*
