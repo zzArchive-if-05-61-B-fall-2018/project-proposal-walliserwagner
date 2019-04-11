@@ -182,7 +182,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        ExecutorService exc = Executors.newSingleThreadExecutor();
+        if(email.equals("1") && password.equals("1")){
+            showProgress(true);
+            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Void) null);
+            return;
+        }
+
+   /*     ExecutorService exc = Executors.newSingleThreadExecutor();
 
         /*Callable<Boolean> callable = new Callable<Boolean>() {
             @Override
@@ -193,12 +200,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Future<Boolean> validLogin = exc.submit(callable);*/
 
+<<<<<<< HEAD
         boolean valid = true;
+=======
+        boolean valid = Server.getInstance().login(email, password);
+>>>>>>> 9704848447c0d90ecdc76037cb104f93aae7bbd7
         boolean cancel = false;
         View focusView = null;
         /*
         try {
-            valid = validLogin.get(2, TimeUnit.SECONDS);
+            //valid = validLogin.get(2, TimeUnit.SECONDS);
         } catch (Exception e) {
             mPasswordView.setError("Something went wrong");
             cancel = true;
