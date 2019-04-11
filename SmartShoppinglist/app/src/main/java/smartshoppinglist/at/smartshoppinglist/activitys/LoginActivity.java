@@ -184,19 +184,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
         ExecutorService exc = Executors.newSingleThreadExecutor();
 
-        Callable<Boolean> callable = new Callable<Boolean>() {
+        /*Callable<Boolean> callable = new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
                 return Server.getInstance().login(email, password);
             }
         };
 
-        Future<Boolean> validLogin = exc.submit(callable);
+        Future<Boolean> validLogin = exc.submit(callable);*/
 
-        boolean valid = false;
+        boolean valid = true;
         boolean cancel = false;
         View focusView = null;
-
+        /*
         try {
             valid = validLogin.get(2, TimeUnit.SECONDS);
         } catch (Exception e) {
@@ -204,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
             e.printStackTrace();
         }
-
+        */
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {

@@ -184,17 +184,9 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
     }
     public void onBackPressed()
     {
-        if(createItemDialog != null){
-            createItemDialog.dismiss();
-            createItemDialog = null;
-        }
-        else if(addItemDialog != null){
-            addItemDialog.dismiss();
-            addItemDialog = null;
-        }
-        else{
-            getFragmentManager().popBackStack();
-        }
+        createItemDialog = null;
+        addItemDialog = null;
+        getFragmentManager().popBackStack();
     }
 
     @Override

@@ -216,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Fragment f = getTopFragment();
             if (f instanceof SearchFragment){
                 ((SearchFragment)f).onBackPressed();
-                setAddButtonVisible();
             }
             getFragmentManager().popBackStack();
         }
