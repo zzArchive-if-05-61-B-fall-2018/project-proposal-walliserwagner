@@ -38,6 +38,7 @@ import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.CategoryList;
+import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mainActivity = this;
         Save.context = getApplicationContext();
         Read.context = getApplicationContext();
-
+        Save.id = Config.getInstance().getUser().getId();
+        Read.id = Config.getInstance().getUser().getId();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

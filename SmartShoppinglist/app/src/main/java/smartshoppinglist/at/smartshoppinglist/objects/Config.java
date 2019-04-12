@@ -10,8 +10,15 @@ import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 
 public class Config {
     private static Config instance;
+    private User user;
 
-    private HashMap<String, String> config;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public static Config getInstance(){
         if(instance == null){
@@ -21,21 +28,8 @@ public class Config {
     }
 
     private Config(){
-        config = new HashMap<>();
-        readConfig();
     }
 
-
-    private void readConfig(){
-        try {
-            config = Read.readConfig();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private Shoppinglist currentShoppinglist;
 
@@ -45,10 +39,5 @@ public class Config {
 
     public void setCurrentShoppinglist(Shoppinglist currentShoppinglist) {
         this.currentShoppinglist = currentShoppinglist;
-        setChange();
-    }
-
-    private void setChange(){
-        Save.saveConfig(config);
     }
 }

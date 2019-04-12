@@ -42,6 +42,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.objects.Config;
+import smartshoppinglist.at.smartshoppinglist.objects.User;
 import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 import static android.Manifest.permission.INTERNET;
@@ -182,36 +184,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        Config config = Config.getInstance();
         if(email.equals("1") && password.equals("1")){
+            config.setUser(new User("test","test@acc",0));
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             return;
         }
 
-   /*     ExecutorService exc = Executors.newSingleThreadExecutor();
-
-        /*Callable<Boolean> callable = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return Server.getInstance().login(email, password);
-            }
-        };
-
-        Future<Boolean> validLogin = exc.submit(callable);*/
-
-        boolean valid = Server.getInstance().login(email, password);
         boolean cancel = false;
         View focusView = null;
-        /*
-        try {
-            //valid = validLogin.get(2, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            mPasswordView.setError("Something went wrong");
-            cancel = true;
-            e.printStackTrace();
-        }
-        */
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -231,11 +214,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
-        if(!valid){
+        User user = Server.getInstance().login(email, password);
+        if(user == null){
             mPasswordView.setError("Wrong password or E-mail");
             focusView = mPasswordView;
             cancel = true;
         }
+        else{
+            config.setUser(user);
+        }
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first

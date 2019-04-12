@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
+import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
@@ -37,11 +38,12 @@ import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 public class Save {
 
     public static Context context;
+    public static int id;
 
     public static synchronized void saveShoppinglist(Shoppinglist shoppinglist) throws IOException, JSONException {
         Category<ItemContainer>[] categories = shoppinglist.getItems();
         try {
-            dumpJsonArray(shoppinglist.getName(), "shoppinglist.json");
+            dumpJsonArray(shoppinglist.getName(), id + "shoppinglist.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,7 +61,7 @@ public class Save {
     public static synchronized void saveItemList(ItemList itemlist) throws JSONException, IOException {
         List<Item> items = itemlist.getItems();
         try {
-            dumpJsonArray("items", "itemlist.json");
+            dumpJsonArray("items", id + "itemlist.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,11 +76,11 @@ public class Save {
     }
 
     private static synchronized void saveItem(Item item) throws IOException, JSONException {
-        save("itemlist.json", new String[]{"name", "icon", "category", "defaultUnit"}, "items", item.getName(), item.getIcon(), item.getCategory(), item.getDefaultUnit());
+        save(id + "itemlist.json", new String[]{"name", "icon", "category", "defaultUnit"}, "items", item.getName(), item.getIcon(), item.getCategory(), item.getDefaultUnit());
     }
 
     private static synchronized void saveItemContainer(ItemContainer itemContainer, String shoppinglist) throws IOException, JSONException {
-        save("shoppinglist.json", new String[]{"title", "amount", "unit", "category", "ticked"},shoppinglist, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked());
+        save(id + "shoppinglist.json", new String[]{"title", "amount", "unit", "category", "ticked"},shoppinglist, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked());
     }
 
     private static void dumpJsonArray(String arrayName, String filename) throws Exception {

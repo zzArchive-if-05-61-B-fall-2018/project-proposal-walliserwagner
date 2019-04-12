@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
@@ -24,6 +25,7 @@ import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 public class Read {
 
     public static Context context;
+    public static int id;
 
     private static JSONArray read(String name, String file) throws IOException, JSONException {
         FileReader fr = new FileReader(context.getFilesDir().getAbsolutePath() + "/" +file);
@@ -63,7 +65,7 @@ public class Read {
 
     public static List<Item> readItems() throws IOException, JSONException {
         List<Item> items = new LinkedList<>();
-        JSONArray arr = read("items", "itemlist.json");
+        JSONArray arr = read("items", id + "itemlist.json");
         JSONObject currentJobj = null;
         for (int i = 0; i < arr.length(); i++) {
             currentJobj = arr.getJSONObject(i);
@@ -79,7 +81,7 @@ public class Read {
     public static List<ItemContainer> readShoppinglistItems(String shoppinglistName) throws JSONException, IOException {
         List<ItemContainer> items = new LinkedList<>();
         ItemList itemList = ItemList.getInstance();
-        JSONArray arr = read(shoppinglistName, "shoppinglist.json");
+        JSONArray arr = read(shoppinglistName, id + "shoppinglist.json");
         JSONObject currentJobj = null;
         for (int i = 0; i < arr.length(); i++) {
             currentJobj = arr.getJSONObject(i);
