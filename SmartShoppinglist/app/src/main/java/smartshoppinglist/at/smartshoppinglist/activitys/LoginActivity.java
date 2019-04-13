@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -32,22 +31,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+
 
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.User;
 import smartshoppinglist.at.smartshoppinglist.server.Server;
 
-import static android.Manifest.permission.INTERNET;
-import static android.Manifest.permission.READ_CONTACTS;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -168,13 +159,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-<<<<<<< HEAD
-        if(email.equals("1") && password.equals("1")){  // Test account that will be removed later no
-=======
         Config config = Config.getInstance();
-        if(email.equals("1") && password.equals("1")){
+        if(email.equals("1") && password.equals("1")){  // Test account that will be removed later no
             config.setUser(new User("test","test@acc",0));
->>>>>>> 72e584d9d52bef3a7da6276b29603ed6e31b550a
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -205,21 +192,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
-<<<<<<< HEAD
-        if(!valid){
-            mPasswordView.setError(getString(R.string.wrong_email_or_password));
-=======
+
+
         User user = Server.getInstance().login(email, password);
-        if(user == null){
-            mPasswordView.setError("Wrong password or E-mail");
->>>>>>> 72e584d9d52bef3a7da6276b29603ed6e31b550a
+        if (user == null) {
+            mPasswordView.setError(getString(R.string.wrong_email_or_password));
             focusView = mPasswordView;
             cancel = true;
-        }
-        else{
+        } else {
             config.setUser(user);
         }
-
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
