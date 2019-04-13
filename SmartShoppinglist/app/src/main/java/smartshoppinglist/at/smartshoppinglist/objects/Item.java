@@ -83,4 +83,17 @@ public class Item implements Comparable<Item>, Serializable {
     public static String getDefaultDefaultUnit() {
         return defaultDefaultUnit;
     }
+
+    public static void setDefaultCategory(String defaultCategory) {
+        Item.defaultCategory = defaultCategory;
+    }
+
+    public static void setDefaultDefaultUnit(String defaultDefaultUnit) {
+        Item.defaultDefaultUnit = defaultDefaultUnit;
+    }
+
+    public void setDefaultUnit(String defaultUnit) {
+        this.defaultUnit = defaultUnit;
+    }
+
 }

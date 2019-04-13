@@ -235,7 +235,7 @@ public class HomeFragment extends Fragment {
                         ((MainActivity)getActivity()).getItems().addItem(item);
                     }
                     shoppinglist.addItem(itemContainer);
-                    ((MainActivity)getActivity()).getItemCategorys().addCategoryByName(ItemContainer.class,itemContainer.getItem().getCategory());
+                    ((MainActivity)getActivity()).getItemCategorys().addCategoryName(itemContainer.getItem().getCategory());
                     alterItemDialog.dismiss();
                     alterItemDialog = null;
                 } catch (Exception e) {

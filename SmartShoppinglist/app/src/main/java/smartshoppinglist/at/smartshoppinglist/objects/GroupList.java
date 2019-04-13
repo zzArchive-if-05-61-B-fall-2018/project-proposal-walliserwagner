@@ -14,9 +14,7 @@ public class GroupList {
 
     private GroupList() {
         groups = new ArrayList<>();
-        List<String> user = new LinkedList<String>();
-        user.add("User");
-        groups.add(new Group("Local",user));
+        groups.add(new Group("Local",Config.getInstance().getUser()));
     }
     public Group findGroupByName(String name){
         for (Group group:groups) {

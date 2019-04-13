@@ -52,4 +52,7 @@
     <string name="options">Optionen</string>
     <string name="not_implemented_yet">not implemented yet</string>
     <string name="search">Suchen</string>
+    <string name="general">Allgemein</string>
+    <string name="bought">Gekauft</string>
+    <string name="stk">Stk</string>
 </resources>

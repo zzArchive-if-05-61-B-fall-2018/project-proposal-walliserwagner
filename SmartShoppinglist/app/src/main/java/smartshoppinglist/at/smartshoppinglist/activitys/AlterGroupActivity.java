@@ -32,7 +32,7 @@ public class AlterGroupActivity extends AppCompatActivity {
             name.setText(group.getName());
             if(group.getUsers() != null){
                 ListView listView = findViewById(R.id.alter_group_member_list);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.simple_list_item,group.getUsers());
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.simple_list_item,group.getUsernames());
                 listView.setAdapter(adapter);
                 registerForContextMenu(listView);
             }

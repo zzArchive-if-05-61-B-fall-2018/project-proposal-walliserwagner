@@ -4,28 +4,39 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+
 public class Group implements Serializable {
     private String name;
-    private List<String> users;
+    private List<User> users;
     private List<Shoppinglist> shoppinglists;
 
-    public Group(String name, List<String> users, List<Shoppinglist> shoppinglists) {
+    public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
         this.name = name;
         this.users = users;
         this.shoppinglists = shoppinglists;
     }
 
-    public Group(String name, List<String> users) {
+    public Group(String name, List<User> users) {
         this.name = name;
         this.users = users;
         this.shoppinglists = new ArrayList<>();
     }
-    public Group(String name, String user) {
+    public Group(String name, User user) {
         this.name = name;
         this.users = new ArrayList<>();
         this.users.add(user);
         this.shoppinglists = new ArrayList<>();
     }
+
+    public String[] getUsernames(){
+        List<String> result = new ArrayList<>();
+        for (User user:users) {
+            result.add(user.getName());
+        }
+        return result.toArray(new String[0]);
+    }
+
 
     public String getName() {
         return name;
@@ -35,11 +46,11 @@ public class Group implements Serializable {
         this.name = name;
     }
 
-    public String[] getUsers() {
-        return users.toArray(new String[0]);
+    public User[] getUsers() {
+        return users.toArray(new User[0]);
     }
 
-    public void addUsers(String user) {
+    public void addUsers(User user) {
         this.users.add(user);
     }
 
@@ -47,10 +58,10 @@ public class Group implements Serializable {
         return shoppinglists.toArray(new Shoppinglist[0]);
     }
 
-    public void addShoppinglist(Shoppinglist shoppinglists) {
-        this.shoppinglists.add(shoppinglists);
+    public void addShoppinglist(Shoppinglist shoppinglist) {
+        this.shoppinglists.add(shoppinglist);
     }
-    public void removeShoppinglist(Shoppinglist shoppinglists) {
+    public void removeShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.remove(shoppinglists);
     }
 }

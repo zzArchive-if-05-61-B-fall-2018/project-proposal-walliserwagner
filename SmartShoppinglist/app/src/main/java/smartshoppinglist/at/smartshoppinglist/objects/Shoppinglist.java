@@ -24,14 +24,15 @@ public class Shoppinglist implements Serializable {
     }
 
     private String name;
-    private String categoryBought;
+    private static String categoryBought = "Gekauft";
+
+    private static String categoryGeneral = "Alegmein";
 
     public Shoppinglist(String name){
         this.name = name;
         items = new ArrayList<Category<ItemContainer>>();
-        addCategory(new Category<ItemContainer>(ItemContainer.class,"Allgemein",-1,true));
-        addCategory(new Category<ItemContainer>(ItemContainer.class,"Gekauft",-2,true));
-        categoryBought = "Gekauft";
+        addCategory(new Category<ItemContainer>(ItemContainer.class,categoryGeneral,-1,true));
+        addCategory(new Category<ItemContainer>(ItemContainer.class,categoryBought,-2,true));
         try {
             this.addItemList(Read.readShoppinglistItems(name));
         } catch (IOException e) {
@@ -175,5 +176,20 @@ public class Shoppinglist implements Serializable {
                 i--;
             }
         }
+    }
+    public static String getCategoryBought() {
+        return categoryBought;
+    }
+
+    public static void setCategoryBought(String categoryBought) {
+        Shoppinglist.categoryBought = categoryBought;
+    }
+
+    public static String getCategoryGeneral() {
+        return categoryGeneral;
+    }
+
+    public static void setCategoryGeneral(String categoryGeneral) {
+        Shoppinglist.categoryGeneral = categoryGeneral;
     }
 }

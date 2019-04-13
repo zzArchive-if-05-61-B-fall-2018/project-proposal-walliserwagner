@@ -20,11 +20,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.R;
@@ -37,10 +32,11 @@ import smartshoppinglist.at.smartshoppinglist.fragments.SearchFragment;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
-import smartshoppinglist.at.smartshoppinglist.objects.CategoryList;
+import smartshoppinglist.at.smartshoppinglist.objects.CategoryNameList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
@@ -52,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Shoppinglist shoppinglist;
     private ItemList items;
     private GroupList groupList;
-    private CategoryList<ItemContainer> itemCategorys;
+    private CategoryNameList itemCategorys;
     private static MainActivity mainActivity;
 
 
@@ -95,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -110,11 +105,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(R.string.home);
 
+        Shoppinglist.setCategoryBought(getString(R.string.bought));
+        Shoppinglist.setCategoryGeneral(getString(R.string.general));
+        Item.setDefaultCategory(getString(R.string.general));
+        ItemContainer.setDefaultUnit(getString(R.string.stk));
 
 
 
 
-        getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser().getName()));
+        getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser()));
         getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));
 
 
@@ -269,13 +268,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return items;
     }
 
-    public CategoryList<ItemContainer> getItemCategorys() {
+    public CategoryNameList getItemCategorys() {
         if(itemCategorys == null){
-            itemCategorys = new CategoryList<>();
-            itemCategorys.addCategory(new Category<ItemContainer>(ItemContainer.class,"Obst & Gemüse", true));
-            itemCategorys.addCategory(new Category<ItemContainer>(ItemContainer.class,"Fisch & Fleisch",true));
-            itemCategorys.addCategory(new Category<ItemContainer>(ItemContainer.class,"Gewürze",true));
-            itemCategorys.addCategory(new Category<ItemContainer>(ItemContainer.class,"Süßigkeiten",true));
+            itemCategorys = CategoryNameList.getInstance();
+            itemCategorys.addCategoryName("Obst & Gemüse");
+            itemCategorys.addCategoryName("Fisch & Fleisch");
+            itemCategorys.addCategoryName("Gewürze");
+            itemCategorys.addCategoryName("Süßigkeiten");
         }
         return itemCategorys;
     }

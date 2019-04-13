@@ -69,4 +69,12 @@ public class ItemContainer implements Comparable<ItemContainer>, Serializable {
     public static String getDefaultUnit() {
         return defaultUnit;
     }
+
+    public static void setDefaultUnit(String defaultUnit) {
+        ItemContainer.defaultUnit = defaultUnit;
+    }
+
+    public static void setDefaultCount(int defaultCount) {
+        ItemContainer.defaultCount = defaultCount;
+    }
 }

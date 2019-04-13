@@ -92,7 +92,7 @@ public class GroupFragment extends Fragment {
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();
                     }
-                    Group group = new Group(name.getText().toString(), Config.getInstance().getUser().getName());
+                    Group group = new Group(name.getText().toString(), Config.getInstance().getUser());
                     ((MainActivity)getActivity()).getGroups().addGroup(group);
                     dialog.dismiss();
                 }catch (Exception e) {
