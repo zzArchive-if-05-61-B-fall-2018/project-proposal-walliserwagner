@@ -48,9 +48,6 @@ import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private String username;
-    private String userId;
-    private String email;
     private FragmentTransaction fragmentTransaction;
     private Shoppinglist shoppinglist;
     private ItemList items;
@@ -92,13 +89,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else if (f instanceof GroupFragment){
                     ((GroupFragment)f).createGroup();
                 }
+                else if (f instanceof ListFragment){
+                    ((ListFragment)f).addListPooup();
+                }
             }
         });
 
-
-        username = (String) getIntent().getStringExtra("username");
-        email = (String) getIntent().getStringExtra("email");
-        userId = (String) getIntent().getStringExtra("userid");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -118,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        getGroups().addGroup(new Group("Arbeit",username));
+        getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser().getName()));
         getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));
 
 
@@ -307,27 +303,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglist = shoppinglist;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

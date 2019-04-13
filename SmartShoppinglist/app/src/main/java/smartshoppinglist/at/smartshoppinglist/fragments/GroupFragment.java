@@ -22,6 +22,7 @@ import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.AlterGroupActivity;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.GroupListAdapter;
@@ -91,7 +92,7 @@ public class GroupFragment extends Fragment {
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();
                     }
-                    Group group = new Group(name.getText().toString(),((MainActivity)getActivity()).getUsername());
+                    Group group = new Group(name.getText().toString(), Config.getInstance().getUser().getName());
                     ((MainActivity)getActivity()).getGroups().addGroup(group);
                     dialog.dismiss();
                 }catch (Exception e) {

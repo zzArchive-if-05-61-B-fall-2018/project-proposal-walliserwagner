@@ -35,4 +35,12 @@ public class GroupList {
     public Group[] getGroups(){
         return groups.toArray(new Group[0]);
     }
+
+    public String[] getGroupNames(){
+        List<String> result = new ArrayList<>();
+        for (Group group:groups) {
+                result.add(group.getName());
+        }
+        return result.toArray(new String[0]);
+    }
 }

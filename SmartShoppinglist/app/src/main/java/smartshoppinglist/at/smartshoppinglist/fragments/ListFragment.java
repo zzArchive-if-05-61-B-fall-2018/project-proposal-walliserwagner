@@ -12,13 +12,16 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.Spinner;
 
 import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
@@ -158,6 +161,43 @@ public class ListFragment extends Fragment {
         });
         dialog = alertDialogBuilder.create();
         dialog.show();
+    }
+
+    public void addListPooup(){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popup = inflater.inflate(R.layout.add_list_popup, null);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(popup);
+        final EditText name = popup.findViewById(R.id.add_list_popup_name);
+        name.setHint(R.string.list_name);
+        Spinner spinner = popup.findViewById(R.id.add_list_popup_group_dropdown);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+
+                android.R.layout.simple_spinner_item,groupList.getGroupNames());
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(dataAdapter);
+        Button button = popup.findViewById(R.id.add_list_popup_add);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(!InputValidator.validInputString(name.getText().toString(),20)) {
+                        name.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    Shoppinglist shoppinglist  = new Shoppinglist(name.getText().toString());
+                    ((MainActivity)getActivity()).getGroups().findGroupByName(spinner.getSelectedItem().toString()).addShoppinglist(shoppinglist);
+                    listAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }catch (Exception e) {
+                }
+            }
+        });
+        dialog = alertDialogBuilder.create();
+        dialog.show();
+
     }
 }
 

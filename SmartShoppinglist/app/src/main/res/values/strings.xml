@@ -31,7 +31,7 @@
     <string name="invalid_input">"Ungültige Eingabe"</string>
     <string name="wrong_email_or_password">"Passwort oder Email ist falsch"</string>
     <string name="local">"Local"</string>
-    <string name="really_want_to_delete_shoppinglist">"Möchtest du diese Einkaufsliste wirklick löschen?"</string>
+    <string name="really_want_to_delete_shoppinglist">"Möchtest du diese Einkaufsliste wirklich löschen?"</string>
     <string name="home">"Home"</string>
     <string name="smart_shopping_list">"SmartShoppingList"</string>
     <string name="groups">"Gruppen"</string>

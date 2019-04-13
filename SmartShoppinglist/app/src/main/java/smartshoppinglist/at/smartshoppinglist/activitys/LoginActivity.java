@@ -69,9 +69,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private TextView signupLink;
-    private String username;
-    private String email;
-    private String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,13 +158,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
         Config config = Config.getInstance();
         if(email.equals("1") && password.equals("1")){  // Test account that will be removed later no
-            config.setUser(new User("test","test@acc",0));
+            config.setUser(new User("TestUser","test.user@email.com",0));
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-            this.userId = "0";
-            this.username = "TestUser";
-            this.email = "test.user@email.com";
             return;
         }
 
@@ -354,9 +348,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                intent.putExtra("username", username);
-                intent.putExtra("email", email);
-                intent.putExtra("userid", userId);
                 LoginActivity.this.startActivity(intent);
                 finish();
             } else {
