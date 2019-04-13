@@ -1,5 +1,10 @@
 package smartshoppinglist.at.smartshoppinglist.server;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
@@ -15,6 +20,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import smartshoppinglist.at.smartshoppinglist.objects.User;
 
 public class Server {
 
@@ -62,22 +69,41 @@ public class Server {
        http = new HttpConnection();
     }
 
-    public boolean login(String email, String password){
-        boolean result = false;
+    public User login(String email, String password){
+        User result = null;
         try {
             String hashpw = hashPassword(password);
             ExecutorService exc = Executors.newSingleThreadExecutor();
-            Callable<Boolean> call = new Callable<Boolean>() {
+            /*Callable<Integer> call = new Callable<Integer>() {
                 @Override
-                public Boolean call() throws Exception {
+                public Integer call() throws Exception {
                     String tmp = http.sendGet("/users?Email="+email+"&password="+password);
-                    if(!tmp.equals("")){
-                        return true;
+                    if(tmp.equals("")){
+                        return null;
                     }
-                    return false;
+
+                    JSONArray jsonArray = new JSONArray(tmp);
+                    Integer id = jsonArray.getJSONObject(0).getInt("id");
+                    return id;
+                }
+            };*/
+            Callable<User> call = new Callable<User>() {
+                @Override
+                public User call() throws Exception {
+                    String tmp = http.sendGet("/users?Email="+email+"&password="+password);
+                    if(tmp.equals("")){
+                        return null;
+                    }
+
+                    JSONArray jsonArray = new JSONArray(tmp);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    User user = new User(jsonObject.getString("Name"),
+                    jsonObject.getString("Email"),
+                    jsonObject.getInt("id"));
+                    return user;
                 }
             };
-            Future<Boolean> validLogin = exc.submit(call);
+            Future<User> validLogin = exc.submit(call);
             result = validLogin.get(3, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
