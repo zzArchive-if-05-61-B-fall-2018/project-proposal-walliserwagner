@@ -47,6 +47,9 @@ import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private String username;
+    private String userId;
+    private String email;
     private FragmentTransaction fragmentTransaction;
     private Shoppinglist shoppinglist;
     private ItemList items;
@@ -90,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
+        username = (String) getIntent().getStringExtra("username");
+        email = (String) getIntent().getStringExtra("email");
+        userId = (String) getIntent().getStringExtra("userid");
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -102,13 +110,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.main_container, new HomeFragment());
         fragmentTransaction.commit();
-        getSupportActionBar().setTitle("Home");
+        getSupportActionBar().setTitle(R.string.home);
 
 
 
 
 
-        getGroups().addGroup(new Group("Arbeit",null));
+        getGroups().addGroup(new Group("Arbeit",username));
         getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));
 
 
@@ -168,35 +176,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentTransaction.replace(R.id.main_container, new HomeFragment());
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.commit();
-            getSupportActionBar().setTitle("SmartShoppinglist");
+            getSupportActionBar().setTitle(R.string.smart_shopping_list);
             item.setChecked(true);
         } else if (id == R.id.nav_shoppinglsit) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container, new ListFragment());
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.commit();
-            getSupportActionBar().setTitle("Einkaufslisten");
+            getSupportActionBar().setTitle(R.string.shopping_lists);
             item.setChecked(true);
         } else if (id == R.id.nav_group) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container, new GroupFragment());
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.commit();
-            getSupportActionBar().setTitle("Gruppen");
+            getSupportActionBar().setTitle(R.string.groups);
             item.setChecked(true);
         } else if (id == R.id.nav_recipe) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container, new RecipeFragment());
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.commit();
-            getSupportActionBar().setTitle("Recepte");
+            getSupportActionBar().setTitle(R.string.recipes);
             item.setChecked(true);
         } else if (id == R.id.nav_item) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container, new ItemsFragment());
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.commit();
-            getSupportActionBar().setTitle("Artikel");
+            getSupportActionBar().setTitle(R.string.items);
             item.setChecked(true);
         } else if (id == R.id.nav_invite) {
 
@@ -216,6 +224,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Fragment f = getTopFragment();
             if (f instanceof SearchFragment){
                 ((SearchFragment)f).onBackPressed();
+            }
+            else if(f instanceof HomeFragment){
+                ((HomeFragment)f).onBackPressed();
             }
             getFragmentManager().popBackStack();
         }
@@ -294,5 +305,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglist = shoppinglist;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

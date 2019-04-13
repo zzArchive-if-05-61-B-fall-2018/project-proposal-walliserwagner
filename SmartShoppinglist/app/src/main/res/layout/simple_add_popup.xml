@@ -17,17 +17,19 @@
             android:layout_marginEnd="@dimen/text_margin">
 
             <EditText
-                android:id="@+id/create_group_popup_name"
+                android:id="@+id/simple_add_popup_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/grey"
-                android:textSize="@dimen/default_text_size" />
+                android:textSize="@dimen/default_text_size"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
         </LinearLayout>
 
 
         <Button
-            android:id="@+id/create_group_popup_add"
+            android:id="@+id/simple_add_popup_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

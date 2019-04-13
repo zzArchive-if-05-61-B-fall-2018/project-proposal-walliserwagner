@@ -76,7 +76,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private TextView signupLink;
-
+    private String username;
+    private String email;
+    private String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,24 +132,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
         return false;
     }
 
@@ -182,10 +166,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        if(email.equals("1") && password.equals("1")){
+        if(email.equals("1") && password.equals("1")){  // Test account that will be removed later no
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+            this.userId = "0";
+            this.username = "TestUser";
+            this.email = "test.user@email.com";
             return;
         }
 
@@ -232,7 +219,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         if(!valid){
-            mPasswordView.setError("Wrong password or E-mail");
+            mPasswordView.setError(getString(R.string.wrong_email_or_password));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -388,6 +375,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                intent.putExtra("username", username);
+                intent.putExtra("email", email);
+                intent.putExtra("userid", userId);
                 LoginActivity.this.startActivity(intent);
                 finish();
             } else {

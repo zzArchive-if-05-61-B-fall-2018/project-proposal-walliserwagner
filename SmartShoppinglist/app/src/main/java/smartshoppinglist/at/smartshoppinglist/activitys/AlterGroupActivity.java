@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.fragments.GroupFragment;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
+import smartshoppinglist.at.smartshoppinglist.uiadapters.GroupListAdapter;
 
 public class AlterGroupActivity extends AppCompatActivity {
 

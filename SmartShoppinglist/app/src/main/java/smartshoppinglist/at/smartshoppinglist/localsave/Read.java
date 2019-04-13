@@ -2,14 +2,11 @@ package smartshoppinglist.at.smartshoppinglist.localsave;
 
 import android.content.Context;
 
-import com.google.gson.JsonArray;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -83,8 +80,8 @@ public class Read {
         JSONObject currentJobj = null;
         for (int i = 0; i < arr.length(); i++) {
             currentJobj = arr.getJSONObject(i);
-            if(itemList.FindItemByName(currentJobj.getString("title"))!= null) {
-                ItemContainer item = new ItemContainer(itemList.FindItemByName
+            if(itemList.findItemByName(currentJobj.getString("title"))!= null) {
+                ItemContainer item = new ItemContainer(itemList.findItemByName
                         (currentJobj.getString("title")),
                         currentJobj.getInt("amount"),
                         currentJobj.getString("unit"));

@@ -18,6 +18,7 @@ public class CategoryList<T extends Comparable<T>> {
     }
     public void addCategory(Category<T> category){
         categories.add(category);
+        sort();
     }
     public void sort(){
         Collections.sort(categories);

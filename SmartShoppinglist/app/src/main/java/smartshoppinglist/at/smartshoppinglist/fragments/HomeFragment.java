@@ -1,6 +1,7 @@
 package smartshoppinglist.at.smartshoppinglist.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,17 +14,26 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
+import smartshoppinglist.at.smartshoppinglist.InputValidator;
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.ShoppingListExpandableAdapter;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 /**
@@ -33,6 +43,7 @@ public class HomeFragment extends Fragment {
     private ShoppingListExpandableAdapter listAdapter;
     private ExpandableListView expListView;
     private Shoppinglist shoppinglist;
+    private AlertDialog alterItemDialog;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -91,7 +102,7 @@ public class HomeFragment extends Fragment {
 
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
         {
-            menu.setHeaderTitle("Optionen");
+            menu.setHeaderTitle(R.string.options);
             ((AppCompatActivity)getActivity()).getMenuInflater().inflate(R.menu.shoppinglist_long_click_menu, menu);
         }
 
@@ -111,7 +122,9 @@ public class HomeFragment extends Fragment {
         }
         switch (item.getItemId()) {
             case R.id.shoppinglist_longClick_alter:
-                Toast.makeText(getActivity().getApplicationContext(), "Option 1 selected", Toast.LENGTH_SHORT).show();
+                ItemContainer itemContainer = shoppinglist.getItemByPos(groupPos,childPos);
+                alterItem(itemContainer);
+                listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.shoppinglist_longClick_remove:
                 shoppinglist.removeItem(shoppinglist.getItemByPos(groupPos,childPos));
@@ -131,7 +144,7 @@ public class HomeFragment extends Fragment {
     }
     public void removeTickedItemsFromListDialog(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        dialog.setMessage(R.string.really_want_to_delete);
+        dialog.setMessage(R.string.really_want_to_delete_all_marked_items);
         dialog.setCancelable(false);
 
         dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
@@ -155,6 +168,88 @@ public class HomeFragment extends Fragment {
             if (category[i].isExpanded()){
                 expListView.expandGroup(i);
             }
+        }
+    }
+    @SuppressLint("ClickableViewAccessibility")
+    private void alterItem(ItemContainer itemContainer ){
+        LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.fragment_search_ll);
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        View popup = inflater.inflate(R.layout.create_item_popup, null);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(popup);
+
+        final AutoCompleteTextView category =  popup.findViewById(R.id.autocomplete_category);
+        String[] categories = (((MainActivity)getActivity()).getItemCategorys().getNames().toArray(new String[0]));
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categories);
+        category.setAdapter(adapter);
+        category.setHint(itemContainer.getItem().getCategory());
+        final EditText name = popup.findViewById(R.id.create_item_popup_name);
+        name.setText(itemContainer.getItem().getName());
+        final EditText count = popup.findViewById(R.id.create_item_popup_count);
+        count.setText( Integer.toString(itemContainer.getCount()));
+        final EditText unit = popup.findViewById(R.id.create_item_popup_unit);
+        unit.setText(itemContainer.getItem().getDefaultUnit());
+        category.setThreshold(1);
+        category.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                category.showDropDown();
+                return false;
+            }
+        });
+        Button add = popup.findViewById(R.id.create_item_popup_add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(!InputValidator.validInputString(name.getText().toString(),20)){
+                        name.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if(!InputValidator.validInputEmptyString(category.getText().toString(),20)){
+                        category.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if(!InputValidator.validInputNumberString(count.getText().toString(),4)){
+                        count.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+
+                    } else if (!InputValidator.validInputString(unit.getText().toString(), 4)) {
+                        unit.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    String categoryName = category.getText().toString();
+                    if(categoryName.equals("")) categoryName = itemContainer.getItem().getCategory();
+                    Item item = new Item(name.getText().toString(),categoryName,unit.getText().toString());
+                    shoppinglist.removeItem(itemContainer);
+                    itemContainer.setItem(item);
+                    itemContainer.setCount(Integer.parseInt(count.getText().toString()));
+                    itemContainer.setUnit(unit.getText().toString());
+                    item = ((MainActivity)getActivity()).getItems().findItemByName(itemContainer.getItem().getName());
+                    if(item != null){
+                        ((MainActivity)getActivity()).getItems().removeItem(item);
+                        item.setCategory(itemContainer.getItem().getCategory());
+                        shoppinglist.updateCategoriesedItems();
+                        ((MainActivity)getActivity()).getItems().addItem(item);
+                    }
+                    shoppinglist.addItem(itemContainer);
+                    ((MainActivity)getActivity()).getItemCategorys().addCategoryByName(ItemContainer.class,itemContainer.getItem().getCategory());
+                    alterItemDialog.dismiss();
+                    alterItemDialog = null;
+                } catch (Exception e) {
+                }
+            }
+        });
+        alterItemDialog = alertDialogBuilder.create();
+        alterItemDialog.show();
+    }
+    public void onBackPressed()
+    {
+        if(alterItemDialog != null){
+            alterItemDialog.dismiss();
+            alterItemDialog = null;
         }
     }
 }

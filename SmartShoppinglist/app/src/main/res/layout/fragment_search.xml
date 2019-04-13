@@ -13,7 +13,7 @@
 
     <Button
         android:id="@+id/searchfragment_create_item"
-        android:text="Neues Erzeugen"
+        android:text="@string/create_new"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

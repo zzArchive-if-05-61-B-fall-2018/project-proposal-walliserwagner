@@ -1,23 +1,30 @@
 package smartshoppinglist.at.smartshoppinglist.fragments;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
+import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.ListsExpandableAdapter;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 /**
@@ -27,6 +34,7 @@ public class ListFragment extends Fragment {
     private ListsExpandableAdapter listAdapter;
     private ExpandableListView shoppingListList;
     private GroupList groupList;
+    private AlertDialog dialog;
     public ListFragment() {
         // Required empty public constructor
     }
@@ -49,6 +57,7 @@ public class ListFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 ((MainActivity)getActivity()).setShoppinglist(groupList.getGroups()[groupPosition].getShoppinglists()[childPosition]);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                getFragmentManager().popBackStack();
                 fragmentTransaction.replace(R.id.main_container, new HomeFragment());
                 fragmentTransaction.addToBackStack("");
                 fragmentTransaction.commit();
@@ -75,12 +84,43 @@ public class ListFragment extends Fragment {
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        ExpandableListView.ExpandableListContextMenuInfo info =
+                (ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo();
+
+        int groupPos = 0, childPos = 0;
+
+        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
+        {
+            groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+            childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
+        }
         switch (item.getItemId()) {
             case R.id.list_longClick_alter:
-                Toast.makeText(getActivity().getApplicationContext(), "Option 1 selected", Toast.LENGTH_SHORT).show();
+                alterList(groupList.getGroups()[groupPos].getShoppinglists()[childPos]);
+                listAdapter.notifyDataSetChanged();
                 return true;
             case R.id.list_longClick_remove:
-                Toast.makeText(getActivity().getApplicationContext(), "Option 2 selected", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setMessage(R.string.really_want_to_delete_shoppinglist);
+                dialog.setCancelable(false);
+
+                int finalGroupPos = groupPos;
+                int finalChildPos = childPos;
+                dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        groupList.getGroups()[finalGroupPos].removeShoppinglist(groupList.getGroups()[finalGroupPos].getShoppinglists()[finalChildPos]);
+                        listAdapter.notifyDataSetChanged();
+                    }
+                });
+                dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                dialog.create().show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -91,6 +131,33 @@ public class ListFragment extends Fragment {
         for (int i = 0; i < groups.length;i++) {
                 shoppingListList.expandGroup(i);
             }
+    }
+    public void alterList(Shoppinglist shoppinglist){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popup = inflater.inflate(R.layout.simple_add_popup, null);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(popup);
+        final EditText name = popup.findViewById(R.id.simple_add_popup_name);
+        name.setHint(shoppinglist.getName());
+        Button button = popup.findViewById(R.id.simple_add_popup_add);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(!InputValidator.validInputEmptyString(name.getText().toString(),20)) {
+                        name.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if(!name.getText().toString().equals("")){
+                        shoppinglist.setName(name.getText().toString());
+                    }
+                    dialog.dismiss();
+                }catch (Exception e) {
+                }
+            }
+        });
+        dialog = alertDialogBuilder.create();
+        dialog.show();
     }
 }
 

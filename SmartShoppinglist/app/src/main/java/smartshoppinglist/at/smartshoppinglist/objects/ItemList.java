@@ -4,6 +4,8 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
@@ -27,8 +29,11 @@ public class ItemList {
     }
 
     public void addItem(Item item){
-        items.add(item);
-        setChanges();
+        if(findItemByName(item.getName()) == null){
+            items.add(item);
+            sort();
+            setChanges();
+        }
     }
     public void removeItem(Item item){
         items.remove(item);
@@ -37,6 +42,7 @@ public class ItemList {
 
     public void addItemList(List<Item> item){
         items.addAll(item);
+        sort();
     }
 
     public static ItemList getInstance() {
@@ -50,7 +56,7 @@ public class ItemList {
         return items;
     }
 
-    public Item FindItemByName(String name){
+    public Item findItemByName(String name){
         for (Item item:items) {
             if (item.getName().equals(name)){
                 return item;
@@ -74,5 +80,8 @@ public class ItemList {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void sort(){
+        Collections.sort(items);
     }
 }

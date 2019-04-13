@@ -18,21 +18,27 @@
                 android:textSize="@dimen/default_text_size"
                 android:layout_width="0dp"
                 android:layout_weight="4"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:singleLine="true"/>
             <EditText
                 android:id="@+id/add_item_popup_count"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:singleLine="true"/>
             <EditText
                 android:id="@+id/add_item_popup_unit"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:singleLine="true"/>
         </LinearLayout>
         <Button
             android:id="@+id/add_item_popup_add"
-            android:text="Hinzufügen"
+            android:text="@string/add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

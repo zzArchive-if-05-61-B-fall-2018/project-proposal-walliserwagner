@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import smartshoppinglist.at.smartshoppinglist.R;
@@ -30,6 +31,14 @@ public class GroupListAdapter extends ArrayAdapter<Group> {
         tv.setText(groupList.getGroups()[position].getName());
         return rowView;
     }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if(groupList.getGroups()[position].getName().equals(context.getString(R.string.local))) return false;
+
+        return true;
+    }
+
     @Override
     public int getCount()
     {

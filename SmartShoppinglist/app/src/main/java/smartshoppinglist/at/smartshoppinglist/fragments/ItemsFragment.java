@@ -46,17 +46,17 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Optionen");
+        menu.setHeaderTitle(R.string.options);
         ((AppCompatActivity)getActivity()).getMenuInflater().inflate(R.menu.items_long_click_menu, menu);
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.items_longClick_alter:
-                Toast.makeText(getActivity().getApplicationContext(), "Option 1 selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.items_longClick_remove:
-                Toast.makeText(getActivity().getApplicationContext(), "Option 2 selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onContextItemSelected(item);

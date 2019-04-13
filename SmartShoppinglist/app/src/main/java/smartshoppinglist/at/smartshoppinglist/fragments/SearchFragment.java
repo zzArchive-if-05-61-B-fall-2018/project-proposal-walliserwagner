@@ -24,6 +24,7 @@ import android.support.v4.app.ListFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
@@ -59,7 +60,7 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
     @Override
     public void onListItemClick(ListView listView, View v, int position, long id) {
         String itemName = (String) listView.getAdapter().getItem(position);
-        final Item item = items.FindItemByName(itemName);
+        final Item item = items.findItemByName(itemName);
         LinearLayout ll = (LinearLayout) getActivity().findViewById(R.id.fragment_search_ll);
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
 
@@ -79,10 +80,19 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
             @Override
             public void onClick(View v) {
                 try {
+
+                    if(!InputValidator.validInputNumberString(count.getText().toString(),4)){
+                        count.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+
+                    } else if (!InputValidator.validInputString(unit.getText().toString(), 4)) {
+                        unit.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+
                     ItemContainer itemContainer = new ItemContainer(item, Integer.parseInt(count.getText().toString()),unit.getText().toString());
                     ((MainActivity)getActivity()).getShoppinglist().addItem(itemContainer);
                     getActivity().onBackPressed();
-                    getFragmentManager().popBackStack();
                 }catch (Exception e)
                 {
                     e.printStackTrace();
@@ -140,14 +150,30 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
             @Override
             public void onClick(View v) {
                 try {
+                    if(!InputValidator.validInputString(name.getText().toString(),20)){
+                        name.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if(!InputValidator.validInputEmptyString(category.getText().toString(),20)){
+                        category.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if(!InputValidator.validInputNumberString(count.getText().toString(),4)){
+                        count.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+
+                    } else if (!InputValidator.validInputString(unit.getText().toString(), 4)) {
+                        unit.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
                     item.setName(name.getText().toString());
                     item.setCategory(category.getText().toString());
+                    item.setDefaultunit(unit.getText().toString());
                     ItemContainer itemContainer = new ItemContainer(item, Integer.parseInt(count.getText().toString()), unit.getText().toString());
                     ((MainActivity)getActivity()).getShoppinglist().addItem(itemContainer);
                     ((MainActivity)getActivity()).getItems().addItem(item);
                     ((MainActivity)getActivity()).getItemCategorys().addCategoryByName(ItemContainer.class,item.getCategory());
                     getActivity().onBackPressed();
-                    getFragmentManager().popBackStack();
                 } catch (Exception e) {
                 }
             }
@@ -164,7 +190,7 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
-        searchView.setQueryHint("Suchen");
+        searchView.setQueryHint(getString(R.string.search));
         searchView.setIconified(false);
 
         menu.findItem(R.id.remove_items).setVisible(false);
@@ -184,8 +210,14 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
     }
     public void onBackPressed()
     {
-        createItemDialog = null;
-        addItemDialog = null;
+        if(createItemDialog != null){
+            createItemDialog.dismiss();
+            createItemDialog = null;
+        }
+        else if(addItemDialog != null){
+            addItemDialog.dismiss();
+            addItemDialog = null;
+        }
         getFragmentManager().popBackStack();
     }
 

@@ -20,6 +20,12 @@ public class Group implements Serializable {
         this.users = users;
         this.shoppinglists = new ArrayList<>();
     }
+    public Group(String name, String user) {
+        this.name = name;
+        this.users = new ArrayList<>();
+        this.users.add(user);
+        this.shoppinglists = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
@@ -43,6 +49,9 @@ public class Group implements Serializable {
 
     public void addShoppinglist(Shoppinglist shoppinglists) {
         this.shoppinglists.add(shoppinglists);
+    }
+    public void removeShoppinglist(Shoppinglist shoppinglists) {
+        this.shoppinglists.remove(shoppinglists);
     }
 }
 

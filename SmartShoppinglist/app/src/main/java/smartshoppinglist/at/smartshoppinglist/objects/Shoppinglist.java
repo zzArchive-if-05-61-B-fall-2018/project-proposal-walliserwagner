@@ -18,6 +18,11 @@ import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 
 public class Shoppinglist implements Serializable {
     private List<Category<ItemContainer>> items;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private String name;
     private String categoryBought;
 
@@ -79,6 +84,7 @@ public class Shoppinglist implements Serializable {
             category = new Category<ItemContainer>(ItemContainer.class,itemContainer.getItem().getCategory(),true);
             addCategory(category);
         }
+        addExistingItems(itemContainer);
         category.addElement(itemContainer);
         category.sort();
         setChanges();
@@ -145,5 +151,29 @@ public class Shoppinglist implements Serializable {
     }
     public void sort(){
         Collections.sort(items);
+    }
+
+    public void updateCategoriesedItems(){
+        for (Category<ItemContainer> category: items) {
+            ItemContainer[] elements = category.getElements();
+            for (int i = 0; i < elements.length; i++) {
+                if(!elements[i].isTicked() && !elements[i].getItem().getCategory().equals(category.getName())){
+                    category.removeElement(elements[i]);
+                    i--;
+                    addItem(elements[i]);
+                }
+            }
+        }
+    }
+    private void addExistingItems(ItemContainer itemContainer){
+        Category<ItemContainer> category = getCategoryByName(itemContainer.getItem().getCategory());
+        for (int i = 0; category.getElements().length > i; i++) {
+            ItemContainer ic = (ItemContainer) category.getElements()[i];
+            if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit())){
+                itemContainer.setCount(ic.getCount()+itemContainer.getCount());
+                category.removeElement(ic);
+                i--;
+            }
+        }
     }
 }

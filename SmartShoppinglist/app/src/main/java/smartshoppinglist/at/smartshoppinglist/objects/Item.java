@@ -28,6 +28,9 @@ public class Item implements Comparable<Item>, Serializable {
     public  Item(String name, String category){
         this(name, R.drawable.ic_questionmark , category);
     }
+    public  Item(String name, String category,String defaultUnit){
+        this(name, R.drawable.ic_questionmark , category, defaultUnit);
+    }
     public Item(String name){
         this(name,defaultCategory);
     }

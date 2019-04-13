@@ -3,12 +3,4 @@
     <item
         android:id="@+id/group_longClick_alter"
         android:title="Bearbeiten" />
-
-    <item
-        android:id="@+id/group_longClick_quit"
-        android:title="Verlassen" />
-
-    <item
-        android:id="@+id/group_longClick_invite"
-        android:title="Einladen" />
 </menu>
