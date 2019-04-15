@@ -29,12 +29,23 @@ public class Shoppinglist implements Serializable {
 
     private static String categoryGeneral = "Alegmein";
 
+<<<<<<< HEAD
     public Shoppinglist(String name, Group group){
         this.group = group;
+=======
+    private boolean isDefault = false;
+
+    public Shoppinglist(String name){
+>>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
         this.name = name;
         items = new ArrayList<Category<ItemContainer>>();
         addCategory(new Category<ItemContainer>(ItemContainer.class,categoryGeneral,-1,true));
         addCategory(new Category<ItemContainer>(ItemContainer.class,categoryBought,-2,true));
+    }
+
+    public Shoppinglist(String name, boolean isDefault){
+        this(name);
+        this.isDefault = isDefault;
     }
 
     public void addItemList(List<ItemContainer> itemContainers){
@@ -181,8 +192,13 @@ public class Shoppinglist implements Serializable {
     public static void setCategoryGeneral(String categoryGeneral) {
         Shoppinglist.categoryGeneral = categoryGeneral;
     }
+<<<<<<< HEAD
 
     public Group getGroup() {
         return group;
+=======
+    public boolean isDefault() {
+        return isDefault;
+>>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
     }
 }

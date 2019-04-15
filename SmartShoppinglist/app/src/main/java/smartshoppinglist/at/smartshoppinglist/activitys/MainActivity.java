@@ -111,6 +111,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ItemContainer.setDefaultUnit(getString(R.string.stk));
 
 
+<<<<<<< HEAD
+=======
+
+
+        /*getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser()));
+        getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));*/
+
+
+
+>>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
     }
     public Fragment getVisibleFragment(){
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
@@ -246,9 +256,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public Shoppinglist getShoppinglist() {
-        getItems();
+        //getItems();
         if(shoppinglist == null){
+<<<<<<< HEAD
             shoppinglist = getGroups().findGroupByName("Local").createList("Haushalt");
+=======
+            shoppinglist = new Shoppinglist(getString(R.string.shopping_list));
+            getGroups().findGroupByName("Local").addShoppinglist(shoppinglist);
+>>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
         }
         return shoppinglist;
     }

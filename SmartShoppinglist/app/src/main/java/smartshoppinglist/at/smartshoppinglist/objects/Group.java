@@ -13,6 +13,8 @@ public class Group implements Serializable {
     private transient List<Shoppinglist> shoppinglists;
     private List<String> shoppinglistnames;
 
+    private boolean isDefault = false;
+
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
         this.name = name;
         this.users = users;
@@ -20,8 +22,16 @@ public class Group implements Serializable {
         populateShoppinglists();
     }
 
+    public Group(String name, List<User> users, List<Shoppinglist> shoppinglists, boolean isDefault) {
+        this(name,users,shoppinglists);
+        this.isDefault = isDefault;
+    }
+
     public Group(String name, List<User> users) {
         new Group(name, users, new ArrayList<Shoppinglist>());
+    }
+    public Group(String name, List<User> users, boolean isDefault) {
+        this(name,users);
     }
     public Group(String name, User user) {
         List<User> users = new ArrayList<User>();
@@ -34,6 +44,10 @@ public class Group implements Serializable {
         for (String name:shoppinglistnames) {
             shoppinglists.add(Read.readShoppinglist(name));
         }
+    }
+    public Group(String name, User user, boolean isDefault) {
+        this(name,user);
+
     }
 
     public String[] getUsernames(){
@@ -83,6 +97,9 @@ public class Group implements Serializable {
     public void removeShoppinglist(Shoppinglist shoppinglist) {
         if(shoppinglists == null) shoppinglists = new ArrayList<>();
         this.shoppinglists.remove(shoppinglists);
+    }
+    public boolean isDefault() {
+        return isDefault;
     }
 }
 
