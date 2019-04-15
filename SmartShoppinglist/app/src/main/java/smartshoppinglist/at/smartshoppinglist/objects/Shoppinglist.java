@@ -28,6 +28,8 @@ public class Shoppinglist implements Serializable {
 
     private static String categoryGeneral = "Alegmein";
 
+    private boolean isDefault = false;
+
     public Shoppinglist(String name){
         this.name = name;
         items = new ArrayList<Category<ItemContainer>>();
@@ -40,6 +42,11 @@ public class Shoppinglist implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public Shoppinglist(String name, boolean isDefault){
+        this(name);
+        this.isDefault = isDefault;
     }
 
     public void addItemList(List<ItemContainer> itemContainers){
@@ -191,5 +198,8 @@ public class Shoppinglist implements Serializable {
 
     public static void setCategoryGeneral(String categoryGeneral) {
         Shoppinglist.categoryGeneral = categoryGeneral;
+    }
+    public boolean isDefault() {
+        return isDefault;
     }
 }

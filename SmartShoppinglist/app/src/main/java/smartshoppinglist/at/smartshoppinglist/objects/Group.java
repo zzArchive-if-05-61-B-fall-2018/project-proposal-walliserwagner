@@ -11,10 +11,17 @@ public class Group implements Serializable {
     private List<User> users;
     private List<Shoppinglist> shoppinglists;
 
+    private boolean isDefault = false;
+
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
         this.name = name;
         this.users = users;
         this.shoppinglists = shoppinglists;
+    }
+
+    public Group(String name, List<User> users, List<Shoppinglist> shoppinglists, boolean isDefault) {
+        this(name,users,shoppinglists);
+        this.isDefault = isDefault;
     }
 
     public Group(String name, List<User> users) {
@@ -22,11 +29,18 @@ public class Group implements Serializable {
         this.users = users;
         this.shoppinglists = new ArrayList<>();
     }
+    public Group(String name, List<User> users, boolean isDefault) {
+        this(name,users);
+    }
     public Group(String name, User user) {
         this.name = name;
         this.users = new ArrayList<>();
         this.users.add(user);
         this.shoppinglists = new ArrayList<>();
+    }
+    public Group(String name, User user, boolean isDefault) {
+        this(name,user);
+
     }
 
     public String[] getUsernames(){
@@ -63,6 +77,9 @@ public class Group implements Serializable {
     }
     public void removeShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.remove(shoppinglists);
+    }
+    public boolean isDefault() {
+        return isDefault;
     }
 }
 

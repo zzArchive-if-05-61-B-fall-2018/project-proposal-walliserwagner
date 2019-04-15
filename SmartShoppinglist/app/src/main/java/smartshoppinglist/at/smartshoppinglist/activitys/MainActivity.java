@@ -113,8 +113,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser()));
-        getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));
+        /*getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser()));
+        getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));*/
 
 
 
@@ -253,9 +253,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public Shoppinglist getShoppinglist() {
-        getItems();
+        //getItems();
         if(shoppinglist == null){
-            shoppinglist = new Shoppinglist("Haushalt");
+            shoppinglist = new Shoppinglist(getString(R.string.shopping_list));
             getGroups().findGroupByName("Local").addShoppinglist(shoppinglist);
         }
         return shoppinglist;

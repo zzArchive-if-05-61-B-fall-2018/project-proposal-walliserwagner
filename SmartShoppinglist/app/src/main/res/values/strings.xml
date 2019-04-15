@@ -35,7 +35,7 @@
     <string name="home">"Home"</string>
     <string name="smart_shopping_list">"SmartShoppingList"</string>
     <string name="groups">"Gruppen"</string>
-    <string name="recipes">"Recepte"</string>
+    <string name="recipes">"Rezepte"</string>
     <string name="items">"Artikel"</string>
     <string name="shopping_lists">"Einkaufslisten"</string>
     <string name="signup">"Registrieren"</string>
@@ -55,4 +55,5 @@
     <string name="general">Allgemein</string>
     <string name="bought">Gekauft</string>
     <string name="stk">Stk</string>
+    <string name="shopping_list">Einkaufsliste</string>
 </resources>

@@ -34,7 +34,7 @@ public class GroupListAdapter extends ArrayAdapter<Group> {
 
     @Override
     public boolean isEnabled(int position) {
-        if(groupList.getGroups()[position].getName().equals(context.getString(R.string.local))) return false;
+        if(groupList.getGroups()[position].isDefault()) return false;
 
         return true;
     }
