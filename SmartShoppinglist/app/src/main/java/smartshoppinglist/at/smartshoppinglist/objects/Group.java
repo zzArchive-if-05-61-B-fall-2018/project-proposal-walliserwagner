@@ -5,28 +5,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 
 public class Group implements Serializable {
     private String name;
     private List<User> users;
-    private List<Shoppinglist> shoppinglists;
+    private transient List<Shoppinglist> shoppinglists;
+    private List<String> shoppinglistnames;
 
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
         this.name = name;
         this.users = users;
         this.shoppinglists = shoppinglists;
+        populateShoppinglists();
     }
 
     public Group(String name, List<User> users) {
-        this.name = name;
-        this.users = users;
-        this.shoppinglists = new ArrayList<>();
+        new Group(name, users, new ArrayList<Shoppinglist>());
     }
     public Group(String name, User user) {
-        this.name = name;
-        this.users = new ArrayList<>();
-        this.users.add(user);
-        this.shoppinglists = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
+        users.add(user);
+        new Group(name, users, new ArrayList<Shoppinglist>());
+    }
+
+    private void populateShoppinglists(){
+        shoppinglistnames = new ArrayList<>();
+        for (String name:shoppinglistnames) {
+            shoppinglists.add(Read.readShoppinglist(name));
+        }
     }
 
     public String[] getUsernames(){
@@ -54,14 +61,27 @@ public class Group implements Serializable {
         this.users.add(user);
     }
 
-    public Shoppinglist[] getShoppinglists() {
+    public Shoppinglist[] getShoppinglists()
+    {
+        if(shoppinglists == null) shoppinglists = new ArrayList<>();
         return shoppinglists.toArray(new Shoppinglist[0]);
     }
 
-    public void addShoppinglist(Shoppinglist shoppinglist) {
+    /*public void addShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.add(shoppinglist);
+    }*/
+
+    public Shoppinglist createList(String shoppinglistname)
+    {
+        if(shoppinglists == null) shoppinglists = new ArrayList<>();
+        Shoppinglist list = new Shoppinglist(shoppinglistname,this);
+        this.shoppinglists.add(list);
+        this.shoppinglistnames.add(shoppinglistname);
+        return list;
     }
+
     public void removeShoppinglist(Shoppinglist shoppinglist) {
+        if(shoppinglists == null) shoppinglists = new ArrayList<>();
         this.shoppinglists.remove(shoppinglists);
     }
 }

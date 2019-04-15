@@ -14,18 +14,10 @@ import smartshoppinglist.at.smartshoppinglist.objects.Item;
 
 public class ItemList {
 
-    private static ItemList instance = null;
+    private List<Item> items;
 
-    List<Item> items;
-    private ItemList(){
+    public ItemList(){
         items = new ArrayList<>();
-        try {
-            this.addItemList(Read.readItems());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public void addItem(Item item){
@@ -43,13 +35,6 @@ public class ItemList {
     public void addItemList(List<Item> item){
         items.addAll(item);
         sort();
-    }
-
-    public static ItemList getInstance() {
-        if(instance == null){
-            instance = new ItemList();
-        }
-        return instance;
     }
 
     public List<Item> getItems() {
@@ -73,13 +58,7 @@ public class ItemList {
     }
 
     private void setChanges(){
-        try {
-            Save.saveItemList(this);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Save.save(this);
     }
     private void sort(){
         Collections.sort(items);

@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.localsave.Save;
+
 public class GroupList {
-    private static final GroupList instance = new GroupList();
     private List<Group> groups;
 
-    public static GroupList getInstance() {
-        return instance;
-    }
-
-    private GroupList() {
+    public GroupList() {
         groups = new ArrayList<>();
         groups.add(new Group("Local",Config.getInstance().getUser()));
     }
@@ -26,9 +23,11 @@ public class GroupList {
     }
     public void addGroup(Group group){
         groups.add(group);
+        setChanges();
     }
     public void removeGroups(Group group){
         groups.remove(group);
+        setChanges();
     }
     public Group[] getGroups(){
         return groups.toArray(new Group[0]);
@@ -40,5 +39,9 @@ public class GroupList {
                 result.add(group.getName());
         }
         return result.toArray(new String[0]);
+    }
+
+    private void setChanges(){
+        Save.save(this);
     }
 }

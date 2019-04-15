@@ -111,13 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ItemContainer.setDefaultUnit(getString(R.string.stk));
 
 
-
-
-        getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser()));
-        getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));
-
-
-
     }
     public Fragment getVisibleFragment(){
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
@@ -255,22 +248,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Shoppinglist getShoppinglist() {
         getItems();
         if(shoppinglist == null){
-            shoppinglist = new Shoppinglist("Haushalt");
-            getGroups().findGroupByName("Local").addShoppinglist(shoppinglist);
+            shoppinglist = getGroups().findGroupByName("Local").createList("Haushalt");
         }
         return shoppinglist;
     }
 
     public ItemList getItems() {
         if(items == null){
-            items = ItemList.getInstance();
+            items = Read.readItemList();
         }
         return items;
     }
 
     public CategoryNameList getItemCategorys() {
         if(itemCategorys == null){
-            itemCategorys = CategoryNameList.getInstance();
+            itemCategorys = Read.readCategoryList();
             itemCategorys.addCategoryName("Obst & Gemüse");
             itemCategorys.addCategoryName("Fisch & Fleisch");
             itemCategorys.addCategoryName("Gewürze");
@@ -280,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public GroupList getGroups(){
         if(groupList == null){
-            groupList = GroupList.getInstance();
+            groupList = Read.readGroupList();
         }
         return groupList;
     }

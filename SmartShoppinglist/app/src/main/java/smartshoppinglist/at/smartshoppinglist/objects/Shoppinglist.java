@@ -22,24 +22,19 @@ public class Shoppinglist implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    private Group group;
 
     private String name;
     private static String categoryBought = "Gekauft";
 
     private static String categoryGeneral = "Alegmein";
 
-    public Shoppinglist(String name){
+    public Shoppinglist(String name, Group group){
+        this.group = group;
         this.name = name;
         items = new ArrayList<Category<ItemContainer>>();
         addCategory(new Category<ItemContainer>(ItemContainer.class,categoryGeneral,-1,true));
         addCategory(new Category<ItemContainer>(ItemContainer.class,categoryBought,-2,true));
-        try {
-            this.addItemList(Read.readShoppinglistItems(name));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public void addItemList(List<ItemContainer> itemContainers){
@@ -92,13 +87,7 @@ public class Shoppinglist implements Serializable {
     }
 
     private void setChanges(){
-        try {
-            Save.saveShoppinglist(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }catch (org.json.JSONException e){
-            e.printStackTrace();
-        }
+        //Save.save(this);
     }
     public void removeItem(ItemContainer itemContainer){
         Category<ItemContainer> category;
@@ -191,5 +180,9 @@ public class Shoppinglist implements Serializable {
 
     public static void setCategoryGeneral(String categoryGeneral) {
         Shoppinglist.categoryGeneral = categoryGeneral;
+    }
+
+    public Group getGroup() {
+        return group;
     }
 }

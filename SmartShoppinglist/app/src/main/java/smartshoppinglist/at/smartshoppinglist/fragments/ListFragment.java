@@ -187,8 +187,7 @@ public class ListFragment extends Fragment {
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();
                     }
-                    Shoppinglist shoppinglist  = new Shoppinglist(name.getText().toString());
-                    ((MainActivity)getActivity()).getGroups().findGroupByName(spinner.getSelectedItem().toString()).addShoppinglist(shoppinglist);
+                    ((MainActivity)getActivity()).getGroups().findGroupByName(spinner.getSelectedItem().toString()).createList(name.getText().toString());
                     listAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 }catch (Exception e) {
