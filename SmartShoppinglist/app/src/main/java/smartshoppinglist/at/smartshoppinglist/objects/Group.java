@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
@@ -81,6 +82,8 @@ public class Group implements Serializable {
     public Shoppinglist createList(String shoppinglistname, boolean isdefault){
         Shoppinglist list = new Shoppinglist(shoppinglistname,this, isdefault);
         this.shoppinglists.add(list);
+        list.setChanges();
+        sort();
         return list;
     }
 
@@ -88,6 +91,8 @@ public class Group implements Serializable {
     {
         Shoppinglist list = new Shoppinglist(shoppinglistname,this);
         this.shoppinglists.add(list);
+        list.setChanges();
+        sort();
         return list;
     }
 
@@ -109,6 +114,18 @@ public class Group implements Serializable {
     public void populateShoppinglist(){
         shoppinglists = new ArrayList<>();
         shoppinglists = Read.readShoppinglist(name);
+    }
+
+    public Shoppinglist findListByName(String name){
+        for (Shoppinglist shoppinglist:shoppinglists) {
+            if(shoppinglist.getName().equals(name)){
+                return shoppinglist;
+            }
+        }
+        return null;
+    }
+    public void sort(){
+        Collections.sort(shoppinglists);
     }
 }
 

@@ -18,13 +18,10 @@ import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 
-public class Shoppinglist implements Serializable {
+public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
     @Expose
     private List<Category> items;
 
-    public void setName(String name) {
-        this.name = name;
-    }
     @Expose private Group group;
 
     @Expose private String name;
@@ -56,6 +53,12 @@ public class Shoppinglist implements Serializable {
         this.isDefault = isDefault;
     }
 
+    public void setName(String name) {
+        if(group != null) Save.remove(this.name,group.getName());
+        this.name = name;
+        setChanges();
+    }
+
     public void addItemList(List<ItemContainer> itemContainers){
         for (ItemContainer itemContainer:
              itemContainers) {
@@ -82,7 +85,7 @@ public class Shoppinglist implements Serializable {
                 result.add(category);
             }
         }
-        return result.toArray((Category[])Array.newInstance(items.get(0).getClass(),result.size()));
+        return result.toArray((Category[])Array.newInstance(Category.class,result.size()));
     }
     public void addCategory(Category c){
         items.add(c);
@@ -105,7 +108,7 @@ public class Shoppinglist implements Serializable {
         setChanges();
     }
 
-    private void setChanges(){
+    protected void setChanges(){
         Save.save(this);
     }
     public void removeItem(ItemContainer itemContainer){
@@ -206,5 +209,12 @@ public class Shoppinglist implements Serializable {
     }
     public boolean isDefault() {
         return isDefault;
+    }
+
+    @Override
+    public int compareTo(Shoppinglist o) {
+        if(this.isDefault && !o.isDefault) return -1;
+        else if(!this.isDefault && o.isDefault) return 1;
+        return this.name.compareTo(o.name);
     }
 }

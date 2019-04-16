@@ -133,7 +133,6 @@ public class ListsExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        if(groupList.getGroups()[groupPosition].getShoppinglists()[childPosition].isDefault()) return false;
         return true;
     }
 

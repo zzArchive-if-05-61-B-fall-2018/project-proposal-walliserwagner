@@ -255,17 +255,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public Shoppinglist getShoppinglist() {
-        //getItems();
         if(shoppinglist == null){
-            boolean found = false;
-            for (Shoppinglist s:getGroups().findGroupByName(getString(R.string.local)).getShoppinglists()) {
-                if(s.isDefault()){
-                    found = true;
-                    shoppinglist = s;
-                }
+            Shoppinglist sl = Config.getInstance().getCurrentShoppinglist();
+            if(sl != null){
+                shoppinglist = sl;
             }
-            if(!found)
-              shoppinglist =  getGroups().findGroupByName(getString(R.string.local)).createList(getString(R.string.shopping_list),true);
+            else{
+                boolean found = false;
+                for (Shoppinglist s:getGroups().findGroupByName(getString(R.string.local)).getShoppinglists()) {
+                    if(s.isDefault()){
+                        found = true;
+                        shoppinglist = s;
+                    }
+                }
+                if(!found)
+                    shoppinglist =  getGroups().findGroupByName(getString(R.string.local)).createList(getString(R.string.shopping_list),true);
+            }
         }
         return shoppinglist;
     }
@@ -317,5 +322,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglist = shoppinglist;
+        Config.getInstance().setCurrentShoppinglist(shoppinglist);
     }
 }

@@ -18,6 +18,7 @@ public class Config {
 
     public void setUser(User user) {
         this.user = user;
+        setChanges();
     }
 
     public static Config getInstance(){
@@ -27,7 +28,8 @@ public class Config {
         return instance;
     }
 
-    private Config(){
+    public Config(){
+        instance = this;
     }
 
 
@@ -39,5 +41,9 @@ public class Config {
 
     public void setCurrentShoppinglist(Shoppinglist currentShoppinglist) {
         this.currentShoppinglist = currentShoppinglist;
+        setChanges();
+    }
+    private void setChanges(){
+        Save.save(instance);
     }
 }

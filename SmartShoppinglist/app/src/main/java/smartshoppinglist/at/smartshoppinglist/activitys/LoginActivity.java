@@ -34,6 +34,8 @@ import java.util.List;
 
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.localsave.Read;
+import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.User;
 import smartshoppinglist.at.smartshoppinglist.server.Server;
@@ -76,7 +78,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
+        Read.context = getApplicationContext();
+        Save.context = getApplicationContext();
+        Read.readConfig();
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

@@ -104,6 +104,26 @@ public class Save {
         String str = gson.toJson(list);
         writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"categorynamelist.json"), str);
     }
+    public static void save(Config config){
+        GsonBuilder gsonBuilder = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                if(f.getName().equals("shoppinglists"))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        });
+        Gson gson = gsonBuilder.create();
+        String str = gson.toJson(config);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"config.json"), str);
+    }
 
     public static void writeJsonFile(File file, String json) {
         BufferedWriter bufferedWriter = null;

@@ -80,6 +80,16 @@ public class ListFragment extends Fragment {
 
         int type = ExpandableListView.getPackedPositionType(info.packedPosition);
 
+        int groupPos = 0, childPos = 0;
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
+        {
+            groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+            childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
+        }
+
+        if(groupList.getGroups()[groupPos].getShoppinglists()[childPos].isDefault()) return;
+
+
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
             menu.setHeaderTitle("Optionen");
             ((AppCompatActivity) getActivity()).getMenuInflater().inflate(R.menu.list_long_click_menu, menu);
@@ -100,8 +110,7 @@ public class ListFragment extends Fragment {
         }
         switch (item.getItemId()) {
             case R.id.list_longClick_alter:
-                alterList(groupList.getGroups()[groupPos].getShoppinglists()[childPos]);
-                listAdapter.notifyDataSetChanged();
+                alterList(groupList.getGroups()[groupPos].getShoppinglists()[childPos], groupList.getGroups()[groupPos]);
                 return true;
             case R.id.list_longClick_remove:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -135,7 +144,7 @@ public class ListFragment extends Fragment {
                 shoppingListList.expandGroup(i);
             }
     }
-    public void alterList(Shoppinglist shoppinglist){
+    public void alterList(Shoppinglist shoppinglist, Group group){
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popup = inflater.inflate(R.layout.simple_add_popup, null);
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -153,6 +162,8 @@ public class ListFragment extends Fragment {
                     }
                     else if(!name.getText().toString().equals("")){
                         shoppinglist.setName(name.getText().toString());
+                        group.sort();
+                        listAdapter.notifyDataSetChanged();
                     }
                     dialog.dismiss();
                 }catch (Exception e) {
