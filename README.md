@@ -1,9 +1,29 @@
-# if.05.61 SYP ProjectProposal
-## Aim
-You are to write a project proposal for the project you want to work on during the next two terms.
+A user guide for the app5 is provided in the repository.
 
-## Hint
-Read the comments in the given template carefully and try to align your ideas and reasoning with the teacher. The more you can clarify upfront (before you hand in the proposal) the better are your chances to get a good grade.
 
-## Tools
-Preferably you should use LaTeX to get used to this tool.
+Clone repository
+
+##install json-server:
+
+npm json-server
+
+##Start json-server:
+###Emulator:
+
+json-server --watch db.json
+
+If the app is run in the emulator use 10.0.2.2 to access your devices localhost.
+
+
+###Mobile-Phone:
+
+json-server --host <ip-adress> --watch db.json
+
+If the app is run on a mobile-phone make sure the mobile-phone is in the same network as the computer the server is hosted on
+and use your local ip-adress.
+
+Local ip-adress can be read by writing ipconfig in the console.
+
+
+Open the file smartshoppinglist/gradle.properties and assign your ip-adress to HostIp as follows HostIp=<ip-adress>:3000
+
