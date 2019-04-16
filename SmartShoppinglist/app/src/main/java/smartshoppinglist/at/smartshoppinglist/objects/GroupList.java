@@ -27,9 +27,11 @@ public class GroupList {
         }
         return null;
     }
-    public void addGroup(Group group){
+    public boolean addGroup(Group group){
+        if(findGroupByName(group.getName())!= null) return false;
         groups.add(group);
         setChanges();
+        return true;
     }
     public void removeGroups(Group group){
         groups.remove(group);

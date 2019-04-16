@@ -211,10 +211,24 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         return isDefault;
     }
 
+    public void setCategoryExpandedByName(String name, boolean expanded){
+        Category category = getCategoryByName(name);
+        if(category != null){
+            category.setExpanded(expanded);
+            setChanges();
+        }
+    }
+
     @Override
     public int compareTo(Shoppinglist o) {
         if(this.isDefault && !o.isDefault) return -1;
         else if(!this.isDefault && o.isDefault) return 1;
         return this.name.compareTo(o.name);
+    }
+
+
+    @Override
+    public String toString() {
+        return String.format("%s:%s",group.getName(),name);
     }
 }

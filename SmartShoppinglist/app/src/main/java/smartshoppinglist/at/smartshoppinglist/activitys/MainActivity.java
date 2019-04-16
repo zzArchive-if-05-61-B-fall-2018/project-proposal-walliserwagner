@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(shoppinglist == null){
             Shoppinglist sl = Config.getInstance().getCurrentShoppinglist();
             if(sl != null){
-                shoppinglist = sl;
+                shoppinglist = getGroups().findGroupByName(sl.getGroup().getName()).findListByName(sl.getName());
             }
             else{
                 boolean found = false;
