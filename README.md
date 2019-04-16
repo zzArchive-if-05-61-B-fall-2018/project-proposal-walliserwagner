@@ -1,21 +1,22 @@
-A user guide for the app5 is provided in the repository.
+A user guide for the app is provided in the repository.
 
 
 Clone repository
 
-##install json-server:
+## install json-server:
 
 npm json-server
 
-##Start json-server:
-###Emulator:
+## Start json-server:
+
+### Emulator:
 
 json-server --watch db.json
 
 If the app is run in the emulator use 10.0.2.2 to access your devices localhost.
 
 
-###Mobile-Phone:
+### Mobile-Phone:
 
 json-server --host <ip-adress> --watch db.json
 
