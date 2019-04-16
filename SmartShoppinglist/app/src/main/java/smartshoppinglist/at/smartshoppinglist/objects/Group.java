@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
@@ -80,6 +81,9 @@ public class Group implements Serializable {
     }
 
     public Shoppinglist createList(String shoppinglistname, boolean isdefault){
+        if(!InputValidator.validInputString(shoppinglistname, 30)){
+            return null;
+        }
         Shoppinglist list = new Shoppinglist(shoppinglistname,this, isdefault);
         this.shoppinglists.add(list);
         list.setChanges();
@@ -89,6 +93,9 @@ public class Group implements Serializable {
 
     public Shoppinglist createList(String shoppinglistname)
     {
+        if(!InputValidator.validInputString(shoppinglistname, 30)){
+            return null;
+        }
         Shoppinglist list = new Shoppinglist(shoppinglistname,this);
         this.shoppinglists.add(list);
         list.setChanges();
