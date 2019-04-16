@@ -37,6 +37,7 @@ public class GroupFragment extends Fragment {
     public static final int REQUEST_ID = 1;
     private ListView groupListView;
     private AlertDialog dialog;
+    private ArrayAdapter<Group> adapter;
 
     public GroupFragment() {
         // Required empty public constructor
@@ -49,7 +50,7 @@ public class GroupFragment extends Fragment {
         GroupList groupList = MainActivity.getInstance().getGroups();
         View v = inflater.inflate(R.layout.fragment_group, container, false);
         groupListView = (ListView) v.findViewById(R.id.groupList);
-        ArrayAdapter<Group> adapter = new GroupListAdapter(getActivity(),groupList);
+        adapter = new GroupListAdapter(getActivity(),groupList);
         groupListView.setAdapter(adapter);
         registerForContextMenu(groupListView);
         return v;
@@ -104,5 +105,8 @@ public class GroupFragment extends Fragment {
         });
         dialog = alertDialogBuilder.create();
         dialog.show();
+    }
+    public void notifyDatasetChanged(){
+        adapter.notifyDataSetChanged();
     }
 }

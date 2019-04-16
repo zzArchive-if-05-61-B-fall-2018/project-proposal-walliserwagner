@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             if (!found){
-                groupList.addGroup(new Group(getString(R.string.local), config.getUser()));
+                groupList.addGroup(new Group(getString(R.string.local), config.getUser(),true));
             }
         }
         return groupList;
@@ -316,6 +316,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Group oldGroup = groupList.findGroupByName(name);
                     groupList.removeGroups(oldGroup);
                     groupList.addGroup(group);
+                    Fragment f = getSupportFragmentManager().getFragments().get(0);
+                    if(f instanceof GroupFragment)((GroupFragment)f).notifyDatasetChanged();
                 }
             }
     }
