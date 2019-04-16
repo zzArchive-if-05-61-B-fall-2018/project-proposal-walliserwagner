@@ -198,7 +198,11 @@ public class ListFragment extends Fragment {
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();
                     }
-                    ((MainActivity)getActivity()).getGroups().findGroupByName(spinner.getSelectedItem().toString()).createList(name.getText().toString());
+                    Shoppinglist list =  ((MainActivity)getActivity()).getGroups().findGroupByName(spinner.getSelectedItem().toString()).createList(name.getText().toString());
+                    if(list == null){
+                        name.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
                     listAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 }catch (Exception e) {

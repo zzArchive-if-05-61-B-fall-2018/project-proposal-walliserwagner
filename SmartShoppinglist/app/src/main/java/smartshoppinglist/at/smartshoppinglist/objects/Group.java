@@ -96,6 +96,7 @@ public class Group implements Serializable {
         if(!InputValidator.validInputString(shoppinglistname, 30)){
             return null;
         }
+        if(findListByName(shoppinglistname) != null) return null;
         Shoppinglist list = new Shoppinglist(shoppinglistname,this);
         this.shoppinglists.add(list);
         list.setChanges();

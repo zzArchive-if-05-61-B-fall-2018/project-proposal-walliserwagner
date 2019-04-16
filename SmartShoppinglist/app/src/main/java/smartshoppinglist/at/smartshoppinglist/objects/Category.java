@@ -25,7 +25,8 @@ public class Category implements Comparable<Category>, Serializable {
     }
 
     public Category(String name, int priority,boolean expanded){
-        this(name, defaultpriority);
+        this(name);
+        this.priority = priority;
         isExpanded = expanded;
     }
     public Category(String name,boolean expanded){
