@@ -3,13 +3,30 @@ package smartshoppinglist.at.smartshoppinglist.server;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import smartshoppinglist.at.smartshoppinglist.BuildConfig;
+
 public class HttpConnection {
 
-    //String Serverurl = "http://192.168.1.104:3000";
-    String Serverurl = "http://10.0.0.4:3000";
+    String Serverurl; //= "http://10.0.0.4:3000";
+
+    public HttpConnection(){
+        try {
+            Field field = Class.forName("smartshoppinglist.at.smartshoppinglist.BuildConfig").getDeclaredField("HOST_IP");
+            Serverurl = (String) field.get(null);
+            Serverurl = "http://"+Serverurl;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected String sendGet(String getRequest) throws Exception {
         String url = Serverurl+getRequest;
 
