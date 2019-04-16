@@ -11,8 +11,14 @@ public class GroupList {
 
     public GroupList() {
         groups = new ArrayList<>();
-        groups.add(new Group("Local",Config.getInstance().getUser()));
     }
+
+    public void populateGroups(){
+        for (Group g:groups) {
+            g.populateShoppinglist();
+        }
+    }
+
     public Group findGroupByName(String name){
         for (Group group:groups) {
             if (group.getName().equals(name)){

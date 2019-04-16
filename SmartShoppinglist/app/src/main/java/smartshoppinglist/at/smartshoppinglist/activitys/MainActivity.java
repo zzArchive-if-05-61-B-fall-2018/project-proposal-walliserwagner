@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ItemList items;
     private GroupList groupList;
     private CategoryNameList itemCategorys;
+    private Config config;
     private static MainActivity mainActivity;
 
 
@@ -62,11 +63,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        config = Config.getInstance();
         mainActivity = this;
         Save.context = getApplicationContext();
         Read.context = getApplicationContext();
-        Save.id = Config.getInstance().getUser().getId();
-        Read.id = Config.getInstance().getUser().getId();
+        Save.id = config.getUser().getId();
+        Read.id = config.getUser().getId();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -111,8 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ItemContainer.setDefaultUnit(getString(R.string.stk));
 
 
-<<<<<<< HEAD
-=======
 
 
         /*getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser()));
@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
->>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
     }
     public Fragment getVisibleFragment(){
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
@@ -258,12 +257,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Shoppinglist getShoppinglist() {
         //getItems();
         if(shoppinglist == null){
-<<<<<<< HEAD
-            shoppinglist = getGroups().findGroupByName("Local").createList("Haushalt");
-=======
-            shoppinglist = new Shoppinglist(getString(R.string.shopping_list));
-            getGroups().findGroupByName("Local").addShoppinglist(shoppinglist);
->>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
+            boolean found = false;
+            for (Shoppinglist s:getGroups().findGroupByName(getString(R.string.local)).getShoppinglists()) {
+                if(s.isDefault()){
+                    found = true;
+                    shoppinglist = s;
+                }
+            }
+            if(!found)
+              shoppinglist =  getGroups().findGroupByName(getString(R.string.local)).createList(getString(R.string.shopping_list),true);
         }
         return shoppinglist;
     }
@@ -278,16 +280,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public CategoryNameList getItemCategorys() {
         if(itemCategorys == null){
             itemCategorys = Read.readCategoryList();
-            itemCategorys.addCategoryName("Obst & Gemüse");
-            itemCategorys.addCategoryName("Fisch & Fleisch");
-            itemCategorys.addCategoryName("Gewürze");
-            itemCategorys.addCategoryName("Süßigkeiten");
         }
         return itemCategorys;
     }
     public GroupList getGroups(){
         if(groupList == null){
             groupList = Read.readGroupList();
+            groupList.populateGroups();
+            boolean found = false;
+            for (Group g:groupList.getGroups()) {
+                if(g.getName().equals(getString(R.string.local))){
+                    found = true;
+                }
+            }
+            if (!found){
+                groupList.addGroup(new Group(getString(R.string.local), config.getUser()));
+            }
         }
         return groupList;
     }

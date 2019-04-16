@@ -2,6 +2,8 @@ package smartshoppinglist.at.smartshoppinglist.objects;
 
 import android.content.Context;
 
+import com.google.gson.annotations.Expose;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -17,30 +19,36 @@ import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 
 public class Shoppinglist implements Serializable {
-    private List<Category<ItemContainer>> items;
+    @Expose
+    private List<Category> items;
 
     public void setName(String name) {
         this.name = name;
     }
-    private Group group;
+    @Expose private Group group;
 
-    private String name;
+    @Expose private String name;
     private static String categoryBought = "Gekauft";
 
-    private static String categoryGeneral = "Alegmein";
+    private static String categoryGeneral = "Allgemein";
 
-<<<<<<< HEAD
-    public Shoppinglist(String name, Group group){
+    @Expose private boolean isDefault = false;
+
+    public Shoppinglist(String name, Group group) {
+        this(name);
         this.group = group;
-=======
-    private boolean isDefault = false;
+    }
+
+    public Shoppinglist(String name, Group group, boolean isDefault) {
+        this(name, isDefault);
+        this.group = group;
+    }
 
     public Shoppinglist(String name){
->>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
         this.name = name;
-        items = new ArrayList<Category<ItemContainer>>();
-        addCategory(new Category<ItemContainer>(ItemContainer.class,categoryGeneral,-1,true));
-        addCategory(new Category<ItemContainer>(ItemContainer.class,categoryBought,-2,true));
+        items = new ArrayList<Category>();
+        addCategory(new Category(categoryGeneral,-1,true));
+        addCategory(new Category(categoryBought,-2,true));
     }
 
     public Shoppinglist(String name, boolean isDefault){
@@ -51,7 +59,7 @@ public class Shoppinglist implements Serializable {
     public void addItemList(List<ItemContainer> itemContainers){
         for (ItemContainer itemContainer:
              itemContainers) {
-            Category<ItemContainer> category = null;
+            Category category = null;
             if(itemContainer.isTicked()){
                 category = getCategoryByName(categoryBought);
 
@@ -59,7 +67,7 @@ public class Shoppinglist implements Serializable {
                 category = getCategoryByName(itemContainer.getItem().getCategory());
             }
             if(category == null){
-                category = new Category<ItemContainer>(ItemContainer.class,itemContainer.getItem().getCategory(),true);
+                category = new Category(itemContainer.getItem().getCategory(),true);
                 addCategory(category);
             }
             category.addElement(itemContainer);
@@ -67,16 +75,16 @@ public class Shoppinglist implements Serializable {
         }
     }
 
-    public Category<ItemContainer>[] getItems(){
-        List<Category<ItemContainer>> result = new ArrayList<>();
-        for (Category<ItemContainer> category:items) {
+    public Category[] getItems(){
+        List<Category> result = new ArrayList<>();
+        for (Category category:items) {
             if (category.getElements().length > 0){
                 result.add(category);
             }
         }
-        return result.toArray((Category<ItemContainer>[])Array.newInstance(items.get(0).getClass(),result.size()));
+        return result.toArray((Category[])Array.newInstance(items.get(0).getClass(),result.size()));
     }
-    public void addCategory(Category<ItemContainer> c){
+    public void addCategory(Category c){
         items.add(c);
         sort();
     }
@@ -86,9 +94,9 @@ public class Shoppinglist implements Serializable {
     }
 
     public void addItem(ItemContainer itemContainer){
-        Category<ItemContainer> category = getCategoryByName(itemContainer.getItem().getCategory());
+        Category category = getCategoryByName(itemContainer.getItem().getCategory());
         if(category == null){
-            category = new Category<ItemContainer>(ItemContainer.class,itemContainer.getItem().getCategory(),true);
+            category = new Category(itemContainer.getItem().getCategory(),true);
             addCategory(category);
         }
         addExistingItems(itemContainer);
@@ -98,10 +106,10 @@ public class Shoppinglist implements Serializable {
     }
 
     private void setChanges(){
-        //Save.save(this);
+        Save.save(this);
     }
     public void removeItem(ItemContainer itemContainer){
-        Category<ItemContainer> category;
+        Category category;
         if(itemContainer.isTicked() == true){
             category = getCategoryByName(categoryBought);
         }
@@ -113,8 +121,8 @@ public class Shoppinglist implements Serializable {
         }
         setChanges();
     }
-    private Category<ItemContainer> getCategoryByName(String name){
-        for (Category<ItemContainer> category:items) {
+    private Category getCategoryByName(String name){
+        for (Category category:items) {
             if (category.getName().equals(name)){
                 return  category;
             }
@@ -123,7 +131,7 @@ public class Shoppinglist implements Serializable {
     }
     public void tickItem(ItemContainer itemContainer){
         itemContainer.setTicked(true);
-        Category<ItemContainer> category = getCategoryByName(itemContainer.getItem().getCategory());
+        Category category = getCategoryByName(itemContainer.getItem().getCategory());
         if (category != null && category.containsElement(itemContainer)){
             category.removeElement(itemContainer);
             getCategoryByName(categoryBought).addElement(itemContainer);
@@ -133,7 +141,7 @@ public class Shoppinglist implements Serializable {
     }
     public void unTickItem(ItemContainer itemContainer){
         itemContainer.setTicked(false);
-        Category<ItemContainer> category = getCategoryByName(categoryBought);
+        Category category = getCategoryByName(categoryBought);
         if (category != null && category.containsElement(itemContainer)){
             category.removeElement(itemContainer);
             addItem(itemContainer);
@@ -141,7 +149,7 @@ public class Shoppinglist implements Serializable {
         setChanges();
     }
     public void removeTickedItems(){
-        Category<ItemContainer> category = getCategoryByName(categoryBought);
+        Category category = getCategoryByName(categoryBought);
         if (category != null){
             category.clear();
         }
@@ -155,7 +163,7 @@ public class Shoppinglist implements Serializable {
     }
 
     public void updateCategoriesedItems(){
-        for (Category<ItemContainer> category: items) {
+        for (Category category: items) {
             ItemContainer[] elements = category.getElements();
             for (int i = 0; i < elements.length; i++) {
                 if(!elements[i].isTicked() && !elements[i].getItem().getCategory().equals(category.getName())){
@@ -167,7 +175,7 @@ public class Shoppinglist implements Serializable {
         }
     }
     private void addExistingItems(ItemContainer itemContainer){
-        Category<ItemContainer> category = getCategoryByName(itemContainer.getItem().getCategory());
+        Category category = getCategoryByName(itemContainer.getItem().getCategory());
         for (int i = 0; category.getElements().length > i; i++) {
             ItemContainer ic = (ItemContainer) category.getElements()[i];
             if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit())){
@@ -192,13 +200,11 @@ public class Shoppinglist implements Serializable {
     public static void setCategoryGeneral(String categoryGeneral) {
         Shoppinglist.categoryGeneral = categoryGeneral;
     }
-<<<<<<< HEAD
 
     public Group getGroup() {
-        return group;
-=======
+            return group;
+    }
     public boolean isDefault() {
         return isDefault;
->>>>>>> 7fd570ae8f0a124fb2abb794e79fdc8b4ad45731
     }
 }

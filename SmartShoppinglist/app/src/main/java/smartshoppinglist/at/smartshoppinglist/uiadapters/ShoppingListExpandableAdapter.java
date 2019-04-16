@@ -106,7 +106,7 @@ public class ShoppingListExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
-        Category<ItemContainer>[] categorys = shoppinglist.getItems();
+        Category[] categorys = shoppinglist.getItems();
         if(categorys.length > groupPosition){
             if (convertView == null) {
                 LayoutInflater infalInflater = (LayoutInflater) this.context

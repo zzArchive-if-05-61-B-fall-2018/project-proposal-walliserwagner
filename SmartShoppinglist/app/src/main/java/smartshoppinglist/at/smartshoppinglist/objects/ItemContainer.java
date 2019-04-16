@@ -1,14 +1,17 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 public class ItemContainer implements Comparable<ItemContainer>, Serializable {
-    private static String defaultUnit = "Stk";
-    private static int defaultCount = 1;
+    private transient static String defaultUnit = "Stk";
+    private transient static int defaultCount = 1;
     private Item item;
     private int count;
     private String unit;
     private boolean ticked;
+
 
     public ItemContainer(Item item, int count, String unit){
         this.item = item;
@@ -19,7 +22,7 @@ public class ItemContainer implements Comparable<ItemContainer>, Serializable {
         this(item, count, defaultUnit);
     }
     public ItemContainer(Item item, String unit){
-        this(item, 1, unit);
+        this(item, defaultCount, unit);
     }
     public ItemContainer(Item item){
         this(item, defaultCount);
@@ -71,10 +74,10 @@ public class ItemContainer implements Comparable<ItemContainer>, Serializable {
     }
 
     public static void setDefaultUnit(String defaultUnit) {
-        ItemContainer.defaultUnit = defaultUnit;
+        defaultUnit = defaultUnit;
     }
 
     public static void setDefaultCount(int defaultCount) {
-        ItemContainer.defaultCount = defaultCount;
+        defaultCount = defaultCount;
     }
 }

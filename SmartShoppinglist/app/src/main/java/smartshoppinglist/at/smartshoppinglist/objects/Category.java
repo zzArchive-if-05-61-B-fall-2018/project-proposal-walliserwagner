@@ -1,45 +1,46 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Category<T extends Comparable<T>> implements Comparable<Category<T>>, Serializable {
-    private static int defaultpriority = 0;
-    private Class<T> type;
-    private List<T> categrorizedObjects;
+public class Category implements Comparable<Category>, Serializable {
+    private transient static int defaultpriority = 0;
+    private List<ItemContainer> categrorizedObjects;
     private String name;
     private int priority;
     private boolean isExpanded = false;
 
-    public Category(Class<T> type, String name,int priority){
-        this.type = type;
+    public Category(String name,int priority){
         this.name = name;
         this.priority = priority;
-        categrorizedObjects = new ArrayList<T>();
+        categrorizedObjects = new ArrayList<ItemContainer>();
     }
-    public Category(Class<T> type, String name){
-        this(type,name,defaultpriority);
+    public Category(String name){
+        this(name,defaultpriority);
     }
 
-    public Category(Class<T> type, String name, int priority,boolean expanded){
-        this(type,name,priority);
+    public Category(String name, int priority,boolean expanded){
+        this(name, defaultpriority);
         isExpanded = expanded;
     }
-    public Category(Class<T> type, String name,boolean expanded){
-        this(type,name,defaultpriority, expanded);
+    public Category(String name,boolean expanded){
+        this(name,defaultpriority, expanded);
     }
 
-    public void addElement(T element){
+    public void addElement(ItemContainer element){
         categrorizedObjects.add(element);
     }
-    public <T> T[] getElements(){
-        T[] array = (T[]) Array.newInstance(type,categrorizedObjects.size());
-        return categrorizedObjects.toArray(array);
+
+    public ItemContainer[] getElements(){
+        return categrorizedObjects.toArray(new ItemContainer[0]);
     }
-    public void removeElement(T element){
+
+    public void removeElement(ItemContainer element){
         categrorizedObjects.remove(element);
     }
 
@@ -51,10 +52,7 @@ public class Category<T extends Comparable<T>> implements Comparable<Category<T>
         Collections.sort(categrorizedObjects);
     }
 
-    public Class<T> getType() {
-        return type;
-    }
-    public boolean containsElement(T element){
+    public boolean containsElement(ItemContainer element){
         if (categrorizedObjects.contains(element)){
             return true;
         }
@@ -85,7 +83,7 @@ public class Category<T extends Comparable<T>> implements Comparable<Category<T>
     }
 
     @Override
-    public int compareTo(Category<T> c) {
+    public int compareTo(Category c) {
         return ((Integer)c.getPriority()).compareTo(priority);
     }
 }

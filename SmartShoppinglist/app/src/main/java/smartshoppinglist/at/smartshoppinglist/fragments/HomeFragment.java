@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment {
         dialog.create().show();
     }
     private void expandListView(){
-        Category<ItemContainer>[] category = shoppinglist.getItems();
+        Category[] category = shoppinglist.getItems();
         for (int i = 0; i < category.length;i++) {
             if (category[i].isExpanded()){
                 expListView.expandGroup(i);

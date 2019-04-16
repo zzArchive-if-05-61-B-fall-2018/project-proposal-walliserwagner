@@ -1,25 +1,25 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
+import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 
 public class Group implements Serializable {
-    private String name;
-    private List<User> users;
-    private transient List<Shoppinglist> shoppinglists;
-    private List<String> shoppinglistnames;
-
-    private boolean isDefault = false;
+    @Expose private String name;
+    @Expose private List<User> users;
+    private List<Shoppinglist> shoppinglists;
+    @Expose private boolean isDefault = false;
 
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
         this.name = name;
         this.users = users;
         this.shoppinglists = shoppinglists;
-        populateShoppinglists();
     }
 
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists, boolean isDefault) {
@@ -28,26 +28,22 @@ public class Group implements Serializable {
     }
 
     public Group(String name, List<User> users) {
-        new Group(name, users, new ArrayList<Shoppinglist>());
+        this(name, users, new ArrayList<Shoppinglist>());
     }
     public Group(String name, List<User> users, boolean isDefault) {
         this(name,users);
     }
+
     public Group(String name, User user) {
-        List<User> users = new ArrayList<User>();
+        this.name = name;
+        users = new ArrayList<>();
         users.add(user);
-        new Group(name, users, new ArrayList<Shoppinglist>());
+        shoppinglists = new ArrayList<>();
     }
 
-    private void populateShoppinglists(){
-        shoppinglistnames = new ArrayList<>();
-        for (String name:shoppinglistnames) {
-            shoppinglists.add(Read.readShoppinglist(name));
-        }
-    }
+
     public Group(String name, User user, boolean isDefault) {
         this(name,user);
-
     }
 
     public String[] getUsernames(){
@@ -63,8 +59,10 @@ public class Group implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
+        redoShoppinglists();
     }
 
     public User[] getUsers() {
@@ -77,29 +75,40 @@ public class Group implements Serializable {
 
     public Shoppinglist[] getShoppinglists()
     {
-        if(shoppinglists == null) shoppinglists = new ArrayList<>();
         return shoppinglists.toArray(new Shoppinglist[0]);
     }
 
-    /*public void addShoppinglist(Shoppinglist shoppinglist) {
-        this.shoppinglists.add(shoppinglist);
-    }*/
+    public Shoppinglist createList(String shoppinglistname, boolean isdefault){
+        Shoppinglist list = new Shoppinglist(shoppinglistname,this, isdefault);
+        this.shoppinglists.add(list);
+        return list;
+    }
 
     public Shoppinglist createList(String shoppinglistname)
     {
-        if(shoppinglists == null) shoppinglists = new ArrayList<>();
         Shoppinglist list = new Shoppinglist(shoppinglistname,this);
         this.shoppinglists.add(list);
-        this.shoppinglistnames.add(shoppinglistname);
         return list;
     }
 
     public void removeShoppinglist(Shoppinglist shoppinglist) {
-        if(shoppinglists == null) shoppinglists = new ArrayList<>();
-        this.shoppinglists.remove(shoppinglists);
+        this.shoppinglists.remove(shoppinglist);
+        Save.remove(shoppinglist.getName(), name);
     }
     public boolean isDefault() {
         return isDefault;
+    }
+
+    private void redoShoppinglists(){
+        for (Shoppinglist s:shoppinglists) {
+            Save.remove(s.getName(), name);
+            Save.save(s);
+        }
+    }
+
+    public void populateShoppinglist(){
+        shoppinglists = new ArrayList<>();
+        shoppinglists = Read.readShoppinglist(name);
     }
 }
 

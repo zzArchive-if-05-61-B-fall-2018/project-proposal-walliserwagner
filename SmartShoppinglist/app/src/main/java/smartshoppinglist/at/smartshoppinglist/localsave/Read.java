@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -66,16 +67,29 @@ public class Read {
         return list;
     }
 
-    public static Shoppinglist readShoppinglist(String name){
+    public static List<Shoppinglist> readShoppinglist(String groupname){
         String jsonString = null;
+        File folder = new File(context.getFilesDir().getPath().toString());
+        File[] files = folder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                if(name.startsWith(id+"shoppinglist") && name.endsWith("_"+groupname+".json")){
+                    return true;
+                }
+                return false;
+            }
+        });
+        List<Shoppinglist> shoppinglists = new ArrayList<>();
+        Gson gson = new Gson();
         try {
-            jsonString = getStringFromFile(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+name+".json");
+            for (int i = 0; i < files.length; i++) {
+                jsonString = getStringFromFile(files[i].getAbsolutePath());
+                shoppinglists.add(gson.fromJson(jsonString, Shoppinglist.class));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Gson gson = new Gson();
-        Shoppinglist list = gson.fromJson(jsonString, Shoppinglist.class);
-        return list;
+        return shoppinglists;
     }
 
     public static CategoryNameList readCategoryList(){

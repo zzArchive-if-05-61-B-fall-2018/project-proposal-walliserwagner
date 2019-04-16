@@ -6,7 +6,10 @@ import android.support.annotation.RequiresApi;
 import android.util.JsonWriter;
 import android.util.Log;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -50,13 +53,48 @@ public class Save {
     }
 
     public static void save(Shoppinglist list){
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                if(f.getName().equals("shoppinglists"))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        });
+        Gson gson = gsonBuilder.create();
         String str = gson.toJson(list);
-        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+list.getName()+".json"), str);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+list.getName()+"_"+list.getGroup().getName()+".json"), str);
+    }
+
+    public static void remove(String shoppinglistname, String groupname){
+        File file = new File(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+shoppinglistname+"_"+groupname+".json");
+        file.delete();
     }
 
     public static void save(GroupList list){
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                if(f.getName().equals("shoppinglists"))
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        });
+        Gson gson = gsonBuilder.create();
         String str = gson.toJson(list);
         writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"grouplist.json"), str);
     }
