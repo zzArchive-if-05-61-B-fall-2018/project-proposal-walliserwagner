@@ -99,6 +99,7 @@ public class GroupFragment extends Fragment {
                         throw new Exception();
                     }
                     dialog.dismiss();
+                    adapter.notifyDataSetChanged();
                 }catch (Exception e) {
                 }
             }

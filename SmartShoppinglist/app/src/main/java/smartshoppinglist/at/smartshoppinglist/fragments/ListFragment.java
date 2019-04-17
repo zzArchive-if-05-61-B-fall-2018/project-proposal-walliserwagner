@@ -122,6 +122,7 @@ public class ListFragment extends Fragment {
                 dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if(groupList.getGroups()[finalGroupPos].getShoppinglists()[finalChildPos].equals(MainActivity.getInstance().getShoppinglist())) MainActivity.getInstance().setShoppinglist(null);
                         groupList.getGroups()[finalGroupPos].removeShoppinglist(groupList.getGroups()[finalGroupPos].getShoppinglists()[finalChildPos]);
                         listAdapter.notifyDataSetChanged();
                     }
