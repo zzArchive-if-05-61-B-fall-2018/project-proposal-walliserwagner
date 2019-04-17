@@ -34,6 +34,7 @@ public class Group implements Serializable {
     }
     public Group(String name, List<User> users, boolean isDefault) {
         this(name,users);
+        this.isDefault = isDefault;
     }
 
     public Group(String name, User user) {
@@ -46,6 +47,7 @@ public class Group implements Serializable {
 
     public Group(String name, User user, boolean isDefault) {
         this(name,user);
+        this.isDefault = isDefault;
     }
 
     public String[] getUsernames(){

@@ -112,14 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Item.setDefaultCategory(getString(R.string.general));
         ItemContainer.setDefaultUnit(getString(R.string.stk));
 
-
-
-
-        /*getGroups().addGroup(new Group("Arbeit",Config.getInstance().getUser()));
-        getGroups().findGroupByName("Arbeit").addShoppinglist(new Shoppinglist("Einkauf"));*/
-
-
-
     }
     public Fragment getVisibleFragment(){
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
@@ -258,18 +250,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(shoppinglist == null){
             Shoppinglist sl = Config.getInstance().getCurrentShoppinglist();
             if(sl != null){
-                shoppinglist = getGroups().findGroupByName(sl.getGroup().getName()).findListByName(sl.getName());
+                setShoppinglist( getGroups().findGroupByName(sl.getGroup().getName()).findListByName(sl.getName()));
             }
-            else{
+            if(shoppinglist == null){
                 boolean found = false;
                 for (Shoppinglist s:getGroups().findGroupByName(getString(R.string.local)).getShoppinglists()) {
                     if(s.isDefault()){
                         found = true;
-                        shoppinglist = s;
+                        setShoppinglist(s);
                     }
                 }
                 if(!found)
-                    shoppinglist =  getGroups().findGroupByName(getString(R.string.local)).createList(getString(R.string.shopping_list),true);
+                    setShoppinglist(getGroups().findGroupByName(getString(R.string.local)).createList(getString(R.string.shopping_list),true));
             }
         }
         return shoppinglist;
@@ -325,5 +317,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglist = shoppinglist;
         Config.getInstance().setCurrentShoppinglist(shoppinglist);
+        if(shoppinglist == null) getShoppinglist();
     }
 }
