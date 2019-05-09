@@ -63,4 +63,12 @@ public class ItemList {
     private void sort(){
         Collections.sort(items);
     }
+
+    public List<Item> getItemsByCategory(String name){
+        List<Item> result = new ArrayList<>();
+        for (Item item :items) {
+            if(item.getCategory().equals(name)) result.add(item);
+        }
+        return result;
+    }
 }

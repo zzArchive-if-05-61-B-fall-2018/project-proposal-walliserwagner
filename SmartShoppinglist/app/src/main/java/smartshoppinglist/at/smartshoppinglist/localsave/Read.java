@@ -3,32 +3,19 @@ package smartshoppinglist.at.smartshoppinglist.localsave;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
-import smartshoppinglist.at.smartshoppinglist.objects.CategoryNameList;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
-import smartshoppinglist.at.smartshoppinglist.objects.Item;
-import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
@@ -92,7 +79,7 @@ public class Read {
         return shoppinglists;
     }
 
-    public static CategoryNameList readCategoryList(){
+    public static ItemCategoryList readCategoryList(){
         String jsonString = null;
         try {
             jsonString = getStringFromFile(context.getFilesDir().getPath().toString()+"/"+id+"categorynamelist.json");
@@ -100,10 +87,10 @@ public class Read {
             e.printStackTrace();
         }
         if(jsonString.equals("")){
-            return new CategoryNameList();
+            return new ItemCategoryList();
         }
         Gson gson = new Gson();
-        CategoryNameList list = gson.fromJson(jsonString, CategoryNameList.class);
+        ItemCategoryList list = gson.fromJson(jsonString, ItemCategoryList.class);
         return list;
     }
     public static Config readConfig(){

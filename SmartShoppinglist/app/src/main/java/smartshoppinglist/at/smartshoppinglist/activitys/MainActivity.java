@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.fragments.CategoryFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.GroupFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.HomeFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.ItemsFragment;
@@ -32,7 +33,7 @@ import smartshoppinglist.at.smartshoppinglist.fragments.SearchFragment;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
-import smartshoppinglist.at.smartshoppinglist.objects.CategoryNameList;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Shoppinglist shoppinglist;
     private ItemList items;
     private GroupList groupList;
-    private CategoryNameList itemCategorys;
+    private ItemCategoryList itemCategorys;
     private Config config;
     private static MainActivity mainActivity;
 
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 else if (f instanceof ListFragment){
                     ((ListFragment)f).addListPooup();
+                }
+                else if (f instanceof CategoryFragment){
+                    ((CategoryFragment)f).createItem();
                 }
             }
         });
@@ -219,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else if(f instanceof HomeFragment){
                 ((HomeFragment)f).onBackPressed();
             }
+            else if(f instanceof CategoryFragment){
+                ((CategoryFragment)f).onBackPressed();
+            }
             getFragmentManager().popBackStack();
         }
 
@@ -262,8 +269,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 if(!found)
                     setShoppinglist(getGroups().findGroupByName(getString(R.string.local)).createList(getString(R.string.shopping_list),true));
+                    getItemCategorys().addCategoryName(getString(R.string.general),true);
             }
         }
+        renewPrioritys(shoppinglist.getItems());
+        shoppinglist.sort();
         return shoppinglist;
     }
 
@@ -274,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return items;
     }
 
-    public CategoryNameList getItemCategorys() {
+    public ItemCategoryList getItemCategorys() {
         if(itemCategorys == null){
             itemCategorys = Read.readCategoryList();
         }
@@ -318,5 +328,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.shoppinglist = shoppinglist;
         Config.getInstance().setCurrentShoppinglist(shoppinglist);
         if(shoppinglist == null) getShoppinglist();
+    }
+    private void renewPrioritys(Category[] categories){
+        for (Category c: categories) {
+            Integer p = getItemCategorys().getPriorityByName(c.getName());
+            if(p == null && c.getPriority() > 0) getItemCategorys().addCategoryName(c.getName());
+            c.setPriority(p);
+        }
     }
 }
