@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\usepackage[utf8]{inputenc}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example}
+
+\newcommand{\projectname}{Smart Shoppinglist}
+\newcommand{\productname}{Smart Shoppinglist}
+\newcommand{\projectleader}{A. Walliser}
+\newcommand{\documentstatus}{In process}
+%\newcommand{\documentstatus}{Submitted}
+%\newcommand{\documentstatus}{Released}
+\newcommand{\version}{V. 1.0}
+
+\begin{document}
+\begin{titlepage}
+\begin{flushright}
+\includegraphics[scale=.5]{htlleondinglogo.png}\\
+\end{flushright}
+
+\vspace{10em}
+
+\begin{center}
+{\Huge Planning Review} \\[3em]
+{\LARGE \productname} \\[3em]
+\end{center}
+
+\begin{flushleft}
+\begin{tabular}{|l|l|}
+\hline
+Project Name & \projectname \\ \hline
+Project Leader & \projectleader \\ \hline
+Document state & \documentstatus \\ \hline
+Version & \version \\ \hline
+\end{tabular}
+\end{flushleft}
+
+\end{titlepage}
+\section*{Revisions}
+\begin{tabular}{|l|l|l|}
+\hline
+\cellcolor[gray]{0.5}\textcolor{white}{Date} & \cellcolor[gray]{0.5}\textcolor{white}{Author} & \cellcolor[gray]{0.5}\textcolor{white}{Change} \\ \hline
+May 07, 2018&C. Wagner/A. Walliser&First version \\ \hline
+\end{tabular}
+\pagebreak
+
+\tableofcontents
+\pagebreak
+
+\section{Sprints}
+
+\subsection{09.05.2019}
+\begin{itemize}
+\item Make database and application server connectivity on AWS.
+\item Implement Item list.
+\end{itemize}
+\subsection{16.05.2019}
+\begin{itemize}
+\item Send user data to application server and save it on the database.
+\item Client side group invitations.
+\end{itemize}
+\subsection{23.05.2019}
+\begin{itemize}
+\item Back end send and receive invitations.
+\item Implement recipe feature.
+\end{itemize}
+\subsection{30.05.2019}
+\begin{itemize}
+\item Synchronized user data for group shopping lists.
+\item Settings and icon pool for items.
+\end{itemize}
+\subsection{06.06.2019}
+\begin{itemize}
+\item Testing and improving.
+\item Buffer time for de-escalation. 
+\end{itemize}
+\subsection{13.06.2019}
+\begin{itemize}
+\item Testing and improving.
+\item Buffer time for de-escalation. 
+\end{itemize}
+
+\end{document}  
