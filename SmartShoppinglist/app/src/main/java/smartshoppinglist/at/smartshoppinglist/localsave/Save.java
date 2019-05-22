@@ -13,10 +13,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
+import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class Save {
@@ -28,6 +30,18 @@ public class Save {
         Gson gson = new Gson();
         String str = gson.toJson(list);
         writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"itemlist.json"), str);
+    }
+
+    public static void save(InviteList list){
+        Gson gson = new Gson();
+        String str = gson.toJson(list);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"invitelist.json"), str);
+    }
+
+    public static void save(RecipeList list){
+        Gson gson = new Gson();
+        String str = gson.toJson(list);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"recipelist.json"), str);
     }
 
     public static void save(Shoppinglist list){

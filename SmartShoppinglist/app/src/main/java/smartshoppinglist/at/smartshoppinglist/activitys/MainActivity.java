@@ -26,13 +26,18 @@ import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.fragments.CategoryFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.GroupFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.HomeFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.InviteFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.ItemsFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.ListFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.RecipeFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.RecipeListFragment;
+import smartshoppinglist.at.smartshoppinglist.fragments.RecipeViewFragment;
 import smartshoppinglist.at.smartshoppinglist.fragments.SearchFragment;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
+import smartshoppinglist.at.smartshoppinglist.objects.Invite;
+import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
@@ -40,6 +45,7 @@ import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
+import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 
@@ -49,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Shoppinglist shoppinglist;
     private ItemList items;
     private GroupList groupList;
+    private InviteList inviteList;
+    private RecipeList recipeList;
     private ItemCategoryList itemCategorys;
     private Config config;
     private static MainActivity mainActivity;
@@ -94,6 +102,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else if (f instanceof CategoryFragment){
                     ((CategoryFragment)f).createItem();
                 }
+                else if (f instanceof ItemsFragment){
+                    ((ItemsFragment)f).createItem();
+                }
+                else if (f instanceof InviteFragment){
+                    ((InviteFragment)f).changeFragment();
+                }
+                else if(f instanceof RecipeListFragment){
+                    ((RecipeListFragment)f).createRecipe();
+                }
+                else if(f instanceof RecipeFragment){
+                    ((RecipeFragment)f).createRecipe();
+                }
             }
         });
 
@@ -115,6 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Shoppinglist.setCategoryGeneral(getString(R.string.general));
         Item.setDefaultCategory(getString(R.string.general));
         ItemContainer.setDefaultUnit(getString(R.string.stk));
+
+        getInviteList().addInvite(new Invite("gruppe","test@email.com"));
+        getInviteList().addInvite(new Invite("Arbeit","test@email.com"));
 
     }
     public Fragment getVisibleFragment(){
@@ -189,20 +212,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             item.setChecked(true);
         } else if (id == R.id.nav_recipe) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, new RecipeFragment());
+            fragmentTransaction.replace(R.id.main_container, new RecipeListFragment());
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.commit();
             getSupportActionBar().setTitle(R.string.recipes);
             item.setChecked(true);
         } else if (id == R.id.nav_item) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, new ItemsFragment());
-            fragmentTransaction.addToBackStack("");
+            fragmentTransaction.replace(R.id.main_container, new ItemsFragment(), "item");
+            fragmentTransaction.addToBackStack("item");
             fragmentTransaction.commit();
             getSupportActionBar().setTitle(R.string.items);
             item.setChecked(true);
         } else if (id == R.id.nav_invite) {
-
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.main_container, new InviteFragment());
+            fragmentTransaction.addToBackStack("");
+            fragmentTransaction.commit();
+            getSupportActionBar().setTitle(R.string.invites);
+            item.setChecked(true);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -226,6 +254,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else if(f instanceof CategoryFragment){
                 ((CategoryFragment)f).onBackPressed();
             }
+            else if(f instanceof ItemsFragment){
+                ((ItemsFragment)f).onBackPressed();
+            }
+            else if(f instanceof RecipeFragment){
+                ((RecipeFragment)f).onBackPressed();
+            }
+            else if(f instanceof RecipeViewFragment){
+                ((RecipeViewFragment)f).onBackPressed();
+            }
+
             getFragmentManager().popBackStack();
         }
 
@@ -272,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     getItemCategorys().addCategoryName(getString(R.string.general),true);
             }
         }
-        renewPrioritys(shoppinglist.getItems());
+        renewPriories(shoppinglist.getItems());
         shoppinglist.sort();
         return shoppinglist;
     }
@@ -329,11 +367,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Config.getInstance().setCurrentShoppinglist(shoppinglist);
         if(shoppinglist == null) getShoppinglist();
     }
-    private void renewPrioritys(Category[] categories){
+    private void renewPriories(Category[] categories){
         for (Category c: categories) {
             Integer p = getItemCategorys().getPriorityByName(c.getName());
             if(p == null && c.getPriority() > 0) getItemCategorys().addCategoryName(c.getName());
             c.setPriority(p);
         }
+    }
+    public InviteList getInviteList(){
+        if(inviteList == null){
+            inviteList = Read.readInviteList();
+        }
+        return inviteList;
+    }
+    public RecipeList getRecipeList(){
+        if(recipeList == null){
+            recipeList = Read.readRecipeList();
+        }
+        return recipeList;
     }
 }

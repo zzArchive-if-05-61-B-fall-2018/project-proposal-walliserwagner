@@ -17,7 +17,7 @@ android {
             buildConfigField('String', 'HOST_IP', "\"${HostIp}\"")
         }
 
-        debug{
+        debug {
             buildConfigField('String', 'HOST_IP', "\"${HostIp}\"")
         }
     }

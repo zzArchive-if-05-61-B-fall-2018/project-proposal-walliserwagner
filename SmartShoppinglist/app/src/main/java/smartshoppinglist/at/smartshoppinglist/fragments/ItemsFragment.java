@@ -1,25 +1,37 @@
 package smartshoppinglist.at.smartshoppinglist.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemCategory;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.DragableListViewAdapter;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.DragableListView;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 /**
@@ -28,6 +40,8 @@ import smartshoppinglist.at.smartshoppinglist.uiadapters.DragableListView;
 public class ItemsFragment extends Fragment {
 
     private List<ItemCategory> categoryList;
+    private Context mContext;
+    private AlertDialog createItemDialog;
 
     public ItemsFragment() {
         // Required empty public constructor
@@ -36,6 +50,7 @@ public class ItemsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mContext = getActivity();
         View v = inflater.inflate(R.layout.fragment_items, container, false);
         categoryList = MainActivity.getInstance().getItemCategorys().getCategories();
         final DragableListView listView = (DragableListView) v.findViewById(R.id.itemsList);
@@ -85,6 +100,74 @@ public class ItemsFragment extends Fragment {
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+    @SuppressLint("ClickableViewAccessibility")
+    public void createItem(){
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        View popup = inflater.inflate(R.layout.create_item_in_itemtab_popup, null);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(popup);
+
+        final AutoCompleteTextView category =  popup.findViewById(R.id.autocomplete_category);
+        String[] categories = (((MainActivity)getActivity()).getItemCategorys().getNames().toArray(new String[0]));
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categories);
+        category.setAdapter(adapter);
+        final Item item = new Item(getString(R.string.item_name));
+        category.setHint(Item.getDefaultCategory());
+        final EditText name = popup.findViewById(R.id.create_item_in_itemtab_popup_name);
+        name.setHint(item.getName());
+        final EditText unit = popup.findViewById(R.id.create_item_in_itemtab_popup_unit);
+        unit.setText(item.getDefaultUnit());
+        category.setThreshold(1);
+        category.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                category.showDropDown();
+                return false;
+            }
+        });
+        Button add = popup.findViewById(R.id.create_item_in_itemtab_popup_add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(!InputValidator.validInputString(name.getText().toString(),20)){
+                        name.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if(!InputValidator.validInputEmptyString(category.getText().toString(),20)){
+                        category.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if (!InputValidator.validInputString(unit.getText().toString(), 4)) {
+                        unit.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    item.setName(name.getText().toString());
+                    item.setCategory(category.getText().toString());
+                    item.setDefaultunit(unit.getText().toString());
+                    ((MainActivity)getActivity()).getItems().addItem(item);
+                    ((MainActivity)getActivity()).getItemCategorys().addCategoryName(item.getCategory());
+                    getActivity().onBackPressed();
+                    adapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                }
+            }
+        });
+        createItemDialog = alertDialogBuilder.create();
+        createItemDialog.show();
+    }
+    public void onBackPressed()
+    {
+        if(createItemDialog != null){
+            createItemDialog.dismiss();
+            createItemDialog = null;
+        }
+        else {
+            getFragmentManager().popBackStack();
         }
     }
 }

@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        shoppinglist = ((MainActivity)getActivity()).getShoppinglist();
+        shoppinglist = MainActivity.getInstance().getShoppinglist();
 
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         expListView = (ExpandableListView) v.findViewById(R.id.listView);

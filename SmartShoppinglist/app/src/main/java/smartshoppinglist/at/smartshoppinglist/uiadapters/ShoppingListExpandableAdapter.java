@@ -143,7 +143,7 @@ public class ShoppingListExpandableAdapter extends BaseExpandableListAdapter {
                     if(isExpanded){
                         ((ExpandableListView) parent).collapseGroup(groupPosition);
                         image.setImageResource(R.drawable.ic_arrow_down);
-                        shoppinglist.setCategoryExpandedByName(shoppinglist.getItems()[groupPosition].getName(),true);
+                        shoppinglist.setCategoryExpandedByName(shoppinglist.getItems()[groupPosition].getName(),false);
                     }
                     else {
                         ((ExpandableListView) parent).expandGroup(groupPosition, true);

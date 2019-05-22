@@ -50,6 +50,7 @@ public class CategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(itemCategory.getName());
         View v = inflater.inflate(R.layout.fragment_category , container, false);
         mContext = getActivity();
         if(itemCategory != null){

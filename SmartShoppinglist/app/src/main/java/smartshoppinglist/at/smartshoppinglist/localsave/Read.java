@@ -13,10 +13,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.objects.Invite;
+import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
+import smartshoppinglist.at.smartshoppinglist.objects.Recipe;
+import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class Read {
@@ -36,6 +40,36 @@ public class Read {
         }
         Gson gson = new Gson();
         ItemList list = gson.fromJson(jsonString, ItemList.class);
+        return list;
+    }
+
+    public static InviteList readInviteList(){
+        String jsonString = null;
+        try {
+            jsonString = getStringFromFile(context.getFilesDir().getPath().toString()+"/"+id+"invitelist.json");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(jsonString.equals("")){
+            return new InviteList();
+        }
+        Gson gson = new Gson();
+        InviteList list = gson.fromJson(jsonString, InviteList.class);
+        return list;
+    }
+
+    public static RecipeList readRecipeList(){
+        String jsonString = null;
+        try {
+            jsonString = getStringFromFile(context.getFilesDir().getPath().toString()+"/"+id+"recipelist.json");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(jsonString.equals("")){
+            return new RecipeList();
+        }
+        Gson gson = new Gson();
+        RecipeList list = gson.fromJson(jsonString, RecipeList.class);
         return list;
     }
 

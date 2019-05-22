@@ -157,6 +157,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
             category.clear();
         }
         setChanges();
+
     }
     public ItemContainer getItemByPos(int x, int y){
         return (ItemContainer) getItems()[x].getElements()[y];

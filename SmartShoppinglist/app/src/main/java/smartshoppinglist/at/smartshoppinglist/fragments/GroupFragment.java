@@ -47,6 +47,7 @@ public class GroupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(R.string.groups);
         GroupList groupList = MainActivity.getInstance().getGroups();
         View v = inflater.inflate(R.layout.fragment_group, container, false);
         groupListView = (ListView) v.findViewById(R.id.groupList);
