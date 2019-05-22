@@ -3,8 +3,4 @@
     <item
         android:id="@+id/items_longClick_alter"
         android:title="Bearbeiten" />
-
-    <item
-        android:id="@+id/items_longClick_remove"
-        android:title="Entfernen" />
 </menu>

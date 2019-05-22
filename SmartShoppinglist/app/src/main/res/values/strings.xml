@@ -56,4 +56,13 @@
     <string name="bought">Gekauft</string>
     <string name="stk">Stk</string>
     <string name="shopping_list">Einkaufsliste</string>
+    <string name="item_name">Item Name</string>
+    <string name="send">Senden</string>
+    <string name="email_does_not_exist">Diese Email wird von keinem Nutzer verwendet</string>
+    <string name="email">Email</string>
+    <string name="invites">Einladungen</string>
+    <string name="ingredients">Zutaten</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

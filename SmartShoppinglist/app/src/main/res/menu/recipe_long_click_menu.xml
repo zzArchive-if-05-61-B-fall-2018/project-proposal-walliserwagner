@@ -7,7 +7,4 @@
     <item
         android:id="@+id/recipe_longClick_remove"
         android:title="Entfernen" />
-    <item
-        android:id="@+id/recipe_longClick_post"
-        android:title="Posten" />
 </menu>

@@ -1,44 +1,24 @@
 package smartshoppinglist.at.smartshoppinglist.localsave;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.JsonWriter;
 import android.util.Log;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
-import smartshoppinglist.at.smartshoppinglist.objects.Category;
-import smartshoppinglist.at.smartshoppinglist.objects.CategoryNameList;
+import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
-import smartshoppinglist.at.smartshoppinglist.objects.Item;
-import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
+import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
 public class Save {
@@ -50,6 +30,18 @@ public class Save {
         Gson gson = new Gson();
         String str = gson.toJson(list);
         writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"itemlist.json"), str);
+    }
+
+    public static void save(InviteList list){
+        Gson gson = new Gson();
+        String str = gson.toJson(list);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"invitelist.json"), str);
+    }
+
+    public static void save(RecipeList list){
+        Gson gson = new Gson();
+        String str = gson.toJson(list);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"recipelist.json"), str);
     }
 
     public static void save(Shoppinglist list){
@@ -99,7 +91,7 @@ public class Save {
         writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"grouplist.json"), str);
     }
 
-    public static void save(CategoryNameList list){
+    public static void save(ItemCategoryList list){
         Gson gson = new Gson();
         String str = gson.toJson(list);
         writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"categorynamelist.json"), str);

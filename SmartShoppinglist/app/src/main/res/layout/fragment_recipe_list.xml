@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ItemsFragment">
+    tools:context=".fragments.RecipeListFragment">
 
-    <smartshoppinglist.at.smartshoppinglist.uiadapters.DragableListView
-        android:id="@+id/itemsList"
+    <ListView
+        android:id="@+id/recipeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
