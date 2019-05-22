@@ -28,7 +28,7 @@ public class Config {
         return instance;
     }
 
-    public Config(){
+    private Config(){
         instance = this;
     }
 

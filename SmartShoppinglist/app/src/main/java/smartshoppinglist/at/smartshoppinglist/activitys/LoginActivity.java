@@ -121,7 +121,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (!mayRequestContacts()) {
             return;
         }
-
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -192,7 +191,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
-        User user = Server.getInstance().login(email, password);
+        User user = Server.getInstance().login(email, password, this);
+
         if (user == null) {
             mPasswordView.setError(getString(R.string.wrong_email_or_password));
             focusView = mPasswordView;

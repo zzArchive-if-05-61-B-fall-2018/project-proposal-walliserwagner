@@ -1,8 +1,11 @@
 package smartshoppinglist.at.smartshoppinglist.server;
 
+import android.app.Activity;
+
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -12,6 +15,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -24,6 +28,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.objects.User;
 
 public class Server {
@@ -93,58 +98,90 @@ public class Server {
         return false;
     }
 
-    public User login(String email, String password){
+    public User login(String email, String password, Activity caller){
 
         User result = null;
-        try {
-            String hashpw = hashPassword(password);
-            ExecutorService exc = Executors.newSingleThreadExecutor();
-            Callable<User> call = new Callable<User>() {
-                @Override
-                public User call() throws Exception {
-                    String tmp = http.sendGet("/users?Email="+email+"&password="+password);
-                    if(tmp.equals("")){
-                        return null;
-                    }
 
-                    JSONArray jsonArray = new JSONArray(tmp);
-                    JSONObject jsonObject = jsonArray.getJSONObject(0);
-                    User user = new User(jsonObject.getString("Name"),
-                    jsonObject.getString("Email"),
-                    jsonObject.getInt("id"));
-                    return user;
-                }
-            };
-            Future<User> validLogin = exc.submit(call);
-            result = validLogin.get(1, TimeUnit.SECONDS);
-        } catch (Exception e) {
+        String hashpw = hashPassword(password);
+
+        HttpRequest request = new HttpRequest(http, caller);
+        request.execute("GET", "/users?email="+email+"&password="+password);
+        String jsonString = "";
+        try {
+            jsonString = request.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        if(jsonString.equals("")){
+            return null;
+        }
+
+        JSONArray jsonArray = null;
+        User user = null;
+        try {
+            jsonArray = new JSONArray(jsonString);
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            user = new User(jsonObject.getString("name"),
+                    jsonObject.getString("email"),
+                    jsonObject.getInt("userid"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public String postRequest(String header, String body){
+        HttpRequest request = new HttpRequest(http, MainActivity.getInstance());
+        request.execute("POST", header, body);
+
+        String result = "";
+        try {
+            result = request.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 
-    public boolean register(String email, String password, String name){
-
+    public boolean userExists(String email, Activity caller){
+        HttpRequest request = new HttpRequest(http, caller);
+        request.execute("GET", "/users?email="+email);
+        String result = "";
         try {
-            ExecutorService exc = Executors.newSingleThreadExecutor();
-            Callable<Boolean> call = new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    if(http.sendGet("/users?Email="+email).equals("")){
-                        String hashpw = hashPassword(password);
-                        http.sendPost("/users", String.format("{\"Name\":\"%s\",\"Email\":\"%s\",\"password\":\"%s\"}", name, email, password));
-                        return true;
-                    }
-                    return false;
-                }
-            };
-            Future<Boolean> valid = exc.submit(call);
-
-            return valid.get(1, TimeUnit.SECONDS);
-        }catch (Exception e){
+            result = request.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return false;
+
+        return !result.equals("");
+    }
+
+    public boolean register(String email, String password, String name, Activity caller){
+
+        if(userExists(email,caller)){
+            return false;
+        }
+        HttpRequest request = new HttpRequest(http, caller);
+        request.execute("POST", "/users", String.format("{\"name\":\"%s\",\"email\":\"%s\",\"password\":\"%s\"}", name, email, password));
+        String jsonString = "";
+        try {
+            jsonString = request.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(jsonString.equals("")){
+            return false;
+        }
+        return true;
     }
 
     private String hashPassword(String pw){

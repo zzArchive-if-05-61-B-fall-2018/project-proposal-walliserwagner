@@ -1,5 +1,7 @@
 package smartshoppinglist.at.smartshoppinglist.server;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,6 +33,8 @@ public class HttpConnection {
         }
     }
 
+
+
     protected String sendGet(String getRequest) throws Exception {
 
         String url = Serverurl+getRequest;
@@ -59,7 +63,7 @@ public class HttpConnection {
         return response.toString();
     }
 
-    protected void sendPost(String head, String payload) throws Exception {
+    protected String sendPost(String head, String payload) throws Exception {
 
         URL url = new URL(Serverurl+head);
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
@@ -83,8 +87,10 @@ public class HttpConnection {
                 response.append(inputLine);
             } in .close();
             System.out.println(response.toString());
+            return response.toString();
         } else {
             System.out.println("POST NOT WORKED");
         }
+        return "";
     }
 }

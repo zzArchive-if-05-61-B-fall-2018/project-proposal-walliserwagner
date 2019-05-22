@@ -8,9 +8,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class ItemList {
 
@@ -24,6 +26,7 @@ public class ItemList {
         if(findItemByName(item.getName()) == null){
             items.add(item);
             sort();
+            Server.getInstance().postRequest("/itemlist", String.format("{\"userid\":\"%d\",\"name\":\"%s\",\"defunit\":\"%s\",\"category\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), item.getName(), item.getDefaultUnit(), item.getCategory()));
             setChanges();
         }
     }

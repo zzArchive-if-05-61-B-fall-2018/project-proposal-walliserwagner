@@ -40,6 +40,7 @@ import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
+import smartshoppinglist.at.smartshoppinglist.objects.User;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CategoryNameList itemCategorys;
     private Config config;
     private static MainActivity mainActivity;
-
+    private User currentUser;
 
 
 
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         config = Config.getInstance();
         mainActivity = this;
+        currentUser = config.getUser();
         Save.context = getApplicationContext();
         Read.context = getApplicationContext();
         Save.id = config.getUser().getId();
@@ -245,6 +247,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return getSupportFragmentManager().findFragmentByTag(fragmentTag);
     }
 
+
+    public User getCurrentUser(){
+        return currentUser;
+    }
 
     public Shoppinglist getShoppinglist() {
         if(shoppinglist == null){

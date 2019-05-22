@@ -13,10 +13,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
+import smartshoppinglist.at.smartshoppinglist.server.HttpRequest;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
     @Expose
@@ -105,6 +108,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         addExistingItems(itemContainer);
         category.addElement(itemContainer);
         category.sort();
+        //Server.getInstance().postRequest("/shoppinglist", String.format(""));
         setChanges();
     }
 

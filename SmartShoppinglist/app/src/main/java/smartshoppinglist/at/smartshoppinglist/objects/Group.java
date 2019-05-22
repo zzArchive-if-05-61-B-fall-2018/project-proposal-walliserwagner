@@ -1,6 +1,10 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,17 +15,21 @@ import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class Group implements Serializable {
     @Expose private String name;
     @Expose private List<User> users;
     private List<Shoppinglist> shoppinglists;
     @Expose private boolean isDefault = false;
+    private int id;
 
+    //Server.getInstance().postRequest("/group", String.format("{\"userid\":\"%d\",\"name\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), group.getName()));
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
         this.name = name;
         this.users = users;
         this.shoppinglists = shoppinglists;
+        createGroup();
     }
 
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists, boolean isDefault) {
@@ -42,12 +50,26 @@ public class Group implements Serializable {
         users = new ArrayList<>();
         users.add(user);
         shoppinglists = new ArrayList<>();
+        createGroup();
     }
 
 
     public Group(String name, User user, boolean isDefault) {
         this(name,user);
         this.isDefault = isDefault;
+    }
+
+    private void createGroup(){
+        String tmp = Server.getInstance().postRequest("/group", String.format("{\"userid\":\"%d\",\"name\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), name));
+        try {
+            id = new JSONObject(tmp).getInt("groupid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getId(){
+        return id;
     }
 
     public String[] getUsernames(){
