@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
-import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
@@ -200,7 +199,7 @@ public class ListFragment extends Fragment {
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();
                     }
-                    Shoppinglist list =  ((MainActivity)getActivity()).getGroups().findGroupByName(spinner.getSelectedItem().toString()).createList(name.getText().toString());
+                    Shoppinglist list =  ((MainActivity)getActivity()).getGroups().getGroups()[spinner.getSelectedItemPosition()].createList(name.getText().toString());
                     if(list == null){
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();

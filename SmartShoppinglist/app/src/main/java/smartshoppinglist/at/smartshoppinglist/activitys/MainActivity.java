@@ -116,6 +116,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 else if(f instanceof RecipeFragment){
                     ((RecipeFragment)f).createRecipe();
                 }
+                else if(f instanceof RecipeViewFragment){
+                    ((RecipeViewFragment)f).addItemsToList();
+                }
             }
         });
 
@@ -301,18 +304,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(shoppinglist == null){
             Shoppinglist sl = Config.getInstance().getCurrentShoppinglist();
             if(sl != null){
-                setShoppinglist( getGroups().findGroupByName(sl.getGroup().getName()).findListByName(sl.getName()));
+                setShoppinglist( getGroups().findGroupById(sl.getGroup().getId()).findListByName(sl.getName()));
             }
             if(shoppinglist == null){
                 boolean found = false;
-                for (Shoppinglist s:getGroups().findGroupByName(getString(R.string.local)).getShoppinglists()) {
+                for (Shoppinglist s:getGroups().getDefault().getShoppinglists()) {
                     if(s.isDefault()){
                         found = true;
                         setShoppinglist(s);
                     }
                 }
                 if(!found)
-                    setShoppinglist(getGroups().findGroupByName(getString(R.string.local)).createList(getString(R.string.shopping_list),true));
+                    setShoppinglist(getGroups().getDefault().createList(getString(R.string.shopping_list),true));
                     getItemCategorys().addCategoryName(getString(R.string.general),true);
             }
         }
@@ -340,7 +343,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             groupList.populateGroups();
             boolean found = false;
             for (Group g:groupList.getGroups()) {
-                if(g.getName().equals(getString(R.string.local))){
+                if(g.isDefault()){
                     found = true;
                 }
             }
@@ -357,9 +360,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (resultCode == GroupFragment.REQUEST_ID) {
                 Group group = (Group)data.getSerializableExtra("group");
-                String name = data.getStringExtra("name");
                 if (group != null){
-                    Group oldGroup = groupList.findGroupByName(name);
+                    Group oldGroup = groupList.findGroupById(group.getId());
                     groupList.removeGroups(oldGroup);
                     groupList.addGroup(group);
                     Fragment f = getSupportFragmentManager().getFragments().get(0);
@@ -377,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for (Category c: categories) {
             Integer p = getItemCategorys().getPriorityByName(c.getName());
             if(p == null && c.getPriority() > 0) getItemCategorys().addCategoryName(c.getName());
-            c.setPriority(p);
+            if(p != null)c.setPriority(p);
         }
     }
     public InviteList getInviteList(){

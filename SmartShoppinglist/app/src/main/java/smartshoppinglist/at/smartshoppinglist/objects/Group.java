@@ -1,6 +1,5 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 
 import org.json.JSONException;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
@@ -22,9 +20,13 @@ public class Group implements Serializable {
     @Expose private List<User> users;
     private List<Shoppinglist> shoppinglists;
     @Expose private boolean isDefault = false;
-    private int id;
+    private int id = -1; // for testing offline
 
+<<<<<<< HEAD
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
+=======
+     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
+>>>>>>> 15d2e269123b29429594c9ee6aec5ba23dae0d80
         this.name = name;
         this.users = users;
         this.shoppinglists = shoppinglists;
@@ -123,8 +125,12 @@ public class Group implements Serializable {
 
     public void removeShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.remove(shoppinglist);
+<<<<<<< HEAD
         Server.getInstance().deleteRequest(String.format("/deleteshoppinglist?groupid=%d&listname=%s", id,shoppinglist.getName()));
         Save.remove(shoppinglist.getName(), name);
+=======
+        Save.remove(shoppinglist.getName(), id);
+>>>>>>> 15d2e269123b29429594c9ee6aec5ba23dae0d80
     }
     public boolean isDefault() {
         return isDefault;
@@ -132,14 +138,14 @@ public class Group implements Serializable {
 
     private void redoShoppinglists(){
         for (Shoppinglist s:shoppinglists) {
-            Save.remove(s.getName(), name);
+            Save.remove(s.getName(), id);
             Save.save(s);
         }
     }
 
     public void populateShoppinglist(){
         shoppinglists = new ArrayList<>();
-        shoppinglists = Read.readShoppinglist(name);
+        shoppinglists = Read.readShoppinglist(id);
     }
 
     public Shoppinglist findListByName(String name){
@@ -152,6 +158,14 @@ public class Group implements Serializable {
     }
     public void sort(){
         Collections.sort(shoppinglists);
+    }
+
+    public String[] getShoppingListNames(){
+        String[] names = new String[shoppinglists.size()];
+        for (int i = 0; i < shoppinglists.size();i++) {
+            names[i] = shoppinglists.get(i).getName();
+        }
+        return names;
     }
 }
 

@@ -48,6 +48,7 @@ public class Recipe implements Serializable {
     }
 
     public void addItem(ItemContainer itemContainer){
+        itemContainer.setTicked(true);
         for (ItemContainer ic:items) {
             if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit())){
                 ic.setCount(ic.getCount()+itemContainer.getCount());

@@ -62,11 +62,11 @@ public class Save {
         });
         Gson gson = gsonBuilder.create();
         String str = gson.toJson(list);
-        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+list.getName()+"_"+list.getGroup().getName()+".json"), str);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+list.getName()+"_"+list.getGroup().getId()+".json"), str);
     }
 
-    public static void remove(String shoppinglistname, String groupname){
-        File file = new File(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+shoppinglistname+"_"+groupname+".json");
+    public static void remove(String shoppinglistname, int groupId){
+        File file = new File(context.getFilesDir().getPath().toString()+"/"+id+"shoppinglist"+shoppinglistname+"_"+groupId+".json");
         file.delete();
     }
 

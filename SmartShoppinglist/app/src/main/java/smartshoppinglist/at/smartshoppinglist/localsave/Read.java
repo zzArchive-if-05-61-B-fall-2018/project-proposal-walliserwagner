@@ -13,13 +13,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import smartshoppinglist.at.smartshoppinglist.objects.Invite;
-import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
-import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
-import smartshoppinglist.at.smartshoppinglist.objects.Recipe;
 import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 
@@ -88,13 +86,13 @@ public class Read {
         return list;
     }
 
-    public static List<Shoppinglist> readShoppinglist(String groupname){
+    public static List<Shoppinglist> readShoppinglist(int groupId){
         String jsonString = null;
         File folder = new File(context.getFilesDir().getPath().toString());
         File[] files = folder.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
-                if(name.startsWith(id+"shoppinglist") && name.endsWith("_"+groupname+".json")){
+                if(name.startsWith(id+"shoppinglist") && name.endsWith("_"+groupId+".json")){
                     return true;
                 }
                 return false;
