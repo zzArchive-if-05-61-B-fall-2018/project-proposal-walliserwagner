@@ -53,7 +53,7 @@ public class RecipeListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RecipeViewFragment recipeViewFragment = new RecipeViewFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("recipe", recipeList.getRecipes()[position]);
+                bundle.putSerializable("recipe", new Gson().fromJson((new Gson().toJson(recipeList.getRecipes()[position])), Recipe.class)); // cloning object
                 recipeViewFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_container, recipeViewFragment,"recipeView");

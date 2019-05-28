@@ -2,9 +2,9 @@ package smartshoppinglist.at.smartshoppinglist.activitys;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,14 +13,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
-
 import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.fragments.GroupFragment;
-import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
-import smartshoppinglist.at.smartshoppinglist.uiadapters.GroupListAdapter;
 
 public class AlterGroupActivity extends AppCompatActivity {
 
@@ -35,7 +31,6 @@ public class AlterGroupActivity extends AppCompatActivity {
         context = this;
         group = (Group)getIntent().getSerializableExtra("group");
         if (group != null){
-            String groupName = group.getName();
             EditText name = findViewById(R.id.activity_alter_group_groupname);
             name.setText(group.getName());
             if(group.getUsers() != null){
@@ -85,7 +80,6 @@ public class AlterGroupActivity extends AppCompatActivity {
                     group.setName(name.getText().toString());
                     Intent intent = new Intent();
                     intent.putExtra("group", group);
-                    intent.putExtra("name",groupName);
                     setResult(GroupFragment.REQUEST_ID, intent);
                     finish();
                 }

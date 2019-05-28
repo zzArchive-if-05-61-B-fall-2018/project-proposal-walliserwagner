@@ -1,7 +1,6 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
@@ -19,16 +18,8 @@ public class GroupList {
         }
     }
 
-    public Group findGroupByName(String name){
-        for (Group group:groups) {
-            if (group.getName().equals(name)){
-                return group;
-            }
-        }
-        return null;
-    }
     public boolean addGroup(Group group){
-        if(findGroupByName(group.getName())!= null) return false;
+        if(findGroupById(group.getId())!= null) return false;
         groups.add(group);
         setChanges();
         return true;
@@ -47,6 +38,18 @@ public class GroupList {
                 result.add(group.getName());
         }
         return result.toArray(new String[0]);
+    }
+    public Group findGroupById(int id){
+        for (Group group:groups) {
+            if(group.getId() == id) return group;
+        }
+        return null;
+    }
+    public Group getDefault(){
+        for (Group group:groups) {
+            if(group.isDefault()) return group;
+        }
+        return null;
     }
 
     private void setChanges(){

@@ -1,12 +1,7 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
-import android.content.Context;
-
 import com.google.gson.annotations.Expose;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -14,18 +9,13 @@ import java.util.Collections;
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
-import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
-import smartshoppinglist.at.smartshoppinglist.objects.Category;
-import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
-import smartshoppinglist.at.smartshoppinglist.server.HttpRequest;
-import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
     @Expose
     private List<Category> items;
 
-    @Expose private Group group;
+    @Expose private int groupId;
 
     @Expose private String name;
     private static String categoryBought = "Gekauft";
@@ -36,12 +26,12 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
 
     public Shoppinglist(String name, Group group) {
         this(name);
-        this.group = group;
+        this.groupId = group.getId();
     }
 
     public Shoppinglist(String name, Group group, boolean isDefault) {
         this(name, isDefault);
-        this.group = group;
+        this.groupId = group.getId();
     }
 
     public Shoppinglist(String name){
@@ -57,7 +47,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
     }
 
     public void setName(String name) {
-        if(group != null) Save.remove(this.name,group.getName());
+        Save.remove(this.name,groupId);
         this.name = name;
         setChanges();
     }
@@ -186,10 +176,10 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         Category category = getCategoryByName(itemContainer.getItem().getCategory());
         for (int i = 0; category.getElements().length > i; i++) {
             ItemContainer ic = (ItemContainer) category.getElements()[i];
-            if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit())){
+            if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit()) && !ic.isTicked()){
                 itemContainer.setCount(ic.getCount()+itemContainer.getCount());
                 category.removeElement(ic);
-                i--;
+                return;
             }
         }
     }
@@ -210,7 +200,10 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
     }
 
     public Group getGroup() {
-            return group;
+            return MainActivity.getInstance().getGroups().findGroupById(groupId);
+    }
+    public int getGroupId(){
+        return groupId;
     }
     public boolean isDefault() {
         return isDefault;
@@ -234,6 +227,6 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s:%s",group.getName(),name);
+        return String.format("%s:%s",MainActivity.getInstance().getGroups().findGroupById(groupId),name);
     }
 }
