@@ -22,11 +22,7 @@ public class Group implements Serializable {
     @Expose private boolean isDefault = false;
     private int id = -1; // for testing offline
 
-<<<<<<< HEAD
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
-=======
-     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
->>>>>>> 15d2e269123b29429594c9ee6aec5ba23dae0d80
         this.name = name;
         this.users = users;
         this.shoppinglists = shoppinglists;
@@ -125,12 +121,7 @@ public class Group implements Serializable {
 
     public void removeShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.remove(shoppinglist);
-<<<<<<< HEAD
-        Server.getInstance().deleteRequest(String.format("/deleteshoppinglist?groupid=%d&listname=%s", id,shoppinglist.getName()));
-        Save.remove(shoppinglist.getName(), name);
-=======
         Save.remove(shoppinglist.getName(), id);
->>>>>>> 15d2e269123b29429594c9ee6aec5ba23dae0d80
     }
     public boolean isDefault() {
         return isDefault;
@@ -168,4 +159,3 @@ public class Group implements Serializable {
         return names;
     }
 }
-
