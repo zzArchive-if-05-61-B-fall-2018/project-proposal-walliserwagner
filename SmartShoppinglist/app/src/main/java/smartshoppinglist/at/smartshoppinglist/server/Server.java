@@ -132,6 +132,22 @@ public class Server {
         return user;
     }
 
+    public String deleteRequest(String header){
+        HttpRequest request = new HttpRequest(http, MainActivity.getInstance());
+        request.execute("DELETE", header);
+
+        String result = "";
+        try {
+            result = request.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     public String postRequest(String header, String body){
         HttpRequest request = new HttpRequest(http, MainActivity.getInstance());
         request.execute("POST", header, body);

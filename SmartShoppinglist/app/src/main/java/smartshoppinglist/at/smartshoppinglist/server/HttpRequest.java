@@ -36,6 +36,12 @@ public class HttpRequest extends AsyncTask<String, Integer, String> {
             } else if (strings[0].equals("POST")) {
                 result = http.sendPost(strings[1], strings[2]);
             }
+            else if(strings[0].equals("DELETE")){
+                result = http.sendDelete(strings[1]);
+            }
+            else if(strings[0].equals("CON")){
+
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

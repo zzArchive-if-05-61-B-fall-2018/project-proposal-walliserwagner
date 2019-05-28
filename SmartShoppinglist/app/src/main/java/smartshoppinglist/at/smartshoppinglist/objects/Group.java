@@ -24,7 +24,6 @@ public class Group implements Serializable {
     @Expose private boolean isDefault = false;
     private int id;
 
-    //Server.getInstance().postRequest("/group", String.format("{\"userid\":\"%d\",\"name\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), group.getName()));
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
         this.name = name;
         this.users = users;
@@ -124,6 +123,7 @@ public class Group implements Serializable {
 
     public void removeShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.remove(shoppinglist);
+        Server.getInstance().deleteRequest(String.format("/deleteshoppinglist?groupid=%d&listname=%s", id,shoppinglist.getName()));
         Save.remove(shoppinglist.getName(), name);
     }
     public boolean isDefault() {

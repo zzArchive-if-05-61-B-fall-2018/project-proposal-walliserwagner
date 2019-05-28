@@ -21,8 +21,12 @@ app.post('/users', db.createUser)
 app.post('/itemlist', db.createItem)
 
 app.post('/shoppinglist', db.addItem)
+app.delete('/shoppinglist', db.removeItem)
+app.post('/createshoppinglist', db.createShoppinglist)
+app.delete('/deleteshoppinglist', db.deleteShoppinglist)
 
 app.post('/group', db.createGroup);
+app.delete('/group', db.leaveGroup);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

@@ -63,6 +63,35 @@ public class HttpConnection {
         return response.toString();
     }
 
+    protected String sendDelete(String deleteRequest) throws Exception {
+
+        String url = Serverurl+deleteRequest;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setRequestMethod("DELETE");
+        con.setConnectTimeout(2000);
+        int responseCode = con.getResponseCode();
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        if(response.length() <= 2){
+            return "";
+        }
+
+        return response.toString();
+    }
+
+
     protected String sendPost(String head, String payload) throws Exception {
 
         URL url = new URL(Serverurl+head);

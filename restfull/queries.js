@@ -63,11 +63,70 @@ const createItem = (request, response) => {
 }
 
 const addItem = (request, response) => {
+  const {userid, groupid, listname, itemname, amount, unit} = request.body
+  console.debug('Insert into itemcontainer (itemid, unit, count, shoppinglistid) values((select itemid from item where userid='+userid+' and name=$1), '+unit+', '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2));',[itemname,listname]);
+  pool.query('Insert into itemcontainer (itemid, unit, count, shoppinglistid) values((select itemid from item where userid='+userid+' and name=$1), $2, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$3));',[itemname,unit,listname], (error, result)=>{
+    if(error){
+      throw error
+    }
+    response.status(201).send(result.rows);
+  })  
+}
 
+const removeItem = (request,response) => {
+  const userid=request.query.userid, groupid=request.query.groupid
+  const listname=request.query.listname
+  const itemname=request.query.itemname
+  const unit=request.query.unit
+  console.debug('Delete from itemcontainer where itemid=(select itemid from item where userid='+userid+' and name=$1) and shoppinglistid=(select shoppinglistid from shoppinglist where name=$2 and groupid='+groupid+') and unit=$3;',[itemname,listname,unit])
+  pool.query('Delete from itemcontainer where itemid=(select itemid from item where userid='+userid+' and name=$1) and shoppinglistid=(select shoppinglistid from shoppinglist where name=$2 and groupid='+groupid+') and unit=$3;',[itemname,listname,unit], (error, result) => {
+    if(error){
+      throw error
+    }
+    response.status(202).send(result.rows)
+  })
+}
+
+const deleteShoppinglist = (request,response)=>{
+  const groupid=request.query.groupid, listname=request.query.listname
+  pool.query('Delete from itemcontainer where shoppinglistid=(select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$1);',[listname], (error, result) =>{
+    if(error){
+      throw error
+    }
+    pool.query('Delete from shoppinglist where groupid='+groupid+' and name=$1',[listname], (error1, result1) => {
+      if(error1){
+        throw error1
+      }
+      response.status(202).send(result1.rows);
+    })
+  })
+}
+
+const leaveGroup = (request, response) => {
+  const userid=request.query.userid, groupid=request.query.groupid;
+  pool.query('Delete from "member" where groupid='+groupid+' and userid='+userid+';', (error, result) =>{
+    if(error){
+      throw error
+    }
+    response.status(202).send(result.rows);
+  })
 }
 
 const createShoppinglist = (request, response) => {
   const {groupid, name} = request.body;
+  pool.query('Insert into shoppinglist (groupid, name) VALUES ('+groupid+', $1);',[name], (error, result) =>{
+    if(error){
+      throw error
+    }
+    pool.query('Select max(shoppinglistid) from shoppinglist;', (error, shoppinglistres) =>{
+      if(error){
+        throw error
+      }
+      console.debug('{"shoppinglistid":"'+shoppinglistres.rows[0]['max']+'"}')
+      response.status(201).send('{"shoppinglistid":"'+shoppinglistres.rows[0]['max']+'"}');
+    })
+    
+  })
 }
 
 const createGroup = (request, response) =>{
@@ -100,4 +159,8 @@ const createGroup = (request, response) =>{
       createItem,
       addItem,
       createGroup,
+      createShoppinglist,
+      removeItem,
+      deleteShoppinglist,
+      leaveGroup,
   }

@@ -170,11 +170,12 @@ public class SearchFragment extends ListFragment implements SearchView.OnQueryTe
                     item.setCategory(category.getText().toString());
                     item.setDefaultunit(unit.getText().toString());
                     ItemContainer itemContainer = new ItemContainer(item, Integer.parseInt(count.getText().toString()), unit.getText().toString());
-                    ((MainActivity)getActivity()).getShoppinglist().addItem(itemContainer);
                     ((MainActivity)getActivity()).getItems().addItem(item);
+                    ((MainActivity)getActivity()).getShoppinglist().addItem(itemContainer);
                     ((MainActivity)getActivity()).getItemCategorys().addCategoryName(item.getCategory());
                     getActivity().onBackPressed();
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

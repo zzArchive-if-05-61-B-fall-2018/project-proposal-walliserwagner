@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class GroupList {
     private List<Group> groups;
@@ -35,6 +37,7 @@ public class GroupList {
     }
     public void removeGroups(Group group){
         groups.remove(group);
+        Server.getInstance().deleteRequest(String.format("/group?userid=%d&groupid=%d", MainActivity.getInstance().getCurrentUser().getId(), group.getId()));
         setChanges();
     }
     public Group[] getGroups(){

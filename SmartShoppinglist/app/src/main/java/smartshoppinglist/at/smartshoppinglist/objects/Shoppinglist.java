@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.annotations.Expose;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -34,14 +35,34 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
 
     @Expose private boolean isDefault = false;
 
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
     public Shoppinglist(String name, Group group) {
         this(name);
         this.group = group;
+        try {
+            String tmp = Server.getInstance().postRequest("/createshoppinglist", String.format("{\"groupid\":\"%d\", \"name\":\"%s\"}", group.getId(), name));
+            id = new JSONObject(tmp).getInt("shoppinglistid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Shoppinglist(String name, Group group, boolean isDefault) {
         this(name, isDefault);
         this.group = group;
+        try {
+            String tmp = Server.getInstance().postRequest("/createshoppinglist", String.format("{\"groupid\":\"%d\", \"name\":\"%s\"}", group.getId(), name));
+            id = new JSONObject(tmp).getInt("shoppinglistid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public Shoppinglist(String name){
@@ -108,7 +129,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         addExistingItems(itemContainer);
         category.addElement(itemContainer);
         category.sort();
-        //Server.getInstance().postRequest("/shoppinglist", String.format(""));
+        Server.getInstance().postRequest("/shoppinglist", String.format("{\"userid\":\"%d\", \"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"amount\":\"%d\", \"unit\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(),group.getId(),name,itemContainer.getItem().getName(),itemContainer.getCount(),itemContainer.getUnit()));
         setChanges();
     }
 
@@ -126,6 +147,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         if(category != null){
             category.removeElement(itemContainer);
         }
+        String tmp = Server.getInstance().deleteRequest(String.format("/shoppinglist?userid=%d&groupid=%d&listname=%s&itemname=%s&unit=%s",MainActivity.getInstance().getCurrentUser().getId(),group.getId(),name,itemContainer.getItem().getName(),itemContainer.getUnit()));
         setChanges();
     }
     private Category getCategoryByName(String name){
@@ -157,8 +179,16 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
     }
     public void removeTickedItems(){
         Category category = getCategoryByName(categoryBought);
+        ItemContainer[] items = null;
         if (category != null){
-            category.clear();
+            items = category.getElements();
+        }
+        else
+        {
+            return;
+        }
+        for (int i = 0; i < items.length; i++) {
+            removeItem(items[i]);
         }
         setChanges();
 

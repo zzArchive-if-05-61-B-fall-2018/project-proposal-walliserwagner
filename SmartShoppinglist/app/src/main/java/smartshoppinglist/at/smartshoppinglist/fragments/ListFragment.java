@@ -208,6 +208,7 @@ public class ListFragment extends Fragment {
                     listAdapter.notifyDataSetChanged();
                     dialog.dismiss();
                 }catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
