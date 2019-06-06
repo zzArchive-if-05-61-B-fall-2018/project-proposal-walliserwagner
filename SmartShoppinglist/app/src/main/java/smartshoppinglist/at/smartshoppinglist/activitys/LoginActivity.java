@@ -3,8 +3,11 @@ package smartshoppinglist.at.smartshoppinglist.activitys;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -31,6 +34,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 import smartshoppinglist.at.smartshoppinglist.R;
@@ -71,16 +75,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private TextView signupLink;
+    private Config config;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocal();
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         Read.context = getApplicationContext();
         Save.context = getApplicationContext();
-        Read.readConfig();
+        config = Read.readConfig();
+        if(config.getUser() != null && isEmailValid(config.getUser().getEmail()) && isPasswordValid(config.getUser().getPassword())) {
+            new UserLoginTask(config.getUser().getEmail(), config.getUser().getPassword()).execute((Void) null);
+        }
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -161,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
         Config config = Config.getInstance();
         if(email.equals("1") && password.equals("1")){  // Test account that will be removed later no
-            config.setUser(new User("TestUser","test.user@email.com",0));
+            config.setUser(new User("TestUser","test.user@email.com",password,0));
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
@@ -216,12 +225,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
+        if(email == null) return  false;
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        if(password == null) return false;
+        return password.length() > 0;
     }
 
     /**
@@ -365,6 +376,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+    public void setLocale(String string){
+        Locale locale = new Locale(string);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("Lang",string);
+        editor.apply();
+    }
+    public void loadLocal(){
+        SharedPreferences preferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String lang = preferences.getString("Lang","");
+        setLocale(lang);
     }
 }
 

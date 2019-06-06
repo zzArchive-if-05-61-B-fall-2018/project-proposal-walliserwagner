@@ -3,6 +3,8 @@ package smartshoppinglist.at.smartshoppinglist.activitys;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -21,6 +23,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import java.util.List;
+import java.util.Locale;
 
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.fragments.CategoryFragment;
@@ -63,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static MainActivity mainActivity;
     private User currentUser;
 
+    private String[] languages = new String[]{"English", "Deutsch"};
+    private String[] locals = new String[]{"en", "ge"};
+
 
 
 
@@ -83,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +188,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -197,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.main_container, new HomeFragment());
-            fragmentTransaction.addToBackStack("");
+            fragmentTransaction.addToBackStack("home");
             fragmentTransaction.commit();
             getSupportActionBar().setTitle(R.string.smart_shopping_list);
             item.setChecked(true);
@@ -393,5 +400,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             recipeList = Read.readRecipeList();
         }
         return recipeList;
+    }
+    public void setLocale(String string){
+        Locale locale = new Locale(string);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor = getSharedPreferences("Settings",MODE_PRIVATE).edit();
+        editor.putString("Lang",string);
+        editor.apply();
+    }
+    public void loadLocal(){
+
+        SharedPreferences preferences = getSharedPreferences("Settings",Activity.MODE_PRIVATE);
+        String lang = preferences.getString("Lang","");
+        setLocale(lang);
+    }
+    public String getLanguage(){
+        SharedPreferences preferences = getSharedPreferences("Settings",Activity.MODE_PRIVATE);
+        String lang = preferences.getString("Lang","");
+        if(lang.equals("en")) return "English";
+        if(lang.equals("ge")) return "Deutsch";
+        return lang;
+    }
+
+    public String[] getLanguages() {
+        return languages;
+    }
+
+    public String[] getLocals() {
+        return locals;
     }
 }

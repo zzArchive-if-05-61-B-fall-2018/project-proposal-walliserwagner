@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment {
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if(menu.findItem(R.id.remove_items) != null) menu.removeItem(R.id.remove_items);
         inflater.inflate(R.menu.remove_items_menu, menu);
         listAdapter.notifyDataSetChanged();
         super.onCreateOptionsMenu(menu, inflater);

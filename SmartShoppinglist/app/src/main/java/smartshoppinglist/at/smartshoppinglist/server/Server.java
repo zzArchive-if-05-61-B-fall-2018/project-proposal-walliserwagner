@@ -2,8 +2,6 @@ package smartshoppinglist.at.smartshoppinglist.server;
 
 import android.app.Activity;
 
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,12 +12,7 @@ import java.net.Inet4Address;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -125,6 +118,7 @@ public class Server {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             user = new User(jsonObject.getString("name"),
                     jsonObject.getString("email"),
+                    jsonObject.getString("password"),
                     jsonObject.getInt("userid"));
         } catch (JSONException e) {
             e.printStackTrace();
