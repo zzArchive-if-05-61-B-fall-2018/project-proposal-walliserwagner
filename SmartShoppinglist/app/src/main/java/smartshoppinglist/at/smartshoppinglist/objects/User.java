@@ -6,11 +6,13 @@ public class User implements Serializable {
 
     private String name;
     private String email;
+    private String password;
     private int id;
 
-    public User(String name, String email, int id){
+    public User(String name, String email, String password, int id){
         this.name = name;
         this.email = email;
+        this.password = password;
         this.id = id;
     }
 
@@ -20,6 +22,10 @@ public class User implements Serializable {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public int getId() {
