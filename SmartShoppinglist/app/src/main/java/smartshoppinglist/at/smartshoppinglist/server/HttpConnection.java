@@ -35,7 +35,7 @@ public class HttpConnection {
 
     public boolean checkServerConnectivity(){
         try {
-            return Inet4Address.getByName(hostip).isReachable(2000);
+            return Inet4Address.getByName(hostip).isReachable(100);
         } catch (IOException e) {
             e.printStackTrace();
         }
