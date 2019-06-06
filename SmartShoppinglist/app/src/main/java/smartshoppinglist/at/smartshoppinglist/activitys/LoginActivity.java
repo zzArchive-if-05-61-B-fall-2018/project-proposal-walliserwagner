@@ -4,23 +4,21 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -36,13 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.User;
-import smartshoppinglist.at.smartshoppinglist.server.HttpRequest;
 import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 
@@ -217,15 +213,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (user == null) {
                 mPasswordView.setError(getString(R.string.wrong_email_or_password));
                 focusView = mPasswordView;
-                cancel = true;
             } else {
                 config.setUser(user);
+                showProgress(false);
+                mAuthTask = new UserLoginTask(email, password);
+                mAuthTask.execute((Void) null);
             }
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(false);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
         }
     }
 
