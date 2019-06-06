@@ -13,10 +13,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
-import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
@@ -97,24 +97,10 @@ public class Save {
         writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"categorynamelist.json"), str);
     }
     public static void save(Config config){
-        GsonBuilder gsonBuilder = new GsonBuilder().addSerializationExclusionStrategy(new ExclusionStrategy() {
-            @Override
-            public boolean shouldSkipField(FieldAttributes f) {
-                if(f.getName().equals("shoppinglists"))
-                {
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public boolean shouldSkipClass(Class<?> clazz) {
-                return false;
-            }
-        });
+        GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
         String str = gson.toJson(config);
-        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+id+"config.json"), str);
+        writeJsonFile(new File(context.getFilesDir().getPath().toString()+"/"+"config.json"), str);
     }
 
     public static void writeJsonFile(File file, String json) {

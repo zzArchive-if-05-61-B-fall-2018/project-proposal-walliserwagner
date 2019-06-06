@@ -37,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Config.getInstance().setUser(null);
+                Config.getInstance().setCurrentShoppinglist(null);
                 MainActivity.getInstance().finish();
                 Intent intent = new Intent(SettingsActivity.this,LoginActivity.class);
                 SettingsActivity.this.startActivity(intent);

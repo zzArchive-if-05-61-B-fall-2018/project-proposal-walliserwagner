@@ -128,7 +128,7 @@ public class Read {
     public static Config readConfig(){
         String jsonString = "";
         try {
-            jsonString = getStringFromFile(context.getFilesDir().getPath().toString()+"/"+id+"config.json");
+            jsonString = getStringFromFile(context.getFilesDir().getPath().toString()+"/"+"config.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
