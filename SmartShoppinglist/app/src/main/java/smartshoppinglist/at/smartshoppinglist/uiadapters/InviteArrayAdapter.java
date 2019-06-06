@@ -17,6 +17,7 @@ import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.objects.Invite;
 import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class InviteArrayAdapter extends ArrayAdapter<Invite> {
     private static final String TAG = "InviteArrayAdapter";
@@ -64,6 +65,7 @@ public class InviteArrayAdapter extends ArrayAdapter<Invite> {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Server.getInstance().deleteRequest(String.format("/invite?userid=%d&groupid=%d&accepted=true", MainActivity.getInstance().getCurrentUser().getId(), inviteList.getInvites()[position].getGroupid()));
                 MainActivity.getInstance().getInviteList().removeInvite(inviteList.getInvites()[position]);
                 notifyDataSetChanged();
             }
@@ -71,6 +73,7 @@ public class InviteArrayAdapter extends ArrayAdapter<Invite> {
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Server.getInstance().deleteRequest(String.format("/invite?userid=%d&groupid=%d&accepted=false", MainActivity.getInstance().getCurrentUser().getId(), inviteList.getInvites()[position].getGroupid()));
                 MainActivity.getInstance().getInviteList().removeInvite(inviteList.getInvites()[position]);
                 notifyDataSetChanged();
             }

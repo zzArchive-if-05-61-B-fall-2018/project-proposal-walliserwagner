@@ -76,11 +76,13 @@ public class SignupActivity extends AppCompatActivity {
         // TODO: Implement your own signup logic here.
 
         if(!Server.getInstance().register(email, password, name, this)){
-            onSignupSuccess();
+            //onSignupSuccess();
+            onSignupFailed();
             return;
         }
         else{
-            onSignupFailed();
+            onSignupSuccess();
+            //onSignupFailed();
             return;
         }
     }

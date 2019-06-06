@@ -56,6 +56,8 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         setChanges();
     }
 
+
+
     public void addItemList(List<ItemContainer> itemContainers){
         for (ItemContainer itemContainer:
                 itemContainers) {
@@ -102,7 +104,9 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         addExistingItems(itemContainer);
         category.addElement(itemContainer);
         category.sort();
-        Server.getInstance().postRequest("/shoppinglist", String.format("{\"userid\":\"%d\", \"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"amount\":\"%d\", \"unit\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(),groupId,name,itemContainer.getItem().getName(),itemContainer.getCount(),itemContainer.getUnit()));
+        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
+            Server.getInstance().postRequest("/shoppinglist", String.format("{\"userid\":\"%d\", \"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"amount\":\"%d\", \"unit\":\"%s\", \"category\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory()));
+        }
         setChanges();
     }
 
@@ -120,7 +124,9 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         if(category != null){
             category.removeElement(itemContainer);
         }
-        String tmp = Server.getInstance().deleteRequest(String.format("/shoppinglist?userid=%d&groupid=%d&listname=%s&itemname=%s&unit=%s",MainActivity.getInstance().getCurrentUser().getId(),groupId,name,itemContainer.getItem().getName(),itemContainer.getUnit()));
+        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
+            String tmp = Server.getInstance().deleteRequest(String.format("/shoppinglist?userid=%d&groupid=%d&listname=%s&itemname=%s&unit=%s&category=%s", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getUnit(), itemContainer.getItem().getCategory()));
+        }
         setChanges();
     }
     private Category getCategoryByName(String name){

@@ -17,6 +17,7 @@ import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.fragments.GroupFragment;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class AlterGroupActivity extends AppCompatActivity {
 
@@ -59,10 +60,13 @@ public class AlterGroupActivity extends AppCompatActivity {
                                     name.setError(getString(R.string.invalid_input));
                                     throw new Exception();
                                 }
-                                /*if(!UserExists()) {
+                                if(!Server.getInstance().userExists(name.getText().toString(), MainActivity.getInstance())) {
                                     name.setError(getString(R.string.email_does_not_exist));
                                     throw new Exception();
-                                }*/
+                                }
+                                else{
+                                    Server.getInstance().postRequest("/invite", String.format("{\"senderid\":\"%d\", \"receiveremail\":\"%s\", \"groupid\":\"%d\"}", MainActivity.getInstance().getCurrentUser().getId(), name.getText().toString(), group.getId()));
+                                }
                                 addUser.dismiss();
                             }catch (Exception e) {
                             }

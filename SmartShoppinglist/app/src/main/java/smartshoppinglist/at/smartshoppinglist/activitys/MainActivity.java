@@ -20,6 +20,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.R;
@@ -48,6 +54,7 @@ import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 import smartshoppinglist.at.smartshoppinglist.objects.User;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -141,8 +148,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Item.setDefaultCategory(getString(R.string.general));
         ItemContainer.setDefaultUnit(getString(R.string.stk));
 
-        getInviteList().addInvite(new Invite("gruppe","test@email.com"));
-        getInviteList().addInvite(new Invite("Arbeit","test@email.com"));
+        //getInviteList().addInvite(new Invite("gruppe","test@email.com"));
+        //getInviteList().addInvite(new Invite("Arbeit","test@email.com"));
 
     }
     public Fragment getVisibleFragment(){
@@ -384,7 +391,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public InviteList getInviteList(){
         if(inviteList == null){
-            inviteList = Read.readInviteList();
+            inviteList = new InviteList();
+            String invites = Server.getInstance().getRequest(String.format("/invite?userid=%d", MainActivity.getInstance().getCurrentUser().getId()));
+            try {
+                JSONArray jsonArray = new JSONArray(invites);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    inviteList.addInvite(new Invite(jsonObject.getString("name"),jsonObject.getInt("groupid"), jsonObject.getString("email")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         return inviteList;
     }

@@ -26,7 +26,8 @@ public class ItemList {
         if(findItemByName(item.getName()) == null){
             items.add(item);
             sort();
-            Server.getInstance().postRequest("/itemlist", String.format("{\"userid\":\"%d\",\"name\":\"%s\",\"defunit\":\"%s\",\"category\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), item.getName(), item.getDefaultUnit(), item.getCategory()));
+
+            //Server.getInstance().postRequest("/itemlist", String.format("{\"userid\":\"%d\",\"name\":\"%s\",\"defunit\":\"%s\",\"category\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), item.getName(), item.getDefaultUnit(), item.getCategory()));
             setChanges();
         }
     }

@@ -33,7 +33,14 @@ public class HttpConnection {
         }
     }
 
-
+    public boolean checkServerConnectivity(){
+        try {
+            return Inet4Address.getByName(hostip).isReachable(2000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     protected String sendGet(String getRequest) throws Exception {
 

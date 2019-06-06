@@ -89,15 +89,6 @@ public class Server {
        http = new HttpConnection();
     }
 
-    private boolean checkServerConnectivity(){
-        try {
-            return Inet4Address.getByName(hostip).isReachable(2000);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
     public User login(String email, String password, Activity caller){
 
         User result = null;
@@ -164,6 +155,22 @@ public class Server {
         return result;
     }
 
+    public String getRequest(String header){
+        HttpRequest request = new HttpRequest(http, MainActivity.getInstance());
+        request.execute("GET", header);
+
+        String result = "";
+        try {
+            result = request.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     public boolean userExists(String email, Activity caller){
         HttpRequest request = new HttpRequest(http, caller);
         request.execute("GET", "/users?email="+email);
@@ -210,5 +217,19 @@ public class Server {
         messageDigest.update(pw.getBytes());
         String passwordHash = new String(messageDigest.digest());
         return passwordHash;
+    }
+
+    public boolean isConnected(Activity caller){
+        HttpRequest request = new HttpRequest(http, caller);
+        request.execute("CON");
+        boolean result = false;
+        try {
+            result = Boolean.valueOf(request.get());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }

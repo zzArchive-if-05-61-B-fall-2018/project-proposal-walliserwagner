@@ -57,6 +57,9 @@ public class Group implements Serializable {
     }
 
     private void createGroup(){
+        if(isDefault){
+            return;
+        }
         String tmp = Server.getInstance().postRequest("/group", String.format("{\"userid\":\"%d\",\"name\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), name));
         try {
             id = new JSONObject(tmp).getInt("groupid");
@@ -105,6 +108,9 @@ public class Group implements Serializable {
         Shoppinglist list = new Shoppinglist(shoppinglistname,this, isdefault);
         this.shoppinglists.add(list);
         list.setChanges();
+        if(!isDefault) {
+            Server.getInstance().postRequest("/createshoppinglist", String.format("{\"groupid\":\"%d\", \"name\":\"%s\"}", id, shoppinglistname));
+        }
         sort();
         return list;
     }
@@ -116,11 +122,17 @@ public class Group implements Serializable {
         this.shoppinglists.add(list);
         list.setChanges();
         sort();
+        if(!isDefault) {
+            Server.getInstance().postRequest("/createshoppinglist", String.format("{\"groupid\":\"%d\", \"name\":\"%s\"}", id, shoppinglistname));
+        }
         return list;
     }
 
     public void removeShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.remove(shoppinglist);
+        if(!isDefault){
+            Server.getInstance().deleteRequest(String.format("/deleteshoppinglist?groupid=%d&listname=%s",id,shoppinglist.getName()));
+        }
         Save.remove(shoppinglist.getName(), id);
     }
     public boolean isDefault() {

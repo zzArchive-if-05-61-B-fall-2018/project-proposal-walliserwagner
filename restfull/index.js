@@ -28,6 +28,10 @@ app.delete('/deleteshoppinglist', db.deleteShoppinglist)
 app.post('/group', db.createGroup);
 app.delete('/group', db.leaveGroup);
 
+app.post('/invite', db.sendInvite);
+app.get('/invite', db.getInvite);
+app.delete('/invite', db.handleInvite);
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

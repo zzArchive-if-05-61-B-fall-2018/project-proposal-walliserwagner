@@ -40,7 +40,7 @@ public class HttpRequest extends AsyncTask<String, Integer, String> {
                 result = http.sendDelete(strings[1]);
             }
             else if(strings[0].equals("CON")){
-
+                result = Boolean.toString(http.checkServerConnectivity());
             }
         }catch (Exception e){
             e.printStackTrace();

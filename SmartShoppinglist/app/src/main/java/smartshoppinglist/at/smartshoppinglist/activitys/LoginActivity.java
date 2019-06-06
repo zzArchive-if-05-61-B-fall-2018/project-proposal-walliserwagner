@@ -38,6 +38,7 @@ import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.User;
+import smartshoppinglist.at.smartshoppinglist.server.HttpRequest;
 import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 
@@ -171,6 +172,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
+        //Check for server connectivity
+        if(!Server.getInstance().isConnected(this)){
+            mPasswordView.setError("Keine verbindung zum server");
+            focusView = mPasswordView;
+            cancel = true;
+
+        }
+
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
@@ -189,26 +198,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
-
-
-        User user = Server.getInstance().login(email, password, this);
-
-        if (user == null) {
-            mPasswordView.setError(getString(R.string.wrong_email_or_password));
-            focusView = mPasswordView;
-            cancel = true;
-        } else {
-            config.setUser(user);
-        }
-
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
+            User user = Server.getInstance().login(email, password, this);
+
+            if (user == null) {
+                mPasswordView.setError(getString(R.string.wrong_email_or_password));
+                focusView = mPasswordView;
+                cancel = true;
+            } else {
+                config.setUser(user);
+            }
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            showProgress(false);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
