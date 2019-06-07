@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
@@ -18,6 +20,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.getInstance().loadLocal();
+        Locale.setDefault(new Locale(MainActivity.getInstance().getLocal()));
         setContentView(R.layout.activity_settings);
         TextView acoountName = this.findViewById(R.id.settings_account_name);
         acoountName.setText(Config.getInstance().getUser().getName().toString());
@@ -56,13 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 MainActivity.getInstance().setLocale(locals[which]);
-                MainActivity.getInstance().getItemCategorys().addCategoryName(getString(R.string.general),true);
-                MainActivity.getInstance().getItemCategorys().getCategoryBought();
-                MainActivity.getInstance().getGroups().getDefault().setName(getString(R.string.local));
-                Shoppinglist shoppinglist = MainActivity.getInstance().getGroups().getDefault().getDefaultList();
-                if(shoppinglist != null) shoppinglist.setName(getString(R.string.shopping_list));
                 recreate();
-                MainActivity.getInstance().recreate();
                 dialog.dismiss();
             }
         });
