@@ -71,6 +71,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         return name;
     }
 
+
     public void addItem(ItemContainer itemContainer){
         Category category = getCategoryByName(itemContainer.getItem().getCategory());
         if(category == null){
@@ -81,14 +82,31 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         category.addElement(itemContainer);
         category.sort();
         if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
-            Server.getInstance().postRequest("/shoppinglist", String.format("{\"userid\":\"%d\", \"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"amount\":\"%d\", \"unit\":\"%s\", \"category\":\"%s\"}", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory()));
+            Server.getInstance().postRequest("/shoppinglist", String.format("{\"userid\":\"%d\", \"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"amount\":\"%d\", \"unit\":\"%s\", \"category\":\"%s\", \"isTicked\":\"%b\"}", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked()));
+            getGroup().incrementChangeset();
         }
         setChanges();
     }
 
+    public void addItem(ItemContainer itemContainer, boolean created){
+        Category category = getCategoryByName(itemContainer.getItem().getCategory());
+        if(category == null){
+            category = new Category(itemContainer.getItem().getCategory(),true);
+            addCategory(category);
+        }
+        addExistingItems(itemContainer);
+        category.addElement(itemContainer);
+        category.sort();
+        getGroup().incrementChangeset();
+        setChanges();
+    }
+
+
     protected void setChanges(){
         Save.save(this);
     }
+
+
     public void removeItem(ItemContainer itemContainer){
         Category category;
         if(itemContainer.isTicked() == true){
@@ -102,6 +120,8 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         }
         if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
             String tmp = Server.getInstance().deleteRequest(String.format("/shoppinglist?userid=%d&groupid=%d&listname=%s&itemname=%s&unit=%s&category=%s", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getUnit(), itemContainer.getItem().getCategory()));
+
+            getGroup().incrementChangeset();
         }
         setChanges();
     }
@@ -160,6 +180,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
             }
         }
     }
+
     private void addExistingItems(ItemContainer itemContainer){
         Category category = getCategoryByName(itemContainer.getItem().getCategory());
         for (int i = 0; category.getElements().length > i; i++) {
@@ -171,6 +192,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
             }
         }
     }
+
     public static String getCategoryBought() {
         return MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName();
     }

@@ -94,7 +94,7 @@ public class GroupFragment extends Fragment {
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();
                     }
-                    Group group = new Group(name.getText().toString(), Config.getInstance().getUser(), false, null);
+                    Group group = new Group(name.getText().toString(), Config.getInstance().getUser(), false);
                     if(!((MainActivity)getActivity()).getGroups().addGroup(group)) {
                         name.setError(getString(R.string.invalid_input));
                         throw new Exception();

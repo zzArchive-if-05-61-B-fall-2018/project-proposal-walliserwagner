@@ -192,6 +192,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.action_reload){
+            Group[] groups = getGroups().getGroups();
+            for (int i = 0; i < groups.length; i++) {
+                Server.getInstance().getGroupChanges(groups[i], this);
+            }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -344,9 +351,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return itemCategorys;
     }
+
+
     public GroupList getGroups(){
         if(groupList == null){
             groupList = Read.readGroupList();
+            groupList = Server.getInstance().getGrouplist(groupList, this);
             groupList.populateGroups();
             boolean found = false;
             for (Group g:groupList.getGroups()) {
@@ -355,11 +365,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             if (!found){
-                groupList.addGroup(new Group(getString(R.string.local), config.getUser(),true, null));
+                groupList.addGroup(new Group(getString(R.string.local), config.getUser(),true));
             }
         }
         return groupList;
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

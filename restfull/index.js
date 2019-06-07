@@ -28,6 +28,9 @@ app.delete('/deleteshoppinglist', db.deleteShoppinglist)
 app.post('/group', db.createGroup);
 app.delete('/group', db.leaveGroup);
 app.get('/group', db.getGroupUsers);
+app.get('/grouplist', db.getGroups);
+
+app.get('/changeset', db.getGroupChanges);
 
 app.post('/invite', db.sendInvite);
 app.get('/invite', db.getInvite);

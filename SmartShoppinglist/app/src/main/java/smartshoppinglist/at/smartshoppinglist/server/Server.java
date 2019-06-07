@@ -27,6 +27,10 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Group;
+import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.objects.Item;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.User;
 
 public class Server {
@@ -237,6 +241,60 @@ public class Server {
             e.printStackTrace();
         }
         return users;
+    }
+
+    public GroupList getGrouplist(GroupList groupList, Activity caller){
+        HttpRequest request = new HttpRequest(http, caller);
+        request.execute("GET", "/grouplist?userid="+MainActivity.getInstance().getCurrentUser().getId());
+        try {
+            JSONArray array = new JSONArray(request.get());
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject jsonObject = array.getJSONObject(i);
+                if(groupList.findGroupById(jsonObject.getInt("groupid")) == null){
+                    groupList.addGroup(new Group(jsonObject.getString("name"), MainActivity.getInstance().getCurrentUser(), jsonObject.getInt("groupid")));
+                }
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return groupList;
+    }
+
+    public void getGroupChanges(Group group, Activity caller){
+        HttpRequest request = new HttpRequest(http, caller);
+        request.execute("GET", String.format("/changeset?groupid=%d&changeid=%d",group.getId(),group.getChangeset()));
+
+        try {
+            String tmp = request.get();
+            JSONArray array = new JSONArray(tmp);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject row = array.getJSONObject(i);
+                String action = row.getString("action");
+                JSONObject data = new JSONObject(row.getString("data").replaceAll("\\\\",""));
+                if(action.equals("ADDITEM")){
+                    group.findListByName(data.getString("listname")).addItem(new ItemContainer(new Item(data.getString("itemname")), data.getInt("count"), data.getString("unit")),false);
+                }
+                else if(action.equals("DELITEM")){
+
+                }
+                else if(action.equals("ADDSHOPPINGLIST")){
+                    group.addList(data.getString("listname"));
+                }
+                else if(action.equals("DELSHOPPINGLIST")){
+
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isConnected(Activity caller){

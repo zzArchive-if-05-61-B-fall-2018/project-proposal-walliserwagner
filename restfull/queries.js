@@ -63,12 +63,13 @@ const createItem = (request, response) => {
 }
 
 const addItem = (request, response) => {
-  const {userid, groupid, listname, itemname, amount, unit, category} = request.body
-  console.debug('Insert into itemcontainer (userid, unit, count, shoppinglistid, name) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3);',[unit,listname, itemname]);
-  pool.query('Insert into itemcontainer (userid, unit, count, shoppinglistid, name) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3);',[unit,listname, itemname], (error, result)=>{
+  const {userid, groupid, listname, itemname, amount, unit, isTicked} = request.body
+  console.debug('Insert into itemcontainer (userid, unit, count, shoppinglistid, name, isTicked) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3, $4);',[unit,listname, itemname, isTicked]);
+  pool.query('Insert into itemcontainer (userid, unit, count, shoppinglistid, name, isTicked) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3, $4);',[unit,listname, itemname, isTicked], (error, result)=>{
     if(error){
       throw error
     }
+    addChange(groupid,'ADDITEM', '{"listname":"'+listname+'", "unit":"'+unit+'","count":"'+amount+'","itemname":"'+itemname+'"}')
     response.status(201).send(result.rows);
   })  
 }
@@ -84,6 +85,7 @@ const removeItem = (request,response) => {
     if(error){
       throw error
     }
+    addChange(groupid, 'DELITEM', '{"listname":"'+listname+'","itemname":"'+itemname+'", "unit":"'+unit+'"}')
     response.status(202).send(result.rows)
   })
 }
@@ -98,6 +100,7 @@ const deleteShoppinglist = (request,response)=>{
       if(error1){
         throw error1
       }
+      addChange(groupid, 'DELSHOPPINGLIST', '{"listname":"'+listname+'"}')
       response.status(202).send(result1.rows);
     })
   })
@@ -123,6 +126,7 @@ const createShoppinglist = (request, response) => {
       if(error){
         throw error
       }
+      addChange(groupid, 'ADDSHOPPINGLIST', '{"listname":"'+name+'"}')
       console.debug('{"shoppinglistid":"'+shoppinglistres.rows[0]['max']+'"}')
       response.status(201).send('{"shoppinglistid":"'+shoppinglistres.rows[0]['max']+'"}');
     })
@@ -215,7 +219,6 @@ const handleInvite = (request, response) => {
   }
 }
 
-
 const getGroupUsers = (request, response) => {
   console.debug('test');
   const groupid = request.query.groupid;
@@ -228,6 +231,50 @@ const getGroupUsers = (request, response) => {
   })
 }
 
+function addChange(groupid, action, data){
+  let changeid;
+  pool.query('select max(changeid) from changeset where groupid='+groupid+';', (error, result)=>{
+    if(error){
+      throw error;
+    }
+    changeid = result.rows[0]['max'];
+    if(changeid===null){
+      changeid=1
+    }
+    else{
+      changeid++
+    }
+    console.debug('Insert into changeset (changeid, groupid, action, data) values ('+changeid+', '+groupid+', $1, $2);', [action, data]);
+    pool.query('Insert into changeset (changeid, groupid, action, data) values ('+changeid+', '+groupid+', $1, $2);', [action, data], (err, res)=>{
+      if(err){
+        throw err;
+      }
+    })  
+  })
+}
+
+const getGroups = (request, response) => {
+  const userid = request.query.userid;
+  pool.query('select g.groupid, g.name from "member" m, "group" g where g.groupid=m.groupid and m.userid='+userid+';', (err, res) => {
+    if(err){
+      throw err
+    }
+    response.send(res.rows);
+  })
+}
+
+const getGroupChanges = (request, response) => {
+  const groupid = request.query.groupid, changeid = request.query.changeid;
+  console.debug('select * from changeset where groupid='+groupid+' and changeid>='+changeid+';');
+  pool.query('select * from changeset where groupid='+groupid+' and changeid>='+changeid+';', (err, res) => {
+    if(err){
+      throw err
+    }
+    response.send(res.rows);
+  })
+}
+
+
   module.exports = {
       getUsers,
       createUser,
@@ -238,8 +285,10 @@ const getGroupUsers = (request, response) => {
       removeItem,
       deleteShoppinglist,
       leaveGroup,
+      getGroups,
       handleInvite,
       sendInvite,
       getInvite,
-      getGroupUsers
+      getGroupUsers,
+      getGroupChanges
   }

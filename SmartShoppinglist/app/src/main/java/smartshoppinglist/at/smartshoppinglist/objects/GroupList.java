@@ -46,7 +46,9 @@ public class GroupList {
     }
     public Group findGroupById(int id){
         for (Group group:groups) {
-            if(group.getId() == id) return group;
+            if(group.getId() == id) {
+                return group;
+            }
         }
         return null;
     }
@@ -57,7 +59,7 @@ public class GroupList {
         return null;
     }
 
-    private void setChanges(){
+    protected void setChanges(){
         Save.save(this);
     }
 }

@@ -20,7 +20,7 @@ public class Group implements Serializable {
     @Expose private List<User> users;
     private List<Shoppinglist> shoppinglists;
     @Expose private boolean isDefault = false;
-    private int changeset = 1;
+    private Integer changeset;
     private int id = -1; // for testing offline
 
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
@@ -43,24 +43,31 @@ public class Group implements Serializable {
         this.isDefault = isDefault;
     }
 
-    public Group(String name, User user, Invite invite) {
-        this(name, user, false, invite);
+    public Group(String name, User user){
+        this(name, user, -1);
     }
 
-    public Group(String name, User user, boolean isDefault, Invite invite) {
+    public Group(String name, User user, boolean isDefault){
+        this(name, user, isDefault, -1);
+    }
+
+    public Group(String name, User user, int id) {
+        this(name, user, false, id);
+    }
+
+    public Group(String name, User user, boolean isDefault, int id) {
         this.name = name;
         shoppinglists = new ArrayList<>();
         users = new ArrayList<>();
         users.add(user);
         this.isDefault = isDefault;
-        if(invite == null) {
+        if(id == -1) {
             createGroup();
         }
         else{
-            id = invite.getGroupid();
+            this.id = id;
         }
     }
-
 
 
     private void createGroup(){
@@ -73,6 +80,21 @@ public class Group implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getChangeset(){
+        if(changeset==null){
+            changeset=1;
+        }
+        return changeset;
+    }
+
+    public void incrementChangeset(){
+        if(changeset==null){
+            changeset=1;
+        }
+        changeset++;
+        MainActivity.getInstance().getGroups().setChanges();
     }
 
     public int getId(){
@@ -117,9 +139,17 @@ public class Group implements Serializable {
         list.setChanges();
         if(!isDefault) {
             Server.getInstance().postRequest("/createshoppinglist", String.format("{\"groupid\":\"%d\", \"name\":\"%s\"}", id, shoppinglistname));
+            incrementChangeset();
         }
         sort();
         return list;
+    }
+
+    public void addList(String listname){
+        Shoppinglist list = new Shoppinglist(listname,this, false);
+        this.shoppinglists.add(list);
+        list.setChanges();
+        sort();
     }
 
     public Shoppinglist createList(String shoppinglistname)
@@ -131,6 +161,7 @@ public class Group implements Serializable {
         sort();
         if(!isDefault) {
             Server.getInstance().postRequest("/createshoppinglist", String.format("{\"groupid\":\"%d\", \"name\":\"%s\"}", id, shoppinglistname));
+            incrementChangeset();
         }
         return list;
     }
@@ -139,6 +170,7 @@ public class Group implements Serializable {
         this.shoppinglists.remove(shoppinglist);
         if(!isDefault){
             Server.getInstance().deleteRequest(String.format("/deleteshoppinglist?groupid=%d&listname=%s",id,shoppinglist.getName()));
+            incrementChangeset();
         }
         Save.remove(shoppinglist.getName(), id);
     }
