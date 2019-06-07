@@ -21,7 +21,9 @@ public class GroupList {
     }
 
     public boolean addGroup(Group group){
-        if(findGroupById(group.getId())!= null) return false;
+        if(findGroupById(group.getId())!= null){
+            return false;
+        }
         groups.add(group);
         setChanges();
         return true;

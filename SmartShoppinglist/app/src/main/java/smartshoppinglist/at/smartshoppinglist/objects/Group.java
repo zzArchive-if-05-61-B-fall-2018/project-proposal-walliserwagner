@@ -20,17 +20,18 @@ public class Group implements Serializable {
     @Expose private List<User> users;
     private List<Shoppinglist> shoppinglists;
     @Expose private boolean isDefault = false;
+    private int changeset = 1;
     private int id = -1; // for testing offline
 
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists) {
-        this.name = name;
-        this.users = users;
-        this.shoppinglists = shoppinglists;
+        this(name,users,shoppinglists, false);
         createGroup();
     }
 
     public Group(String name, List<User> users, List<Shoppinglist> shoppinglists, boolean isDefault) {
-        this(name,users,shoppinglists);
+        this.name = name;
+        this.users = users;
+        this.shoppinglists = shoppinglists;
         this.isDefault = isDefault;
     }
 
@@ -42,19 +43,25 @@ public class Group implements Serializable {
         this.isDefault = isDefault;
     }
 
-    public Group(String name, User user) {
+    public Group(String name, User user, Invite invite) {
+        this(name, user, false, invite);
+    }
+
+    public Group(String name, User user, boolean isDefault, Invite invite) {
         this.name = name;
+        shoppinglists = new ArrayList<>();
         users = new ArrayList<>();
         users.add(user);
-        shoppinglists = new ArrayList<>();
-        createGroup();
-    }
-
-
-    public Group(String name, User user, boolean isDefault) {
-        this(name,user);
         this.isDefault = isDefault;
+        if(invite == null) {
+            createGroup();
+        }
+        else{
+            id = invite.getGroupid();
+        }
     }
+
+
 
     private void createGroup(){
         if(isDefault){
@@ -74,7 +81,7 @@ public class Group implements Serializable {
 
     public String[] getUsernames(){
         List<String> result = new ArrayList<>();
-        for (User user:users) {
+        for (User user:getUsers()) {
             result.add(user.getName());
         }
         return result.toArray(new String[0]);
@@ -92,7 +99,7 @@ public class Group implements Serializable {
     }
 
     public User[] getUsers() {
-        return users.toArray(new User[0]);
+        return Server.getInstance().getUsersOfGroup(id, MainActivity.getInstance()).toArray(new User[0]);
     }
 
     public void addUsers(User user) {

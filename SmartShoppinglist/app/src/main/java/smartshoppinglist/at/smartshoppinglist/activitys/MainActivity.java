@@ -362,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
             if (!found){
-                groupList.addGroup(new Group(getString(R.string.local), config.getUser(),true));
+                groupList.addGroup(new Group(getString(R.string.local), config.getUser(),true, null));
             }
         }
         return groupList;

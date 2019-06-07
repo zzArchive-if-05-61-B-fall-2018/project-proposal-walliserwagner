@@ -64,8 +64,8 @@ const createItem = (request, response) => {
 
 const addItem = (request, response) => {
   const {userid, groupid, listname, itemname, amount, unit, category} = request.body
-  console.debug('Insert into itemcontainer (userid, unit, count, shoppinglistid, category, name) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3, $4);',[unit,listname, category, itemname]);
-  pool.query('Insert into itemcontainer (userid, unit, count, shoppinglistid, category, name) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3, $4);',[unit,listname, category, itemname], (error, result)=>{
+  console.debug('Insert into itemcontainer (userid, unit, count, shoppinglistid, name) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3);',[unit,listname, itemname]);
+  pool.query('Insert into itemcontainer (userid, unit, count, shoppinglistid, name) values('+userid+', $1, '+amount+', (select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$2), $3);',[unit,listname, itemname], (error, result)=>{
     if(error){
       throw error
     }
@@ -79,8 +79,8 @@ const removeItem = (request,response) => {
   const itemname=request.query.itemname
   const unit=request.query.unit
   const category=request.query.category
-  console.debug('Delete from itemcontainer where userid='+userid+' and name=$1 and shoppinglistid=(select shoppinglistid from shoppinglist where name=$2 and groupid='+groupid+') and unit=$3 and category=$4;',[itemname,listname,unit, category])
-  pool.query('Delete from itemcontainer where userid='+userid+' and name=$1 and shoppinglistid=(select shoppinglistid from shoppinglist where name=$2 and groupid='+groupid+') and unit=$3 and category=$4;',[itemname,listname,unit, category], (error, result) => {
+  console.debug('Delete from itemcontainer where userid='+userid+' and name=$1 and shoppinglistid=(select shoppinglistid from shoppinglist where name=$2 and groupid='+groupid+') and unit=$3',[itemname,listname,unit])
+  pool.query('Delete from itemcontainer where userid='+userid+' and name=$1 and shoppinglistid=(select shoppinglistid from shoppinglist where name=$2 and groupid='+groupid+') and unit=$3',[itemname,listname,unit], (error, result) => {
     if(error){
       throw error
     }
@@ -133,6 +133,7 @@ const createShoppinglist = (request, response) => {
 const createGroup = (request, response) =>{
   const {userid, name} = request.body;
   let groupid;
+  console.debug('INSERT INTO "group" (name) VALUES ($1);',[name])
   pool.query('INSERT INTO "group" (name) VALUES ($1);',[name], (error2, results) => {
     if (error2) {
       throw error2
@@ -143,6 +144,7 @@ const createGroup = (request, response) =>{
       }
       groupid = groupidres.rows[0]['max'];
       console.debug(groupidres.rows[0]['max']);
+      console.debug('INSERT INTO "member" (groupid, userid) VALUES ('+groupid+', '+userid+');')
       pool.query('INSERT INTO "member" (groupid, userid) VALUES ('+groupid+', '+userid+');', (error4, results2) => {
         if (error4) {
           throw error4
@@ -214,6 +216,18 @@ const handleInvite = (request, response) => {
 }
 
 
+const getGroupUsers = (request, response) => {
+  console.debug('test');
+  const groupid = request.query.groupid;
+  console.debug('select u.userid, u.email, u.name from users u, "member" m where u.userid=m.userid and m.groupid='+groupid+';');
+  pool.query('select u.userid, u.email, u.name from users u, "member" m where u.userid=m.userid and m.groupid='+groupid+';', (err, res)=>{
+    if(err){
+      throw err
+    }
+    response.send(res.rows);
+  })
+}
+
   module.exports = {
       getUsers,
       createUser,
@@ -226,5 +240,6 @@ const handleInvite = (request, response) => {
       leaveGroup,
       handleInvite,
       sendInvite,
-      getInvite
+      getInvite,
+      getGroupUsers
   }

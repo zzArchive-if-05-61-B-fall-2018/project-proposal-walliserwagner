@@ -14,6 +14,7 @@ import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.Invite;
 import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
@@ -65,6 +66,7 @@ public class InviteArrayAdapter extends ArrayAdapter<Invite> {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.getInstance().getGroups().addGroup(new Group(inviteList.getInvites()[position].getGroup(), MainActivity.getInstance().getCurrentUser(), inviteList.getInvites()[position]));
                 Server.getInstance().deleteRequest(String.format("/invite?userid=%d&groupid=%d&accepted=true", MainActivity.getInstance().getCurrentUser().getId(), inviteList.getInvites()[position].getGroupid()));
                 MainActivity.getInstance().getInviteList().removeInvite(inviteList.getInvites()[position]);
                 notifyDataSetChanged();

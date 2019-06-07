@@ -2,6 +2,9 @@ package smartshoppinglist.at.smartshoppinglist.server;
 
 import android.app.Activity;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +15,8 @@ import java.net.Inet4Address;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HostnameVerifier;
@@ -211,6 +216,27 @@ public class Server {
         messageDigest.update(pw.getBytes());
         String passwordHash = new String(messageDigest.digest());
         return passwordHash;
+    }
+
+    public List<User> getUsersOfGroup(int groupid, Activity caller){
+        HttpRequest request = new HttpRequest(http, caller);
+        request.execute("GET", String.format("/group?groupid=%d",groupid));
+        List<User> users = new ArrayList<>();
+        try {
+            String jstring = request.get();
+            JSONArray array = new JSONArray(jstring);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject jsonObject = array.getJSONObject(i);
+                users.add(new User(jsonObject.getString("name"),jsonObject.getString("email"),"",jsonObject.getInt("userid")));
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     public boolean isConnected(Activity caller){
