@@ -1,22 +1,21 @@
 package smartshoppinglist.at.smartshoppinglist.objects;
 
-import com.google.gson.annotations.Expose;
-
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+
 public class Category implements Comparable<Category>, Serializable {
     private transient static int defaultpriority = 0;
     private List<ItemContainer> categrorizedObjects;
-    private String name;
+    private int itemCategory;
     private int priority;
     private boolean isExpanded = false;
 
     public Category(String name,int priority){
-        this.name = name;
+        this.itemCategory = MainActivity.getInstance().getItemCategorys().getCategoryIdByName(name);
         this.priority = priority;
         categrorizedObjects = new ArrayList<ItemContainer>();
     }
@@ -46,7 +45,7 @@ public class Category implements Comparable<Category>, Serializable {
     }
 
     public String getName() {
-        return name;
+        return  MainActivity.getInstance().getItemCategorys().getCategoryById(itemCategory).getName();
     }
 
     public void sort(){

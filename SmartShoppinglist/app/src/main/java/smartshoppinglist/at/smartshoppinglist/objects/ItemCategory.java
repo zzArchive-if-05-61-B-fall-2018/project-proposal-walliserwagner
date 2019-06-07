@@ -6,16 +6,19 @@ public class ItemCategory implements Serializable, Comparable<ItemCategory> {
     private String name;
     private int priority;
     private boolean defaultCategory;
+    private int id;
 
-    public ItemCategory(String name, int priority) {
+    public ItemCategory(int id, String name, int priority) {
         this.name = name;
         this.priority = priority;
+        this.id = id;
     }
 
-    public ItemCategory(String name, int priority, boolean defaultCategory) {
+    public ItemCategory(int id, String name, int priority, boolean defaultCategory) {
         this.name = name;
         this.priority = priority;
         this.defaultCategory = defaultCategory;
+        this.id = id;
     }
 
     public boolean isDefaultCategory() {
@@ -36,6 +39,10 @@ public class ItemCategory implements Serializable, Comparable<ItemCategory> {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

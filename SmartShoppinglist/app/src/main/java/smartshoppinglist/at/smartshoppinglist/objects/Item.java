@@ -3,36 +3,33 @@ package smartshoppinglist.at.smartshoppinglist.objects;
 import java.io.Serializable;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 
 public class Item implements Comparable<Item>, Serializable {
-    private static String defaultCategory = "Allgemein";
+    private static int defaultCategory = -1;
     private static String defaultDefaultUnit = "Stk";
     private String name;
     private int icon;
-    private String category;
+    private int category;
     private String defaultUnit;
 
     public Item(String name, int icon, String category, String defaultUnit){
         this.name = name;
         this.icon = icon;
-        this.category = category;
+        this.category = MainActivity.getInstance().getItemCategorys().getCategoryIdByName(category);
         this.defaultUnit = defaultUnit;
     }
     public Item(String name, int icon, String category){
         this(name, icon, category, defaultDefaultUnit);
     }
-    public Item(String name, int icon){
-        this(name, icon,defaultCategory);
-    }
-
-    public  Item(String name, String category){
+    public Item(String name, String category){
         this(name, R.drawable.ic_questionmark , category);
     }
-    public  Item(String name, String category,String defaultUnit){
+    public Item(String name, String category,String defaultUnit){
         this(name, R.drawable.ic_questionmark , category, defaultUnit);
     }
     public Item(String name){
-        this(name,defaultCategory);
+        this(name,MainActivity.getInstance().getItemCategorys().getCategoryById(defaultCategory).getName());
     }
 
     public int getIcon() {
@@ -47,6 +44,9 @@ public class Item implements Comparable<Item>, Serializable {
     }
 
     public String getCategory() {
+        return MainActivity.getInstance().getItemCategorys().getCategoryById(category).getName();
+    }
+    public int getCategoryID() {
         return category;
     }
 
@@ -54,13 +54,11 @@ public class Item implements Comparable<Item>, Serializable {
         this.defaultUnit = defaultUnit;
     }
 
+    public void setCategoryID(int category) {
+        this.category = category;
+    }
     public void setCategory(String category) {
-        if(category.equals("")){
-            this.category = defaultCategory;
-        }
-        else{
-            this.category = category;
-        }
+        this.category = MainActivity.getInstance().getItemCategorys().getCategoryIdByName(category);
     }
 
     public void setIcon(int icon) {
@@ -77,16 +75,13 @@ public class Item implements Comparable<Item>, Serializable {
     }
 
     public static String getDefaultCategory() {
-        return defaultCategory;
+        return MainActivity.getInstance().getItemCategorys().getCategoryById(defaultCategory).getName();
     }
 
     public static String getDefaultDefaultUnit() {
         return defaultDefaultUnit;
     }
 
-    public static void setDefaultCategory(String defaultCategory) {
-        Item.defaultCategory = defaultCategory;
-    }
 
     public static void setDefaultDefaultUnit(String defaultDefaultUnit) {
         Item.defaultDefaultUnit = defaultDefaultUnit;
