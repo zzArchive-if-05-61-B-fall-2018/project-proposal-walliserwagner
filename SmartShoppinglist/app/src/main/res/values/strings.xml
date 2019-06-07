@@ -30,7 +30,7 @@
     <string name="no_acount_yet">Du hast noch keinen Account? Erstelle einen</string>
     <string name="invalid_input">"Ungültige Eingabe"</string>
     <string name="wrong_email_or_password">"Passwort oder Email ist falsch"</string>
-    <string name="local">"Local"</string>
+    <string name="local">"Lokal"</string>
     <string name="really_want_to_delete_shoppinglist">"Möchtest du diese Einkaufsliste wirklich löschen?"</string>
     <string name="home">"Home"</string>
     <string name="smart_shopping_list">"SmartShoppingList"</string>

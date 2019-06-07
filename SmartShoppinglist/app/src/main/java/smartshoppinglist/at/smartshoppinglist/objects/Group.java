@@ -170,4 +170,12 @@ public class Group implements Serializable {
         }
         return names;
     }
+    public Shoppinglist getDefaultList(){
+        for (Shoppinglist shoppinglist:shoppinglists) {
+            if(shoppinglist.isDefault()){
+                return shoppinglist;
+            }
+        }
+        return null;
+    }
 }

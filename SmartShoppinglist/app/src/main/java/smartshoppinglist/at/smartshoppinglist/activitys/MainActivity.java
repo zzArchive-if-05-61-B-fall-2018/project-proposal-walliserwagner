@@ -22,8 +22,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,13 +43,13 @@ import smartshoppinglist.at.smartshoppinglist.fragments.SearchFragment;
 import smartshoppinglist.at.smartshoppinglist.localsave.Read;
 import smartshoppinglist.at.smartshoppinglist.localsave.Save;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
-import smartshoppinglist.at.smartshoppinglist.objects.Invite;
-import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
-import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.objects.Invite;
+import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
+import smartshoppinglist.at.smartshoppinglist.objects.ItemCategoryList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.objects.RecipeList;
@@ -148,13 +146,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(R.string.home);
 
-        Shoppinglist.setCategoryBought(getString(R.string.bought));
-        Shoppinglist.setCategoryGeneral(getString(R.string.general));
-        Item.setDefaultCategory(getString(R.string.general));
         ItemContainer.setDefaultUnit(getString(R.string.stk));
-
-        //getInviteList().addInvite(new Invite("gruppe","test@email.com"));
-        //getInviteList().addInvite(new Invite("Arbeit","test@email.com"));
+        Item.setDefaultDefaultUnit(getString(R.string.stk));
 
     }
     public Fragment getVisibleFragment(){
