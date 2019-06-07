@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.objects.Category;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemContainer;
 import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class ListsExpandableAdapter extends BaseExpandableListAdapter {
 
@@ -133,7 +135,8 @@ public class ListsExpandableAdapter extends BaseExpandableListAdapter {
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
+        if(MainActivity.getInstance().getGroups().getGroups()[groupPosition].isDefault() || Server.getInstance().isConnected(MainActivity.getInstance())) return true;
+        return false;
     }
 
     @Override

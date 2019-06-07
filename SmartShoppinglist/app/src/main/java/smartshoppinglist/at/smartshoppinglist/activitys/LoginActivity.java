@@ -76,6 +76,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getLocal().equals("")){
+            if(getBaseContext().getResources().getConfiguration().locale.toString().contains("en")) setLocale("en");
+            else if(getBaseContext().getResources().getConfiguration().locale.toString().contains("de")) setLocale("de");
+        }
         loadLocal();
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -392,6 +396,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         SharedPreferences preferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         String lang = preferences.getString("Lang","");
         setLocale(lang);
+    }
+    public String getLocal(){
+        SharedPreferences preferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        return preferences.getString("Lang","");
     }
 }
 

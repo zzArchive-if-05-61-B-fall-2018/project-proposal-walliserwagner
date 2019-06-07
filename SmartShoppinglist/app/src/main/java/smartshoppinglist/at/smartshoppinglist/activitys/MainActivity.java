@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private User currentUser;
 
     private String[] languages = new String[]{"English", "Deutsch"};
-    private String[] locals = new String[]{"en", "ge"};
+    private String[] locals = new String[]{"en", "de"};
 
 
 
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if(getSupportFragmentManager().findFragmentById(R.id.main_container) != null) fragmentTransaction.remove(getSupportFragmentManager().findFragmentById(R.id.main_container));
         fragmentTransaction.add(R.id.main_container, new HomeFragment());
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(R.string.home);
@@ -420,7 +422,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor = getSharedPreferences("Settings",MODE_PRIVATE).edit();
         editor.putString("Lang",string);
         editor.apply();
+        MainActivity.getInstance().getItemCategorys().addCategoryName(getString(R.string.general),true);
+        MainActivity.getInstance().getItemCategorys().getCategoryBought();
+        MainActivity.getInstance().getGroups().getDefault().setName(getString(R.string.local));
+        Shoppinglist shoppinglist = MainActivity.getInstance().getGroups().getDefault().getDefaultList();
+        if(shoppinglist != null) shoppinglist.setName(getString(R.string.shopping_list));
+        recreate();
     }
+
     public void loadLocal(){
 
         SharedPreferences preferences = getSharedPreferences("Settings",Activity.MODE_PRIVATE);
@@ -431,8 +440,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences preferences = getSharedPreferences("Settings",Activity.MODE_PRIVATE);
         String lang = preferences.getString("Lang","");
         if(lang.equals("en")) return "English";
-        if(lang.equals("ge")) return "Deutsch";
+        if(lang.equals("de")) return "Deutsch";
         return lang;
+    }
+    public String getLocal(){
+        SharedPreferences preferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        return preferences.getString("Lang","");
     }
 
     public String[] getLanguages() {

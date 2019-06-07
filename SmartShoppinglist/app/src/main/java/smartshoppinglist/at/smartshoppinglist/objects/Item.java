@@ -58,6 +58,10 @@ public class Item implements Comparable<Item>, Serializable {
         this.category = category;
     }
     public void setCategory(String category) {
+        if(category.equals("")){
+            this.category = MainActivity.getInstance().getItemCategorys().getCategoryIdByName(MainActivity.getInstance().getString(R.string.general));
+            return;
+        }
         this.category = MainActivity.getInstance().getItemCategorys().getCategoryIdByName(category);
     }
 

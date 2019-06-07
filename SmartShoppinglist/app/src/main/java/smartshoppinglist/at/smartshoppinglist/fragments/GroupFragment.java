@@ -25,6 +25,7 @@ import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 import smartshoppinglist.at.smartshoppinglist.objects.Config;
 import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.GroupList;
+import smartshoppinglist.at.smartshoppinglist.server.Server;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.GroupListAdapter;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -54,6 +55,7 @@ public class GroupFragment extends Fragment {
         adapter = new GroupListAdapter(getActivity(),groupList);
         groupListView.setAdapter(adapter);
         registerForContextMenu(groupListView);
+        if(!Server.getInstance().isConnected(MainActivity.getInstance())) groupListView.setEnabled(false);
         return v;
     }
     @Override
