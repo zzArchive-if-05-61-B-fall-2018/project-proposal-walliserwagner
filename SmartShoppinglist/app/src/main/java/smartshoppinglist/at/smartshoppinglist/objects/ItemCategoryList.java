@@ -19,7 +19,8 @@ public class ItemCategoryList implements Serializable {
     }
 
     public List<ItemCategory> getCategories() {
-        List<ItemCategory> tmp = categories;
+        List<ItemCategory> tmp = new ArrayList<>();
+        tmp.addAll(categories);
         tmp.remove(getCategoryBought());
         return tmp;
     }
@@ -65,7 +66,7 @@ public class ItemCategoryList implements Serializable {
         return null;
     }
 
-    private void setChanges(){
+    protected void setChanges(){
         Save.save(this);
     }
 

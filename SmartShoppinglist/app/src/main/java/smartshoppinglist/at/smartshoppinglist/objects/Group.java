@@ -118,6 +118,7 @@ public class Group implements Serializable {
     {
         this.name = name;
         redoShoppinglists();
+        MainActivity.getInstance().getGroups().setChanges();
     }
 
     public User[] getUsers() {

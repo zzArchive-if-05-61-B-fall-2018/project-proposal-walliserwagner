@@ -2,5 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/items_longClick_alter"
-        android:title="Bearbeiten" />
+        android:title="@string/alter" />
 </menu>

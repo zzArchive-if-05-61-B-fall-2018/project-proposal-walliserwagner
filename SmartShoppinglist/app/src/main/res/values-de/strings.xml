@@ -68,4 +68,7 @@
     <string name="reload">Neu laden</string>
     <string name="user">Benutzer</string>
     <string name="choose_language">Choose Language</string>
+    <string name="alter">Bearbeiten</string>
+    <string name="remove">Entfernen</string>
+    <string name="this_category_con_not_be_altered">Diese Kategory kan nicht bearbeitet werden</string>
 </resources>

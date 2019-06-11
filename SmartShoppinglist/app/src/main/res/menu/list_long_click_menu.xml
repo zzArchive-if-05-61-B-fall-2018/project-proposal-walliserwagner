@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/list_longClick_alter"
-        android:title="Bearbeiten" />
+        android:title="@string/alter" />
 
     <item
         android:id="@+id/list_longClick_remove"
-        android:title="Entfernen" />
+        android:title="@string/remove" />
 </menu>

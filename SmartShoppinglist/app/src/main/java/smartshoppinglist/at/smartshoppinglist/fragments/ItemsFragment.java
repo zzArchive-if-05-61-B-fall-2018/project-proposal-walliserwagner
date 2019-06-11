@@ -26,8 +26,10 @@ import java.util.List;
 import smartshoppinglist.at.smartshoppinglist.InputValidator;
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Group;
 import smartshoppinglist.at.smartshoppinglist.objects.Item;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemCategory;
+import smartshoppinglist.at.smartshoppinglist.objects.Shoppinglist;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.DragableListViewAdapter;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.DragableListView;
 
@@ -42,6 +44,8 @@ public class ItemsFragment extends Fragment {
     private List<ItemCategory> categoryList;
     private Context mContext;
     private AlertDialog createItemDialog;
+    private AlertDialog dialog;
+    private DragableListViewAdapter adapter;
 
     public ItemsFragment() {
         // Required empty public constructor
@@ -54,7 +58,7 @@ public class ItemsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_items, container, false);
         categoryList = MainActivity.getInstance().getItemCategorys().getCategories();
         final DragableListView listView = (DragableListView) v.findViewById(R.id.itemsList);
-        DragableListViewAdapter adapter = new DragableListViewAdapter(getContext(), categoryList, new DragableListViewAdapter.Listener() {
+        adapter = new DragableListViewAdapter(getContext(), categoryList, new DragableListViewAdapter.Listener() {
             @Override
             public void onGrab(int position, RelativeLayout row) {
                 listView.onGrab(position, row);
@@ -84,6 +88,7 @@ public class ItemsFragment extends Fragment {
                 MainActivity.getInstance().getItemCategorys().sort();
             }
         });
+        registerForContextMenu(listView);
         return v;
     }
     @Override
@@ -94,13 +99,48 @@ public class ItemsFragment extends Fragment {
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
         switch (item.getItemId()) {
             case R.id.items_longClick_alter:
-                Toast.makeText(getActivity().getApplicationContext(), R.string.not_implemented_yet, Toast.LENGTH_SHORT).show();
+                if(categoryList.get(index).isDefaultCategory()){
+                    Toast.makeText(getActivity().getApplicationContext(),R.string.this_category_con_not_be_altered,Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    alterCategory(categoryList.get(index));
+                }
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+    public void alterCategory(ItemCategory itemCategory){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popup = inflater.inflate(R.layout.simple_add_popup, null);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setView(popup);
+        final EditText name = popup.findViewById(R.id.simple_add_popup_name);
+        name.setHint(itemCategory.getName());
+        Button button = popup.findViewById(R.id.simple_add_popup_add);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if(!InputValidator.validInputEmptyString(name.getText().toString(),20)) {
+                        name.setError(getString(R.string.invalid_input));
+                        throw new Exception();
+                    }
+                    else if(!name.getText().toString().equals("")){
+                        itemCategory.setName(name.getText().toString());
+                        adapter.notifyDataSetChanged();
+                    }
+                    dialog.dismiss();
+                }catch (Exception e) {
+                }
+            }
+        });
+        dialog = alertDialogBuilder.create();
+        dialog.show();
     }
     @SuppressLint("ClickableViewAccessibility")
     public void createItem(){
