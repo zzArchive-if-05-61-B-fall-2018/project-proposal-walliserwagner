@@ -55,7 +55,7 @@ public class RecipeFragment extends Fragment {
         if(getArguments() != null){
             Recipe r = (Recipe) getArguments().getSerializable("recipe");
             if(r != null) {
-                recipe = r;
+                recipe = new Recipe(r);
                 isAlter = true;
                 oldRecipe = r;
             }

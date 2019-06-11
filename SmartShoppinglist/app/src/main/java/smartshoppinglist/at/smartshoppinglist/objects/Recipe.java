@@ -16,6 +16,12 @@ public class Recipe implements Serializable {
         this.items = items;
     }
 
+    public Recipe(Recipe recipe) {
+        this.name = recipe.getName();
+        this.description = recipe.getDescription();
+        this.items = recipe.getItems();
+    }
+
     public String getName() {
         return name;
     }

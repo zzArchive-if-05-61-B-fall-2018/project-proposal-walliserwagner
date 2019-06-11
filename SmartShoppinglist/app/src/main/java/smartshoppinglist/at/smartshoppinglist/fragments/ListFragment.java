@@ -215,5 +215,8 @@ public class ListFragment extends Fragment {
         dialog.show();
 
     }
+    public void reload(){
+        listAdapter.notifyDataSetChanged();
+    }
 }
 

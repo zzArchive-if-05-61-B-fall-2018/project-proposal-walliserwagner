@@ -253,4 +253,7 @@ public class HomeFragment extends Fragment {
             alterItemDialog = null;
         }
     }
+    public void reload(){
+        listAdapter.notifyDataSetChanged();
+    }
 }

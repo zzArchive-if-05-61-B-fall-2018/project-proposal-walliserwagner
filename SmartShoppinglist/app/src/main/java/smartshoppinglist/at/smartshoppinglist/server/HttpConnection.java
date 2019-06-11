@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.Inet4Address;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.URL;
 
 import smartshoppinglist.at.smartshoppinglist.BuildConfig;
@@ -35,11 +37,24 @@ public class HttpConnection {
 
     public boolean checkServerConnectivity(){
         try {
-            return Inet4Address.getByName(hostip).isReachable(100);
-        } catch (IOException e) {
+            //return Inet4Address.getByName(hostip).isReachable(100);
+            return isReachable(hostip,3000,100);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
+    }
+    private static boolean isReachable(String addr, int openPort, int timeOutMillis) {
+        // Any Open port on other machine
+        // openPort =  22 - ssh, 80 or 443 - webserver, 25 - mailserver etc.
+        try {
+            try (Socket soc = new Socket()) {
+                soc.connect(new InetSocketAddress(addr, openPort), timeOutMillis);
+            }
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 
     protected String sendGet(String getRequest) throws Exception {

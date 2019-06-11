@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+import smartshoppinglist.at.smartshoppinglist.objects.Invite;
 import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.uiadapters.InviteArrayAdapter;
 
 import android.widget.ListView;
+
+import java.util.List;
 
 public class InviteFragment extends Fragment {
 
@@ -44,5 +47,8 @@ public class InviteFragment extends Fragment {
         fragmentTransaction.replace(R.id.main_container, new GroupFragment());
         fragmentTransaction.addToBackStack("");
         fragmentTransaction.commit();
+    }
+    public void reload(){
+        inviteArrayAdapter.notifyDataSetChanged();
     }
 }

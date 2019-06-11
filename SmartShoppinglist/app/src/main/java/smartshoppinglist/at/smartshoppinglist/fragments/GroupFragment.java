@@ -113,4 +113,8 @@ public class GroupFragment extends Fragment {
     public void notifyDatasetChanged(){
         adapter.notifyDataSetChanged();
     }
+
+    public void reload(){
+        adapter.notifyDataSetChanged();
+    }
 }
