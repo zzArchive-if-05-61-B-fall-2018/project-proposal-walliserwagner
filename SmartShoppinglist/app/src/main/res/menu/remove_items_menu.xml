@@ -4,7 +4,7 @@
     <item
         android:id="@+id/remove_items"
         android:icon="@drawable/ic_delete"
-        android:title="remove"
+        android:title="@string/remove"
         android:orderInCategory="1"
         app:showAsAction="always"
         />

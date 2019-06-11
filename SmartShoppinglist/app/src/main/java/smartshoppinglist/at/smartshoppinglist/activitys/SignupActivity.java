@@ -1,6 +1,7 @@
 package smartshoppinglist.at.smartshoppinglist.activitys;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 
 import smartshoppinglist.at.smartshoppinglist.R;
+import smartshoppinglist.at.smartshoppinglist.objects.Config;
+import smartshoppinglist.at.smartshoppinglist.objects.User;
 import smartshoppinglist.at.smartshoppinglist.server.Server;
 
 public class SignupActivity extends AppCompatActivity {
@@ -91,6 +94,9 @@ public class SignupActivity extends AppCompatActivity {
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
+        User user = Server.getInstance().login(_emailText.getText().toString(), _passwordText.getText().toString(), this);
+        Config.getInstance().setUser(user);
+        LoginActivity.getInstance().recreate();
         finish();
     }
 

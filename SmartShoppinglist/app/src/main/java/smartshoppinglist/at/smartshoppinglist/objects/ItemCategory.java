@@ -2,6 +2,8 @@ package smartshoppinglist.at.smartshoppinglist.objects;
 
 import java.io.Serializable;
 
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
+
 public class ItemCategory implements Serializable, Comparable<ItemCategory> {
     private String name;
     private int priority;
@@ -31,6 +33,7 @@ public class ItemCategory implements Serializable, Comparable<ItemCategory> {
 
     public void setName(String name) {
         this.name = name;
+        MainActivity.getInstance().getItemCategorys().setChanges();
     }
 
     public int getPriority() {
@@ -39,6 +42,7 @@ public class ItemCategory implements Serializable, Comparable<ItemCategory> {
 
     public void setPriority(int priority) {
         this.priority = priority;
+        MainActivity.getInstance().getItemCategorys().setChanges();
     }
 
     public int getId() {

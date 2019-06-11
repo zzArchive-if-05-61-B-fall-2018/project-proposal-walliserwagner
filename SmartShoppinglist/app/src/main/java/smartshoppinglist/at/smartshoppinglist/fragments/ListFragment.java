@@ -91,7 +91,7 @@ public class ListFragment extends Fragment {
 
 
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            menu.setHeaderTitle("Optionen");
+            menu.setHeaderTitle(R.string.options);
             ((AppCompatActivity) getActivity()).getMenuInflater().inflate(R.menu.list_long_click_menu, menu);
         }
     }

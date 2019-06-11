@@ -68,5 +68,9 @@
     <string name="design">Design</string>
     <string name="reload">Reload</string>
     <string name="user">User</string>
-    <string name="choose_language">Sprache Wählen</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="alter">Alter</string>
+    <string name="remove">Remove</string>
+    <string name="this_category_con_not_be_altered">This category can not be altered</string>
+    <string name="no_server_connection">No server connection</string>
 </resources>
