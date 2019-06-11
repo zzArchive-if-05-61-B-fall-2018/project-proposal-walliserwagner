@@ -125,6 +125,8 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         }
         setChanges();
     }
+
+
     private Category getCategoryByName(String name){
         for (Category category:items) {
             if (category.getName().equals(name)){
@@ -133,6 +135,8 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         }
         return null;
     }
+
+
     public void tickItem(ItemContainer itemContainer){
         itemContainer.setTicked(true);
         Category category = getCategoryByName(itemContainer.getItem().getCategory());
