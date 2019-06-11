@@ -166,6 +166,11 @@ public class Group implements Serializable {
         return list;
     }
 
+    public void removeShoppinglist(String name){
+        this.shoppinglists.remove(findListByName(name));
+        Save.remove(name, id);
+    }
+
     public void removeShoppinglist(Shoppinglist shoppinglist) {
         this.shoppinglists.remove(shoppinglist);
         if(!isDefault){

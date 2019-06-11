@@ -274,6 +274,17 @@ const getGroupChanges = (request, response) => {
   })
 }
 
+const tickItem = (request, response) => {
+  const {groupid, listname, itemname, unit, ticked} = request.body;
+  console.debug('Update itemcontainer set isticked='+ticked+' where shoppinglistid=(select shoppinglistid from shoppinglist where groupid='+groupid+' and name='+listname+') and unit='+unit+' and name='+itemname+';')
+  pool.query('Update itemcontainer set isticked='+ticked+' where shoppinglistid=(select shoppinglistid from shoppinglist where groupid='+groupid+' and name=$1) and unit=$2 and name=$3;',[listname, unit, itemname], (err, res)=>{
+    if(err){
+      throw err
+    }
+    addChange(groupid, 'TICKITEM', '{"listname": "'+listname+'", "itemname":"'+itemname+'" ,"unit": "'+unit+'", "isticked":"'+ticked+'"}')
+    response.send(res.rows);
+  })
+}
 
   module.exports = {
       getUsers,
@@ -290,5 +301,6 @@ const getGroupChanges = (request, response) => {
       sendInvite,
       getInvite,
       getGroupUsers,
-      getGroupChanges
+      getGroupChanges,
+      tickItem
   }

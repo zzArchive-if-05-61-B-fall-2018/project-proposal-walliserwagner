@@ -126,6 +126,36 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         setChanges();
     }
 
+    public void removeItem(String name, String unit){
+        ItemContainer itemContainer = findItemByNameAndUnit(name, unit);
+        Category category;
+        if(itemContainer.isTicked() == true){
+            category = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());
+        }
+        else {
+            category = getCategoryByName(itemContainer.getItem().getCategory());
+        }
+        if(category != null){
+            category.removeElement(itemContainer);
+        }
+        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
+            String tmp = Server.getInstance().deleteRequest(String.format("/shoppinglist?userid=%d&groupid=%d&listname=%s&itemname=%s&unit=%s&category=%s", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getUnit(), itemContainer.getItem().getCategory()));
+
+            getGroup().incrementChangeset();
+        }
+        setChanges();
+    }
+
+    public ItemContainer findItemByNameAndUnit(String name, String unit){
+        for (Category category:items) {
+            for (ItemContainer item:category.getElements()) {
+                if(item.getUnit().equals(unit)&&item.getItem().getName().equals(name)){
+                    return item;
+                }
+            }
+        }
+        return null;
+    }
 
     private Category getCategoryByName(String name){
         for (Category category:items) {
@@ -146,16 +176,54 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
             cDefault.addElement(itemContainer);
             cDefault.sort();
         }
+        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
+            Server.getInstance().postRequest("/itemcontainer", String.format("{\"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"unit\":\"%s\", \"ticked\":\"%s\"}", groupId, name, itemContainer.getItem().getName(), itemContainer.getUnit(), "true"));
+            getGroup().incrementChangeset();
+        }
+        setChanges();
+        sort();
+    }
+
+    public void itemChangeTick(ItemContainer itemContainer, boolean state){
+        itemContainer.setTicked(state);
+        if(state==false){
+            itemContainer.setTicked(false);
+            Category category = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());
+            if (category != null && category.containsElement(itemContainer)){
+                category.removeElement(itemContainer);
+                Category newCategory = getCategoryByName(itemContainer.getItem().getCategory());
+                newCategory.addElement(itemContainer);
+            }
+        }
+        else
+        {
+            itemContainer.setTicked(true);
+            Category category = getCategoryByName(itemContainer.getItem().getCategory());
+            if (category != null && category.containsElement(itemContainer)){
+                category.removeElement(itemContainer);
+                Category cDefault = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());
+                cDefault.addElement(itemContainer);
+                cDefault.sort();
+            }
+        }
+        sort();
         setChanges();
     }
+
     public void unTickItem(ItemContainer itemContainer){
         itemContainer.setTicked(false);
         Category category = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());
         if (category != null && category.containsElement(itemContainer)){
             category.removeElement(itemContainer);
-            addItem(itemContainer);
+            Category newCategory = getCategoryByName(itemContainer.getItem().getCategory());
+            newCategory.addElement(itemContainer);
+        }
+        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
+            Server.getInstance().postRequest("/itemcontainer", String.format("{\"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"unit\":\"%s\", \"ticked\":\"%s\"}", groupId, name, itemContainer.getItem().getName(), itemContainer.getUnit(), "false"));
+            getGroup().incrementChangeset();
         }
         setChanges();
+        sort();
     }
     public void removeTickedItems(){
         Category category = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());

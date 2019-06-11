@@ -36,6 +36,8 @@ app.post('/invite', db.sendInvite);
 app.get('/invite', db.getInvite);
 app.delete('/invite', db.handleInvite);
 
+app.post('/itemcontainer', db.tickItem)
+
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })

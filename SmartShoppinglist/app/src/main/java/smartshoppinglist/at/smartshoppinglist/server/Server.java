@@ -276,16 +276,21 @@ public class Server {
                 String action = row.getString("action");
                 JSONObject data = new JSONObject(row.getString("data").replaceAll("\\\\",""));
                 if(action.equals("ADDITEM")){
-                    group.findListByName(data.getString("listname")).addItem(new ItemContainer(new Item(data.getString("itemname")), data.getInt("count"), data.getString("unit")),false);
+                    Item item = new Item(data.getString("itemname"));
+                    MainActivity.getInstance().getItems().addItem(item);
+                    group.findListByName(data.getString("listname")).addItem(new ItemContainer(item, data.getInt("count"), data.getString("unit")),false);
                 }
                 else if(action.equals("DELITEM")){
-
+                    group.findListByName(data.getString("listname")).removeItem(data.getString("itemname"), data.getString("unit"));
+                }
+                else if(action.equals("TICKITEM")){
+                    group.findListByName(data.getString("listname")).itemChangeTick(group.findListByName(data.getString("listname")).findItemByNameAndUnit(data.getString("itemname"), data.getString("unit")), data.getBoolean("isticked"));
                 }
                 else if(action.equals("ADDSHOPPINGLIST")){
                     group.addList(data.getString("listname"));
                 }
                 else if(action.equals("DELSHOPPINGLIST")){
-
+                    group.removeShoppinglist(data.getString("listname"));
                 }
             }
         } catch (JSONException e) {
