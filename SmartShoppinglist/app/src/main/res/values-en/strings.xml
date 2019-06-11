@@ -72,4 +72,5 @@
     <string name="alter">Alter</string>
     <string name="remove">Remove</string>
     <string name="this_category_con_not_be_altered">This category can not be altered</string>
+    <string name="no_server_connection">No server connection</string>
 </resources>

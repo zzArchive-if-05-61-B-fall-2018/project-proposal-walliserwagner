@@ -73,9 +73,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private TextView signupLink;
     private Config config;
+    private static LoginActivity instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
         if(getLocal().equals("")){
             if(getBaseContext().getResources().getConfiguration().locale.toString().contains("en")) setLocale("en");
             else if(getBaseContext().getResources().getConfiguration().locale.toString().contains("de")) setLocale("de");
@@ -183,7 +185,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //Check for server connectivity
         if(!Server.getInstance().isConnected(this)){
-            mPasswordView.setError("Keine verbindung zum server");
+            mPasswordView.setError(getString(R.string.no_server_connection));
             focusView = mPasswordView;
             cancel = true;
 
@@ -400,6 +402,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public String getLocal(){
         SharedPreferences preferences = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
         return preferences.getString("Lang","");
+    }
+
+    public static LoginActivity getInstance() {
+        return instance;
     }
 }
 

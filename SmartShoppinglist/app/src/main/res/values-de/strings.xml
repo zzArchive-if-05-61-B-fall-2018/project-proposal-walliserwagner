@@ -71,4 +71,5 @@
     <string name="alter">Bearbeiten</string>
     <string name="remove">Entfernen</string>
     <string name="this_category_con_not_be_altered">Diese Kategory kan nicht bearbeitet werden</string>
+    <string name="no_server_connection">Keine Verbindung zum Server</string>
 </resources>
