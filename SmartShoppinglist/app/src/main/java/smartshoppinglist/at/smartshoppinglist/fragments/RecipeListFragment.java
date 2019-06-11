@@ -80,7 +80,7 @@ public class RecipeListFragment extends Fragment {
             case R.id.recipe_longClick_alter:
                 RecipeFragment recipeFragment = new RecipeFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("recipe", new Gson().fromJson((new Gson().toJson(recipeList.getRecipes()[index])), Recipe.class));
+                bundle.putSerializable("recipe", new Recipe(recipeList.getRecipes()[index]));
                 recipeFragment.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_container, recipeFragment,"recipe");

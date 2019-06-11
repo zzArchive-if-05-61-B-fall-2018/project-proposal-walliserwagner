@@ -15,6 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import smartshoppinglist.at.smartshoppinglist.R;
 import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
@@ -33,6 +36,7 @@ public class RecipeViewFragment extends Fragment {
     private View v;
     private AlertDialog dialog;
     private Group group;
+    private List<String> shoppinglists;
 
     public RecipeViewFragment(){
     }
@@ -74,11 +78,11 @@ public class RecipeViewFragment extends Fragment {
         alertDialogBuilder.setView(popup);
 
         group = MainActivity.getInstance().getShoppinglist().getGroup();
-
+        shoppinglists = new LinkedList<String>(Arrays.asList(group.getShoppingListNames()));
         Spinner listSpinner = popup.findViewById(R.id.add_to_list_popup_list_dropdown);
         ArrayAdapter<String> listAdapter = new ArrayAdapter<String>(getActivity(),
 
-                android.R.layout.simple_spinner_item,group.getShoppingListNames());
+                android.R.layout.simple_spinner_item, shoppinglists);
 
         listAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -95,7 +99,10 @@ public class RecipeViewFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 group = MainActivity.getInstance().getGroups().getGroups()[position];
+                shoppinglists.clear();
+                shoppinglists.addAll(Arrays.asList(group.getShoppingListNames()));
                 listAdapter.notifyDataSetChanged();
+
             }
 
             @Override

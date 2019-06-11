@@ -195,13 +195,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
         else if(id == R.id.action_reload){
-            Group[] groups = getGroups().getGroups();
-            for (int i = 0; i < groups.length; i++) {
-                Server.getInstance().getGroupChanges(groups[i], this);
-            }
+            reload();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void reload(){
+        Group[] groups = getGroups().getGroups();
+        for (int i = 0; i < groups.length; i++) {
+            Server.getInstance().getGroupChanges(groups[i], this);
+        }
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        if (f instanceof HomeFragment){
+            ((HomeFragment)f).reload();
+        }
+        else if (f instanceof GroupFragment){
+            ((GroupFragment)f).reload();
+        }
+        else if (f instanceof ListFragment){
+            ((ListFragment)f).reload();
+        }
+        else if (f instanceof InviteFragment){
+            ((InviteFragment)f).reload();
+        }
+        inviteList = null;
+        getInviteList();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
