@@ -73,6 +73,10 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
 
 
     public void addItem(ItemContainer itemContainer){
+        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
+            Server.getInstance().postRequest("/shoppinglist", String.format("{\"userid\":\"%d\", \"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"amount\":\"%d\", \"unit\":\"%s\", \"category\":\"%s\", \"isTicked\":\"%b\"}", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked()));
+            getGroup().incrementChangeset();
+        }
         Category category = getCategoryByName(itemContainer.getItem().getCategory());
         if(category == null){
             category = new Category(itemContainer.getItem().getCategory(),true);
@@ -81,10 +85,6 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         addExistingItems(itemContainer);
         category.addElement(itemContainer);
         category.sort();
-        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
-            Server.getInstance().postRequest("/shoppinglist", String.format("{\"userid\":\"%d\", \"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"amount\":\"%d\", \"unit\":\"%s\", \"category\":\"%s\", \"isTicked\":\"%b\"}", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getCount(), itemContainer.getUnit(), itemContainer.getItem().getCategory(), itemContainer.isTicked()));
-            getGroup().incrementChangeset();
-        }
         setChanges();
     }
 
@@ -138,11 +138,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         if(category != null){
             category.removeElement(itemContainer);
         }
-        if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
-            String tmp = Server.getInstance().deleteRequest(String.format("/shoppinglist?userid=%d&groupid=%d&listname=%s&itemname=%s&unit=%s&category=%s", MainActivity.getInstance().getCurrentUser().getId(), groupId, name, itemContainer.getItem().getName(), itemContainer.getUnit(), itemContainer.getItem().getCategory()));
-
-            getGroup().incrementChangeset();
-        }
+        getGroup().incrementChangeset();
         setChanges();
     }
 
@@ -228,7 +224,9 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
     public void removeTickedItems(){
         Category category = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());
         if (category != null){
-            category.clear();
+            for (ItemContainer itemContainer:category.getElements()) {
+                removeItem(itemContainer);
+            }
         }
         setChanges();
 

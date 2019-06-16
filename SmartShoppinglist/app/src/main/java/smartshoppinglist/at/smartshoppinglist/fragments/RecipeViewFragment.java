@@ -1,16 +1,19 @@
 package smartshoppinglist.at.smartshoppinglist.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,6 +44,7 @@ public class RecipeViewFragment extends Fragment {
     public RecipeViewFragment(){
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,6 +63,23 @@ public class RecipeViewFragment extends Fragment {
         recipeViewItemListAdapter = new RecipeViewItemListAdapter(getActivity(),recipe);
         listView.setAdapter(recipeViewItemListAdapter);
         registerForContextMenu(listView);
+
+        ScrollView parent = v.findViewById(R.id.recipe_fragment_scrollview);
+        parent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.findViewById(R.id.recipe_fragment_description_scrollview).getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+        ScrollView child = v.findViewById(R.id.recipe_fragment_description_scrollview);
+        child.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
         return v;
     }
 

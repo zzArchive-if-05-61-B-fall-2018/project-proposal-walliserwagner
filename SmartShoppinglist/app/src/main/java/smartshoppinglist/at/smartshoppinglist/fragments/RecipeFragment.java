@@ -20,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -47,6 +49,7 @@ public class RecipeFragment extends Fragment {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,6 +78,29 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 addItem();
+            }
+        });
+        ScrollView parent = v.findViewById(R.id.recipe_fragment_scrollview);
+        parent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.findViewById(R.id.recipe_fragment_description_scrollview).getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+        ScrollView child = v.findViewById(R.id.recipe_fragment_description_scrollview);
+        child.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+        description.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
             }
         });
         return v;
