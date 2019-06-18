@@ -266,7 +266,7 @@ public class Server {
 
     public void getGroupChanges(Group group, Activity caller){
         HttpRequest request = new HttpRequest(http, caller);
-        request.execute("GET", String.format("/changeset?groupid=%d&changeid=%d",group.getId(),group.getChangeset()));
+        request.execute("GET", String.format("/changeset?groupid=%d&changeid=%d",group.getId(),group.getChangeset()+1));
 
         try {
             String tmp = request.get();
@@ -279,18 +279,23 @@ public class Server {
                     Item item = new Item(data.getString("itemname"));
                     MainActivity.getInstance().getItems().addItem(item);
                     group.findListByName(data.getString("listname")).addItem(new ItemContainer(item, data.getInt("count"), data.getString("unit")),false);
+                    group.incrementChangeset();
                 }
                 else if(action.equals("DELITEM")){
                     group.findListByName(data.getString("listname")).removeItem(data.getString("itemname"), data.getString("unit"));
+                    group.incrementChangeset();
                 }
                 else if(action.equals("TICKITEM")){
                     group.findListByName(data.getString("listname")).itemChangeTick(group.findListByName(data.getString("listname")).findItemByNameAndUnit(data.getString("itemname"), data.getString("unit")), data.getBoolean("isticked"));
+                    group.incrementChangeset();
                 }
                 else if(action.equals("ADDSHOPPINGLIST")){
                     group.addList(data.getString("listname"));
+                    group.incrementChangeset();
                 }
                 else if(action.equals("DELSHOPPINGLIST")){
                     group.removeShoppinglist(data.getString("listname"));
+                    group.incrementChangeset();
                 }
             }
         } catch (JSONException e) {

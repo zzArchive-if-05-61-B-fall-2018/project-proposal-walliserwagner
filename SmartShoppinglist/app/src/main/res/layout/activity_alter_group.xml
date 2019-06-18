@@ -13,7 +13,7 @@
     tools:context=".activitys.AlterGroupActivity">
 
 
-    <EditText
+    <TextView
         android:id="@+id/activity_alter_group_groupname"
         android:inputType="text"
         android:layout_width="match_parent"

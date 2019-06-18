@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import smartshoppinglist.at.smartshoppinglist.InputValidator;
@@ -38,7 +39,7 @@ public class AlterGroupActivity extends AppCompatActivity {
         context = this;
         group = (Group)getIntent().getSerializableExtra("group");
         if (group != null){
-            EditText name = findViewById(R.id.activity_alter_group_groupname);
+            TextView name = findViewById(R.id.activity_alter_group_groupname);
             name.setText(group.getName());
             if(group.getUsers() != null){
                 ListView listView = findViewById(R.id.alter_group_member_list);
@@ -87,7 +88,6 @@ public class AlterGroupActivity extends AppCompatActivity {
             save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    group.setName(name.getText().toString());
                     Intent intent = new Intent();
                     intent.putExtra("group", group);
                     setResult(GroupFragment.REQUEST_ID, intent);

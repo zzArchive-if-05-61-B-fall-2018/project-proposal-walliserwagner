@@ -84,14 +84,14 @@ public class Group implements Serializable {
 
     public int getChangeset(){
         if(changeset==null){
-            changeset=1;
+            changeset=0;
         }
         return changeset;
     }
 
     public void incrementChangeset(){
         if(changeset==null){
-            changeset=1;
+            changeset=0;
         }
         changeset++;
         MainActivity.getInstance().getGroups().setChanges();

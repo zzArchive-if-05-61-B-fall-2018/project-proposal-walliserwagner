@@ -216,9 +216,6 @@ public class RecipeFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
         switch (item.getItemId()) {
-            case R.id.list_longClick_alter:
-                    addItem(recipe.getItems().get(index));
-                return true;
             case R.id.list_longClick_remove:
                 recipe.removeItem(recipe.getItems().get(index));
                 return true;
