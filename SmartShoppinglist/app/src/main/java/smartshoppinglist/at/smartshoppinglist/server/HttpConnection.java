@@ -19,6 +19,7 @@ public class HttpConnection {
 
     String Serverurl;
     String hostip;
+    Connectivity connectivity;
 
     public HttpConnection(){
         try {
@@ -33,12 +34,17 @@ public class HttpConnection {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
+        connectivity = new Connectivity(hostip, 3000);
+        connectivity.start();
     }
+
+
 
     public boolean checkServerConnectivity(){
         try {
             //return Inet4Address.getByName(hostip).isReachable(100);
-            return isReachable(hostip,3000,100);
+            //return isReachable(hostip,3000,100);
+            return connectivity.isConnected();
         } catch (Exception e) {
             e.printStackTrace();
         }
