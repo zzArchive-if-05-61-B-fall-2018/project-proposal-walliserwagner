@@ -308,7 +308,7 @@ public class Server {
     }
 
     public boolean isConnected(Activity caller){
-        HttpRequest request = new HttpRequest(http, caller);
+        /*HttpRequest request = new HttpRequest(http, caller);
         request.execute("CON");
         boolean result = false;
         try {
@@ -318,6 +318,7 @@ public class Server {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return result;
+        return result;*/
+        return http.checkServerConnectivity();
     }
 }

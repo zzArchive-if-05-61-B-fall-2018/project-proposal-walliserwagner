@@ -21,18 +21,20 @@ public class Connectivity extends Thread{
 
     @Override
     public void run() {
-        try {
-            try (Socket soc = new Socket()) {
-                soc.connect(new InetSocketAddress(hostip, port), 100);
+        while(true) {
+            try {
+                try (Socket soc = new Socket()) {
+                    soc.connect(new InetSocketAddress(hostip, port), 1000);
+                }
+                isConnected = true;
+            } catch (IOException ex) {
+                isConnected = false;
             }
-            isConnected = true;
-        } catch (IOException ex) {
-            isConnected = false;
-        }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
