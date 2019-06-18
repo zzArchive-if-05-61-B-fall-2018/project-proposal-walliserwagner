@@ -23,10 +23,13 @@ public class Item implements Comparable<Item>, Serializable {
         this(name, icon, category, defaultDefaultUnit);
     }
     public Item(String name, String category){
-        this(name, R.drawable.ic_questionmark , category);
+        this(name, category, defaultDefaultUnit);
     }
     public Item(String name, String category,String defaultUnit){
-        this(name, R.drawable.ic_questionmark , category, defaultUnit);
+        this.name = name;
+        this.icon = getIconToName(name);
+        this.category = MainActivity.getInstance().getItemCategorys().getCategoryIdByName(category);
+        this.defaultUnit = defaultUnit;
     }
     public Item(String name){
         this(name,MainActivity.getInstance().getItemCategorys().getCategoryById(defaultCategory).getName());
@@ -71,6 +74,7 @@ public class Item implements Comparable<Item>, Serializable {
 
     public void setName(String name) {
         this.name = name;
+        this.icon = getIconToName(name);
     }
 
     @Override
@@ -93,6 +97,14 @@ public class Item implements Comparable<Item>, Serializable {
 
     public void setDefaultUnit(String defaultUnit) {
         this.defaultUnit = defaultUnit;
+    }
+
+    private int getIconToName(String name){
+        try {
+            return R.drawable.class.getField(name.toLowerCase().substring(0,1)).getInt(null);
+        }catch (Exception e){
+            return R.drawable.ic_questionmark;
+        }
     }
 
 }

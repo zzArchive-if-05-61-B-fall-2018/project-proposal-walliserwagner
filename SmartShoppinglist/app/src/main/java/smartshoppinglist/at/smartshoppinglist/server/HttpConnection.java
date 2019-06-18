@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.net.URL;
 
 import smartshoppinglist.at.smartshoppinglist.BuildConfig;
+import smartshoppinglist.at.smartshoppinglist.activitys.MainActivity;
 
 public class HttpConnection {
 
@@ -86,7 +87,7 @@ public class HttpConnection {
     }
 
     protected String sendDelete(String deleteRequest) throws Exception {
-
+        MainActivity.getInstance().reload();
         String url = Serverurl+deleteRequest;
 
         URL obj = new URL(url);
@@ -115,7 +116,7 @@ public class HttpConnection {
 
 
     protected String sendPost(String head, String payload) throws Exception {
-
+        MainActivity.getInstance().reload();
         URL url = new URL(Serverurl+head);
         HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
         httpCon.setDoOutput(true);

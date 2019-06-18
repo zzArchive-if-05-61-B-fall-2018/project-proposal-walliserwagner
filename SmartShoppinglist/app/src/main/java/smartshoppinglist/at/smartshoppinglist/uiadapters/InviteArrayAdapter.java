@@ -20,7 +20,7 @@ import smartshoppinglist.at.smartshoppinglist.objects.InviteList;
 import smartshoppinglist.at.smartshoppinglist.objects.ItemList;
 import smartshoppinglist.at.smartshoppinglist.server.Server;
 
-public class InviteArrayAdapter extends ArrayAdapter<Invite> {
+public class  InviteArrayAdapter extends ArrayAdapter<Invite> {
     private static final String TAG = "InviteArrayAdapter";
     private InviteList inviteList;
 

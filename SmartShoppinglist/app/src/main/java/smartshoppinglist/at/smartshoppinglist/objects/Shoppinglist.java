@@ -97,7 +97,6 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         addExistingItems(itemContainer);
         category.addElement(itemContainer);
         category.sort();
-        getGroup().incrementChangeset();
         setChanges();
     }
 
@@ -138,7 +137,6 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         if(category != null){
             category.removeElement(itemContainer);
         }
-        getGroup().incrementChangeset();
         setChanges();
     }
 

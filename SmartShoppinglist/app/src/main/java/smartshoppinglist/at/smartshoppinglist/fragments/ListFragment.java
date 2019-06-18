@@ -109,9 +109,6 @@ public class ListFragment extends Fragment {
             childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
         }
         switch (item.getItemId()) {
-            case R.id.list_longClick_alter:
-                alterList(groupList.getGroups()[groupPos].getShoppinglists()[childPos], groupList.getGroups()[groupPos]);
-                return true;
             case R.id.list_longClick_remove:
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setMessage(R.string.really_want_to_delete_shoppinglist);
@@ -144,35 +141,6 @@ public class ListFragment extends Fragment {
         for (int i = 0; i < groups.length;i++) {
                 shoppingListList.expandGroup(i);
             }
-    }
-    public void alterList(Shoppinglist shoppinglist, Group group){
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popup = inflater.inflate(R.layout.simple_add_popup, null);
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setView(popup);
-        final EditText name = popup.findViewById(R.id.simple_add_popup_name);
-        name.setHint(shoppinglist.getName());
-        Button button = popup.findViewById(R.id.simple_add_popup_add);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if(!InputValidator.validInputEmptyString(name.getText().toString(),20)) {
-                        name.setError(getString(R.string.invalid_input));
-                        throw new Exception();
-                    }
-                    else if(!name.getText().toString().equals("")){
-                        shoppinglist.setName(name.getText().toString());
-                        group.sort();
-                        listAdapter.notifyDataSetChanged();
-                    }
-                    dialog.dismiss();
-                }catch (Exception e) {
-                }
-            }
-        });
-        dialog = alertDialogBuilder.create();
-        dialog.show();
     }
 
     public void addListPooup(){

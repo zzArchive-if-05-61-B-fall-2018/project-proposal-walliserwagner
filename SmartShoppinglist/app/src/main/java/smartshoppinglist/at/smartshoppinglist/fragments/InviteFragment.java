@@ -36,7 +36,6 @@ public class InviteFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_invite, container, false);
         listView = (ListView) v.findViewById(R.id.card_listView);
 
-        InviteList inviteList = MainActivity.getInstance().getInviteList();
         inviteArrayAdapter = new InviteArrayAdapter(getContext(), R.layout.list_item_card, MainActivity.getInstance().getInviteList());
         listView.setAdapter(inviteArrayAdapter);
         return v;

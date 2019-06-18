@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
     public void reload(){
+        getInviteList();
         Group[] groups = getGroups().getGroups();
         for (int i = 0; i < groups.length; i++) {
             Server.getInstance().getGroupChanges(groups[i], this);
@@ -218,8 +219,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if (f instanceof InviteFragment){
             ((InviteFragment)f).reload();
         }
-        inviteList = null;
-        getInviteList();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -421,18 +420,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
     public InviteList getInviteList(){
-        if(inviteList == null){
+        if(inviteList == null) {
             inviteList = new InviteList();
-            String invites = Server.getInstance().getRequest(String.format("/invite?userid=%d", MainActivity.getInstance().getCurrentUser().getId()));
-            try {
-                JSONArray jsonArray = new JSONArray(invites);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    inviteList.addInvite(new Invite(jsonObject.getString("name"),jsonObject.getInt("groupid"), jsonObject.getString("email")));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+        }
+        String invites = Server.getInstance().getRequest(String.format("/invite?userid=%d", MainActivity.getInstance().getCurrentUser().getId()));
+        try {
+            JSONArray jsonArray = new JSONArray(invites);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                inviteList.addInvite(new Invite(jsonObject.getString("name"),jsonObject.getInt("groupid"), jsonObject.getString("email")));
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return inviteList;
     }
