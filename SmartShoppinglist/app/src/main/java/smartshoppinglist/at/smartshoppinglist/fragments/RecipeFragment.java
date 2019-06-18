@@ -209,14 +209,17 @@ public class RecipeFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         menu.setHeaderTitle(R.string.options);
-        ((AppCompatActivity)getActivity()).getMenuInflater().inflate(R.menu.list_long_click_menu, menu);
+        ((AppCompatActivity)getActivity()).getMenuInflater().inflate(R.menu.shoppinglist_long_click_menu, menu);
     }
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
         switch (item.getItemId()) {
-            case R.id.list_longClick_remove:
+            case R.id.shoppinglist_longClick_alter:
+                addItem(recipe.getItems().get(index));
+                return true;
+            case R.id.shoppinglist_longClick_remove:
                 recipe.removeItem(recipe.getItems().get(index));
                 return true;
             default:
