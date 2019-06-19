@@ -31,7 +31,7 @@ public class Connectivity extends Thread{
                 isConnected = false;
             }
             try {
-                Thread.sleep(2000);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

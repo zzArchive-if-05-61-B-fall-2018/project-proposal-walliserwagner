@@ -274,6 +274,8 @@ const getGroupChanges = (request, response) => {
   })
 }
 
+
+
 const tickItem = (request, response) => {
   const {groupid, listname, itemname, unit, ticked} = request.body;
   console.debug('Update itemcontainer set isticked='+ticked+' where shoppinglistid=(select shoppinglistid from shoppinglist where groupid='+groupid+' and name='+listname+') and unit='+unit+' and name='+itemname+';')
