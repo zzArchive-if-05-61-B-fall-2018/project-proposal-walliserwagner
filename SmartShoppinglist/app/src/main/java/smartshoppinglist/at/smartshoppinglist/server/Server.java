@@ -46,7 +46,7 @@ public class Server {
     }
 
     String hostip;
-    HttpConnection http;
+    HttpConnection http = new HttpConnection();
 
     public static Server getInstance(){
         return instance;
@@ -90,7 +90,6 @@ public class Server {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-       http = new HttpConnection();
     }
 
     public User login(String email, String password, Activity caller){
@@ -129,6 +128,7 @@ public class Server {
     }
 
     public String deleteRequest(String header){
+        MainActivity.getInstance().reload();
         HttpRequest request = new HttpRequest(http, MainActivity.getInstance());
         request.execute("DELETE", header);
 
@@ -145,6 +145,7 @@ public class Server {
     }
 
     public String postRequest(String header, String body){
+        MainActivity.getInstance().reload();
         HttpRequest request = new HttpRequest(http, MainActivity.getInstance());
         request.execute("POST", header, body);
 

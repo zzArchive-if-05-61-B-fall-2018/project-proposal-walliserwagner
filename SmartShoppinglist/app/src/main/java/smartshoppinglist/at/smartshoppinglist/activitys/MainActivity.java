@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.renderscript.Script;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Locale;
 
@@ -150,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ItemContainer.setDefaultUnit(getString(R.string.stk));
         Item.setDefaultDefaultUnit(getString(R.string.stk));
-
     }
     public Fragment getVisibleFragment(){
         FragmentManager fragmentManager = MainActivity.this.getSupportFragmentManager();
