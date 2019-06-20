@@ -56,12 +56,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <Button
-        android:id="@+id/alter_group_save_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="@string/save" />
 
 
 </LinearLayout>

@@ -83,17 +83,6 @@ public class AlterGroupActivity extends AppCompatActivity {
                     addUser.show();
                 }
             });
-
-            Button save = findViewById(R.id.alter_group_save_button);
-            save.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.putExtra("group", group);
-                    setResult(GroupFragment.REQUEST_ID, intent);
-                    finish();
-                }
-            });
         }
     }
     @Override
