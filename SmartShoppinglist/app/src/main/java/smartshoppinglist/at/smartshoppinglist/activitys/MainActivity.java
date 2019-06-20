@@ -201,7 +201,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
     public void reload(){
-        getInviteList();
         Group[] groups = getGroups().getGroups();
         for (int i = 0; i < groups.length; i++) {
             Server.getInstance().getGroupChanges(groups[i], this);
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody") 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

@@ -48,6 +48,7 @@ public class InviteFragment extends Fragment {
         fragmentTransaction.commit();
     }
     public void reload(){
+        MainActivity.getInstance().getInviteList();
         inviteArrayAdapter.notifyDataSetChanged();
     }
 }

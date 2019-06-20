@@ -36,17 +36,19 @@ import smartshoppinglist.at.smartshoppinglist.objects.User;
 public class Server {
 
     private static Server instance;
+
+    static {
+        try {
+            instance = new Server();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     String hostip;
     HttpConnection http;
 
     public static Server getInstance(){
-        if(instance == null){
-            try {
-                instance = new Server();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         return instance;
     }
 
