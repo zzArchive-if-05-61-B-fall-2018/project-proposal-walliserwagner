@@ -20,8 +20,8 @@
     <string name="error_invalid_password">Password is to short</string>
     <string name="error_incorrect_password">Wrong Password</string>
     <string name="error_field_required">Field should not be empty</string>
-    <string name="cancel">Nein</string>
-    <string name="yes">Ja</string>
+    <string name="cancel">no</string>
+    <string name="yes">yes</string>
     <string name="really_want_to_delete_all_marked_items">Delete marked items?"</string>
     <string name="group_name">"Group name"</string>
     <string name="list_name">"List name"</string>

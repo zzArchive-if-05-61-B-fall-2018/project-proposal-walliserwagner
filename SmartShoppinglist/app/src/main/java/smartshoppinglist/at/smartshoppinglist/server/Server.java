@@ -100,7 +100,7 @@ public class Server {
         String hashpw = hashPassword(password);
 
         HttpRequest request = new HttpRequest(http, caller);
-        request.execute("GET", "/users?email="+email+"&password="+password);
+        request.execute("GET", "/users?email="+email+"&password="+hashpw);
         String jsonString = "";
         try {
             jsonString = request.get();
@@ -197,6 +197,7 @@ public class Server {
             return false;
         }
         HttpRequest request = new HttpRequest(http, caller);
+        password = hashPassword(password);
         request.execute("POST", "/users", String.format("{\"name\":\"%s\",\"email\":\"%s\",\"password\":\"%s\"}", name, email, password));
         String jsonString = "";
         try {
@@ -220,8 +221,18 @@ public class Server {
             e.printStackTrace();
         }
         messageDigest.update(pw.getBytes());
-        String passwordHash = new String(messageDigest.digest());
+        String passwordHash = convertStringToChars(new String(messageDigest.digest()));
         return passwordHash;
+    }
+
+    private String convertStringToChars(String input){
+        String copy="";
+        if(input.equals(""))return "";
+        copy = String.valueOf((int)input.charAt(0));
+        for (int i = 1; i < input.length(); i++) {
+            copy += ";"+String.valueOf((int)input.charAt(i));
+        }
+        return copy;
     }
 
     public List<User> getUsersOfGroup(int groupid, Activity caller){
@@ -310,17 +321,6 @@ public class Server {
     }
 
     public boolean isConnected(Activity caller){
-        /*HttpRequest request = new HttpRequest(http, caller);
-        request.execute("CON");
-        boolean result = false;
-        try {
-            result = Boolean.valueOf(request.get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return result;*/
         return http.checkServerConnectivity();
     }
 }
