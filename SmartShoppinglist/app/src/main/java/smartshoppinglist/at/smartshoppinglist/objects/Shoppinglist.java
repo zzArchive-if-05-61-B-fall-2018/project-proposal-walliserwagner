@@ -162,12 +162,21 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
 
 
     public void tickItem(ItemContainer itemContainer){
+        boolean added = false;
         itemContainer.setTicked(true);
         Category category = getCategoryByName(itemContainer.getItem().getCategory());
         if (category != null && category.containsElement(itemContainer)){
             category.removeElement(itemContainer);
             Category cDefault = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());
-            cDefault.addElement(itemContainer);
+            for (ItemContainer ic :cDefault.getElements()) {
+                if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit())){
+                    ic.setCount(ic.getCount()+itemContainer.getCount());
+                    added = true;
+                }
+            }
+            if(!added){
+                cDefault.addElement(itemContainer);
+            }
             cDefault.sort();
         }
         if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
@@ -209,8 +218,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         Category category = getCategoryByName(MainActivity.getInstance().getItemCategorys().getCategoryById(categoryBought).getName());
         if (category != null && category.containsElement(itemContainer)){
             category.removeElement(itemContainer);
-            Category newCategory = getCategoryByName(itemContainer.getItem().getCategory());
-            newCategory.addElement(itemContainer);
+            addItem(itemContainer,true);
         }
         if(!MainActivity.getInstance().getGroups().findGroupById(groupId).isDefault()) {
             Server.getInstance().postRequest("/itemcontainer", String.format("{\"groupid\":\"%d\", \"listname\":\"%s\", \"itemname\":\"%s\", \"unit\":\"%s\", \"ticked\":\"%s\"}", groupId, name, itemContainer.getItem().getName(), itemContainer.getUnit(), "false"));
@@ -253,7 +261,7 @@ public class Shoppinglist implements Comparable<Shoppinglist>, Serializable {
         Category category = getCategoryByName(itemContainer.getItem().getCategory());
         for (int i = 0; category.getElements().length > i; i++) {
             ItemContainer ic = (ItemContainer) category.getElements()[i];
-            if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit()) && !ic.isTicked()){
+            if(ic.getItem().getName().equals(itemContainer.getItem().getName()) && ic.getUnit().equals(itemContainer.getUnit()) && ic.isTicked() == itemContainer.isTicked()){
                 itemContainer.setCount(ic.getCount()+itemContainer.getCount());
                 category.removeElement(ic);
                 return;
